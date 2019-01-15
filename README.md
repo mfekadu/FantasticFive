@@ -3,7 +3,7 @@
 ## A single-page webapp for a bike shop.
 
 ## Contribution Guidelines
-* It's a good idea to make a new branch off of `dev` with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
+* It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
   * Once the code is done, [make a new pull request](https://github.com/CSC307Winter2019/Group5/pulls)
 
 
@@ -33,3 +33,7 @@
 
 [gitbasics]: http://rogerdudler.github.io/git-guide/
 [gitflow]: https://nvie.com/posts/a-successful-git-branching-model/
+
+[//]: # (misc)
+
+[dev_link]: https://github.com/CSC307Winter2019/Group5/tree/dev
