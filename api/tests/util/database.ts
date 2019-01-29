@@ -8,6 +8,7 @@ export default class DatabaseUtils {
       return Promise.all([Session, User].map((entity) => {
         return createQueryBuilder().delete().from(entity).execute();
       }));
+    }
     return Promise.resolve();
   }
 }
