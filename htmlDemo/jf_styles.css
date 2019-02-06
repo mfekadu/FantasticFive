@@ -25,6 +25,10 @@ li {
   }
 
   .column {
+    margin: auto;
+    width: 25%;
+  }
+  .ccolumn {
     float: left;
     width: 25%;
   }
@@ -44,4 +48,8 @@ li {
     background-color: #333;
     color: white;
     text-align: center;
+}
+
+.center {
+  text-align: center;
 }
