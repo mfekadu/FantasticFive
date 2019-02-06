@@ -2,12 +2,13 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    text-align: center;
     overflow: hidden;
     background-color: #333;
 }
 
 li {
-    float: left;
+    display: inline-block;
   }
   
   li a {
@@ -34,3 +35,13 @@ li {
     display: table;
     clear: both;
   }
+
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
