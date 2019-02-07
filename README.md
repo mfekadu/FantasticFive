@@ -35,6 +35,11 @@ get the backend running (inside /api directory)
 
 * `npm run dev`
 
+### Useful Tidbits
+* rename `config.json.example` to `config.json`
+* create database dev;
+* create database test;
+
 ## Useful diagram
 
 ```
