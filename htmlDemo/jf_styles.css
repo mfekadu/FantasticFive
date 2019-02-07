@@ -10,7 +10,7 @@ ul {
 li {
     display: inline-block;
   }
-  
+
   li a {
     display: block;
     color: white;
@@ -18,7 +18,7 @@ li {
     padding: 14px 16px;
     text-decoration: none;
   }
-  
+
   /* Change the link color to #111 (black) on hover */
   li a:hover {
     background-color: #111;
@@ -32,7 +32,7 @@ li {
     float: left;
     width: 25%;
   }
-  
+
   /* Clear floats after the columns */
   .row:after {
     content: "";
@@ -52,4 +52,20 @@ li {
 
 .center {
   text-align: center;
+}
+
+.announcement {
+  font-weight: bold;
+  text-align: center;
+  font-size: 2em;
+  padding: 20px;
+  background-color: yellow;
+}
+
+.announcement-details {
+  text-align: center;
+  background-color: yellow;
+  font-size: 1.5em;
+  padding: 20px;
+  margin-bottom: 10px;
 }
