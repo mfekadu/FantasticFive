@@ -21,7 +21,7 @@
 * __Testing Lead / QA__: Johnathan Fisher ([jlfisher][jlfisher])
 * __Architect__: Zach Westfall ([ztwestfall][ztwestfall])
 
-## Get Started
+## Getting Started
 
 inside root directory (above /api and /client)
 
