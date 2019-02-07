@@ -35,6 +35,17 @@ get the backend running (inside /api directory)
 
 * `npm run dev`
 
+## Useful diagram
+
+```
+++++++++++++++
+|    Vue     |
+++++++++++++++
+|    API     |
+++++++++++++++
+|  database  |
+++++++++++++++
+```
 
 [//]: # (username links)
 
