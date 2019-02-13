@@ -7,11 +7,11 @@
       <a href="trackOrder.html">Track Order</a>
     </button>
     <button class="button" style="float:right">
-      <a href="cart.html">Cart</a>
+      <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
     </button>
 
-    <h1 style="text-align: center">Foxycle</h1>
-    <br>
+    <h1 class="title is-1" style="text-align: center">Foxycle</h1>
+
     <ul>
       <li>
         <router-link to="/" exact-active-class="is-active">Home</router-link>
@@ -23,6 +23,7 @@
         <router-link to="/shop">Shop</router-link>
       </li>
     </ul>
+    <br>
     <router-view class="container"/>
   </div>
 </template>

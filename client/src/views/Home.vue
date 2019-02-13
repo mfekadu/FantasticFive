@@ -2,14 +2,18 @@
   <div class="home">
     <div class="announcement">ANNOUNCEMENT</div>
     <div class="announcement-details">ANNOUNCEMENT DETAILS</div>
+    <Footer/>
   </div>
+  
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Footer from "@/components/Footer.vue";
 
 @Component({
   components: {
+    Footer
   }
 })
 export default class Home extends Vue {}
