@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import MyProfile from "./views/MyProfile.vue";
 import Cart from "./views/Cart.vue";
 import Checkout from "./views/Checkout.vue";
 import Confirmation from "./views/Confirmation.vue";
 import Track from "./views/Track.vue";
 import Status from "./views/Status.vue";
+import MyProfile from "./views/MyProfile.vue";
+
 
 Vue.use(Router);
 
@@ -33,6 +34,7 @@ export default new Router({
       name: "myProfile",
       component: MyProfile
     },
+    {
       path: "/cart",
       name: "cart",
       component: Cart
