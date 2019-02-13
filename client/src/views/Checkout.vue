@@ -1,6 +1,8 @@
 <template>
 <div class="checkout">
   <body>
+    <br>
+    <h1 class="title is-1">Foxycle</h1>
     <div class="row">
       <div class="column" style="margin-left: 5%">
         <h3 class="title is-3">Shipping Info</h3>

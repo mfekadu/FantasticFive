@@ -1,29 +1,5 @@
 <template>
   <div id="app">
-    <button class="button">
-      <a href="order_list.html">Employee Login</a>
-    </button>
-    <button class="button" style="float:right">
-      <router-link to="/track" exact-active-class="is-active">Track Order</router-link>
-    </button>
-    <button class="button" style="float:right">
-      <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
-    </button>
-
-    <h1 class="title is-1" style="text-align: center"><router-link to="/" exact-active-class="is-active">Foxycle</router-link></h1>
-
-    <ul>
-      <li>
-        <router-link to="/">Home</router-link>
-      </li>
-      <li>
-        <router-link to="/services">Services</router-link>
-      </li>
-      <li>
-        <router-link to="/shop">Shop</router-link>
-      </li>
-    </ul>
-    <br>
     <router-view class="container"/>
   </div>
 </template>

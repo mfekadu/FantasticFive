@@ -1,5 +1,6 @@
 <template>
 <div class="confirmation">
+  <Header/>
   <body>
     <div class="center">
       <p>Order Number: #F2453
@@ -17,10 +18,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
 
 @Component({
   components: {
-    Footer
+    Footer,
+    Header
   }
 })
 export default class Confirmation extends Vue {}

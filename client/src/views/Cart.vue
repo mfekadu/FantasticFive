@@ -1,5 +1,6 @@
 <template>
 <div class="cart">
+    <Header/>
   <body>
     <h3 class="title is-3" style="text-align: center">Cart</h3>
     <div class="row">
@@ -33,10 +34,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
 
 @Component({
   components: {
-    Footer
+    Footer,
+    Header
   }
 })
 export default class Cart extends Vue {}

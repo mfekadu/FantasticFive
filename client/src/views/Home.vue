@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Header/>
     <div class="announcement">ANNOUNCEMENT</div>
     <div class="announcement-details">ANNOUNCEMENT DETAILS</div>
     <Footer/>
@@ -10,10 +11,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
 
 @Component({
   components: {
-    Footer
+    Footer,
+    Header
   }
 })
 export default class Home extends Vue {}
