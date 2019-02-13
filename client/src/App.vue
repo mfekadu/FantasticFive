@@ -5,11 +5,62 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+import Signup from "@/components/Signup.vue";
+import Login from "@/components/Login.vue";
+import { APIConfig } from "@/utils/api.utils";
 
-@Component({})
-export default class App extends Vue {}
+@Component({
+  components: {
+    Signup,
+    Login
+  }
+})
+export default class App extends Vue {
+  public showSignup: boolean = false;
+  public showLogin: boolean = false;
+
+  showSignupModal() {
+    this.showSignup = true;
+  }
+
+  successSignup() {
+    this.showSignup = false;
+  }
+
+  cancelSignup() {
+    this.showSignup = false;
+  }
+
+  showLoginModal() {
+    this.showLogin = true;
+  }
+
+  successLogin() {
+    this.showLogin = false;
+  }
+
+  cancelLogin() {
+    this.showLogin = false;
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.$store.state.userId;
+  }
+
+  logout() {
+    debugger;
+    axios
+      .post(APIConfig.buildUrl("/logout"), null, {
+        headers: { token: this.$store.state.userToken }
+      })
+      .then(() => {
+        this.$store.commit("logout");
+      });
+  }
+}
 </script>
 
 
