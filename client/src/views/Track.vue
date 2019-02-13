@@ -1,13 +1,11 @@
 <template>
-<div class="confirmation">
+<div class="track">
   <body>
     <div class="center">
-      <p>Order Number: #F2453
-        <br>
-        <br>Call (805) 555-5555 for any questions regarding your order.
-        <br>Thank you for your purchase!
-        <br>
-      </p>
+        <h3 class="title is-3">Order Tracking</h3>
+        <input class="input" type="text" placeholder="Order Number">
+        <br><br>
+        <button class="button"><router-link to="/status">View Order Status</router-link></button>
     </div>
   </body>
   <Footer/>
@@ -23,11 +21,15 @@ import Footer from "@/components/Footer.vue";
     Footer
   }
 })
-export default class Confirmation extends Vue {}
+export default class Track extends Vue {}
 </script>
 
 <style scoped>
 .center {
   text-align: center;
+}
+
+.input {
+    width: 15%;
 }
 </style>

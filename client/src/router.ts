@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Cart from "./views/Cart.vue";
 import Checkout from "./views/Checkout.vue";
 import Confirmation from "./views/Confirmation.vue";
+import Track from "./views/Track.vue";
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ export default new Router({
       path: "/confirmation",
       name: "confirmation",
       component: Confirmation
+    },
+    {
+      path: "/track",
+      name: "track",
+      component: Track
     }
   ]
 });

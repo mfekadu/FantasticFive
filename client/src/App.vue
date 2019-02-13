@@ -4,7 +4,7 @@
       <a href="order_list.html">Employee Login</a>
     </button>
     <button class="button" style="float:right">
-      <a href="trackOrder.html">Track Order</a>
+      <router-link to="/track" exact-active-class="is-active">Track Order</router-link>
     </button>
     <button class="button" style="float:right">
       <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
@@ -75,6 +75,4 @@ li a {
 li a:hover {
   background-color: #111;
 }
-
-
 </style>
