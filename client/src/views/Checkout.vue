@@ -4,33 +4,35 @@
     <div class="row">
       <div class="column" style="margin-left: 5%">
         <h3 class="title is-3">Shipping Info</h3>
-        <input type="checkbox">Pick up in store
+        <input class="checkbox" type="checkbox"> Pick up in store
         <br>
-        <input type="text" placeholder="First Name">
+        <input class="input is-small" type="text" placeholder="First Name">
         <br>
-        <input type="text" placeholder="Last Name">
+        <input class="input is-small" type="text" placeholder="Last Name">
         <br>
-        <input type="text" placeholder="Address">
+        <input class="input is-small" type="text" placeholder="Address">
         <br>
-        <input type="text" placeholder="City">
+        <input class="input is-small" type="text" placeholder="City">
         <br>
-        <input type="text" placeholder="ZIP Code">
-        <br><br>
+        <input class="input is-small" type="text" placeholder="ZIP Code">
+        <br>
+        <br>
 
         <h3 class="title is-3">Billing Info</h3>
-        <input type="text" placeholder="Card Number">
+        <input class="input is-small" type="text" placeholder="Card Number">
         <br>
-        <input type="text" placeholder="Expiration Date">
+        <input class="input is-small" style="width: 50%" type="text" placeholder="Expiration Date">
+        <input class="input is-small" style="width: 50%" type="text" placeholder="CVV">
         <br>
-        <input type="text" placeholder="First Name">
+        <input class="input is-small" type="text" placeholder="First Name">
         <br>
-        <input type="text" placeholder="Last Name">
+        <input class="input is-small" type="text" placeholder="Last Name">
         <br>
-        <input type="text" placeholder="Address">
+        <input class="input is-small" type="text" placeholder="Address">
         <br>
-        <input type="text" placeholder="City">
+        <input class="input is-small" type="text" placeholder="City">
         <br>
-        <input type="text" placeholder="ZIP Code">
+        <input class="input is-small" type="text" placeholder="ZIP Code">
         <br>
         <br>
         <button class="button" style="margin-right: 15px">
