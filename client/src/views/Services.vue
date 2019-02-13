@@ -1,6 +1,10 @@
 <style scoped>
 .center {
     text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 
 a {
@@ -45,5 +49,5 @@ import Header from "@/components/Header.vue";
     Header
   }
 })
-export default class Home extends Vue {}
+export default class Services extends Vue {}
 </script>
