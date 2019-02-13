@@ -6,6 +6,8 @@ import Checkout from "./views/Checkout.vue";
 import Confirmation from "./views/Confirmation.vue";
 import Track from "./views/Track.vue";
 import Status from "./views/Status.vue";
+import Login from "./views/Login.vue";
+import Inventory from "./views/Inventory.vue";
 
 Vue.use(Router);
 
@@ -42,6 +44,16 @@ export default new Router({
       path: "/status",
       name: "status",
       component: Status
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/inventory",
+      name: "inventory",
+      component: Inventory
     }
   ]
 });
