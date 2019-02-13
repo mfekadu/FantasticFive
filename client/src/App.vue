@@ -10,11 +10,11 @@
       <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
     </button>
 
-    <h1 class="title is-1" style="text-align: center">Foxycle</h1>
+    <h1 class="title is-1" style="text-align: center"><router-link to="/" exact-active-class="is-active">Foxycle</router-link></h1>
 
     <ul>
       <li>
-        <router-link to="/" exact-active-class="is-active">Home</router-link>
+        <router-link to="/">Home</router-link>
       </li>
       <li>
         <router-link to="/services">Services</router-link>
@@ -44,6 +44,9 @@ export default class App extends Vue {}
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+a {
+  color: #363636;
+}
 </style>
 
 <style scoped lang="scss">
@@ -72,4 +75,6 @@ li a {
 li a:hover {
   background-color: #111;
 }
+
+
 </style>
