@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Services from "./views/Services.vue";
+import Shop from "./views/Shop.vue";
 import Cart from "./views/Cart.vue";
 import Checkout from "./views/Checkout.vue";
 import Confirmation from "./views/Confirmation.vue";
@@ -28,6 +29,11 @@ export default new Router({
       path: "/services",
       name: "services",
       component: Services
+    },
+    {
+      path: "/shop",
+      name: "shop",
+      component: Shop
     },
     {
       path: "/about",
