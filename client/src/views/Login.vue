@@ -5,9 +5,9 @@
       <h2 class="title is-2">Employee Login</h2>
       <h4 class="title is-4" style="color: red">**Not for Customers**</h4>
 
-      <input class="input is-small" type="text" placeholder="Username">
+      <input class="input" type="text" placeholder="Username">
       <br>
-      <input class="input is-small" type="password" placeholder="Password">
+      <input class="input" type="password" placeholder="Password">
       <br><br>
       <button class="button"><router-link to="/inventory" exact-active-class="is-active">Login</router-link></button>
     </div>
@@ -35,6 +35,6 @@ export default class Login extends Vue {}
 }
 
 .input {
-  width: 15%;
+  width: 250px;
 }
 </style>
