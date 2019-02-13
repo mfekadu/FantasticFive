@@ -15,17 +15,6 @@
 }
 
 .product-image {
-    /* width: 18em; */
-    /* height: 18em; */
-    /* margin: 0px; */
-    /* background-size: cover; */
-    /* background-repeat: no-repeat; */
-    /* background-position: 50% 50%; */
-    /* margin-bottom: 0.5em;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: box-shadow 0.25s; */
 }
 
 </style>
