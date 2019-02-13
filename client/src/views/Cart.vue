@@ -1,7 +1,7 @@
 <template>
 <div class="cart">
   <body>
-    <h2 class="title is-3" style="text-align: center">Cart</h2>
+    <h3 class="title is-3" style="text-align: center">Cart</h3>
     <div class="row">
       <div class="column">Trek Bike *Picture*
         <br>$499
@@ -22,7 +22,7 @@
     <br>
     <div class="center">
       <button class="button">
-        <a href="checkout.html">Proceed to Checkout</a>
+        <router-link to="/checkout" exact-active-class="is-active">Proceed to Checkout</router-link>
       </button>
     </div>
   </body>
