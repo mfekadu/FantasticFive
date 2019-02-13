@@ -1,26 +1,34 @@
 <style scoped>
-.announcement {
-  font-weight: bold;
-  text-align: center;
-  font-size: 2em;
-  padding: 20px;
-  background-color: yellow;
+.center {
+    text-align: center;
 }
 
-.announcement-details {
-  text-align: center;
-  background-color: yellow;
-  font-size: 1.5em;
-  padding: 20px;
-  margin-bottom: 10px;
+a {
+    color: #3273dc;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 400;
+    line-height: 1.5;
 }
+
 </style>
 
 <template>
   <div class="home">
     <Header/>
-    <div class="announcement">ANNOUNCEMENT</div>
-    <div class="announcement-details">ANNOUNCEMENT DETAILS</div>
+
+    <h2 class="title is-2" style="text-align:center">Services</h2>
+    <div style="text-align: center">
+        Major Tune-Up: $100 <br>
+        Minor Tune-Up: $50  <br>
+        Brake Repair:  $100  <br>
+    </div>
+
+    <div class="center" style="margin-top:20px">
+        Call 
+        <a class="is-link" href="tel:805-555-5555">(805) 555-5555</a>
+        to order
+        </div>
     <Footer/>
   </div>
   
