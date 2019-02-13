@@ -3,8 +3,8 @@
     <button class="button" style="float:right">
       <router-link to="/" exact-active-class="is-active">Logout</router-link>
     </button>
-    <br>
-    <h1 class="title is-1" style="text-align: center">Foxycle</h1>
+    <br><br>
+    <h1 class="title is-1" style="text-align: center">Foxycle Employees</h1>
 
     <ul>
       <li>
