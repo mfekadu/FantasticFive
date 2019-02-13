@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <button class="button">
-      <a href="order_list.html">Employee Login</a>
+      <router-link to="/login" exact-active-class="is-active">Employee Login</router-link>
     </button>
     <button class="button" style="float:right">
       <router-link to="/track" exact-active-class="is-active">Track Order</router-link>

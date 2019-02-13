@@ -1,0 +1,32 @@
+<template>
+<div class="inventory">
+  <AdminHeader/>
+  <body>
+    <div class="center">
+      <h3 class="title is-3">Order Tracking</h3>
+      <input class="input" type="text" placeholder="Order Number">
+      <br>
+      <br>
+      <button class="button">
+        <router-link to="/status">View Order Status</router-link>
+      </button>
+    </div>
+  </body>
+</div>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import AdminHeader from "@/components/AdminHeader.vue";
+
+@Component({
+  components: {
+    AdminHeader
+  }
+})
+export default class Inventory extends Vue {}
+</script>
+
+<style scoped>
+
+</style>
