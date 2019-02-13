@@ -1,5 +1,6 @@
 <template>
   <div id="header">
+    <br>
     <button class="button">
       <router-link to="/login" exact-active-class="is-active">Employee Login</router-link>
     </button>
@@ -10,7 +11,9 @@
       <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
     </button>
 
-    <h1 class="title is-1" style="text-align: center"><router-link to="/" exact-active-class="is-active">Foxycle</router-link></h1>
+    <h1 class="title is-1" style="text-align: center">
+      <router-link to="/" exact-active-class="is-active">Foxycle</router-link>
+    </h1>
 
     <ul>
       <li>
