@@ -5,6 +5,7 @@ import Cart from "./views/Cart.vue";
 import Checkout from "./views/Checkout.vue";
 import Confirmation from "./views/Confirmation.vue";
 import Track from "./views/Track.vue";
+import Status from "./views/Status.vue";
 
 Vue.use(Router);
 
@@ -36,6 +37,11 @@ export default new Router({
       path: "/track",
       name: "track",
       component: Track
+    },
+    {
+      path: "/status",
+      name: "status",
+      component: Status
     }
   ]
 });

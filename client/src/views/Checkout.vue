@@ -3,8 +3,8 @@
   <body>
     <br>
     <h1 class="title is-1">Foxycle</h1>
-    <div class="row">
-      <div class="column" style="margin-left: 5%">
+    <div class="columns">
+      <div class="column is-one-third">
         <h3 class="title is-3">Shipping Info</h3>
         <input class="checkbox" type="checkbox"> Pick up in store
         <br>
@@ -45,13 +45,9 @@
         </button>
       </div>
       <div class="column">
-        <br>
-        <br>
-        <h2>Order Summary</h2>Trek Bike *Picture*
+        <h3 class="title is-3">Order Summary</h3>Trek Bike *Picture*
         <br>$499
         <br>Quantity: 1
-        <br>
-        <br>
         <br>
         <br>Bike Pump *Picture*
         <br>$29
@@ -77,8 +73,4 @@ export default class Checkout extends Vue {}
 </script>
 
 <style scoped>
-.column {
-  float: left;
-  width: 25%;
-}
 </style>
