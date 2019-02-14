@@ -1,5 +1,5 @@
 <template>
-<div class="inventory">
+<div class="item_edit">
   <AdminHeader/>
   <body>
     <h2 class="title is-2">Add/Edit Item</h2>
@@ -44,7 +44,7 @@ import AdminHeader from "@/components/AdminHeader.vue";
     AdminHeader
   }
 })
-export default class Inventory extends Vue {}
+export default class ItemEdit extends Vue {}
 </script>
 
 <style scoped>
