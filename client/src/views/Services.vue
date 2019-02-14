@@ -6,15 +6,6 @@
     margin-right: auto;
     width: 50%;
 }
-
-a {
-    color: #3273dc;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 400;
-    line-height: 1.5;
-}
-
 </style>
 
 <template>

@@ -5,10 +5,9 @@
       <h2 class="title is-2">Employee Login</h2>
       <h4 class="title is-4" style="color: red">**Not for Customers**</h4>
 
-      <input class="input" type="text" placeholder="Username">
+      <div style="margin-bottom: 5px"><input class="input" type="text" placeholder="Username"></div>
+      <div><input class="input" type="password" placeholder="Password"></div>
       <br>
-      <input class="input" type="password" placeholder="Password">
-      <br><br>
       <button class="button"><router-link to="/inventory" exact-active-class="is-active">Login</router-link></button>
     </div>
     <Footer/>

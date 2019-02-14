@@ -71,7 +71,12 @@ export default class App extends Vue {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-a {
+
+.button a {
+  color: #363636;
+}
+
+.title a {
   color: #363636;
 }
 </style>
