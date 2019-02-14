@@ -4,6 +4,8 @@
 
 ## Documentation
 * [All docs][shared_gdrive]
+* [Wireframe][wireframe]
+* [Requirements][requirements]
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -68,5 +70,8 @@ get the backend running (inside /api directory)
 [//]: # (misc)
 
 [shared_gdrive]: https://drive.google.com/drive/u/0/folders/1kT1bq_aAEvqXJfDculGMjT0Cxi3J-3IB
+
+[wireframe]: https://drive.google.com/open?id=1RiFUKtNt0i6gadxtpuz12RtlToLHqjBY
+[requirements]: https://docs.google.com/document/d/1GLAbqnLXSJi8diQ_CJmz5hnz5zkAz6_TDh62P7a9_Ss/edit#heading=h.rv6hsfad8zu2
 
 [dev_link]: https://github.com/CSC307Winter2019/Group5/tree/dev
