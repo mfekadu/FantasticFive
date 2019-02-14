@@ -21,7 +21,36 @@
 * __Testing Lead / QA__: Johnathan Fisher ([jlfisher][jlfisher])
 * __Architect__: Zach Westfall ([ztwestfall][ztwestfall])
 
+## Getting Started
 
+inside root directory (above /api and /client)
+
+* `docker-compose up`
+
+get client running (inside /client directory)
+
+* `npm run serve`
+
+get the backend running (inside /api directory)
+
+* `npm run dev`
+
+### Useful Tidbits
+* rename `config.json.example` to `config.json`
+* create database dev;
+* create database test;
+
+## Useful diagram
+
+```
+++++++++++++++
+|    Vue     |
+++++++++++++++
+|    API     |
+++++++++++++++
+|  database  |
+++++++++++++++
+```
 
 [//]: # (username links)
 
