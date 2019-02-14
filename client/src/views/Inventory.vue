@@ -18,7 +18,7 @@
             <span>{{ Part.name }}</span>
           </div>
           <div class="cell col4">
-            <button class="button" name="btn-delete">Delete</button>
+            <button class="button" style="margin-right: 15px" name="btn-delete">Delete</button>
             <button class="button" name="btn-Edit">
               <router-link to="/itemedit" exact-active-class="is-active">Edit</router-link>
             </button>
