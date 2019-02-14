@@ -12,10 +12,10 @@
                 <p>Status: In Process</p>
             </div>
             <div class="column is-2">
-                <button><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
+                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
             </div>
             <div class="column is-2">
-                <button>Delete</button>
+                <button class="button">Delete</button>
             </div>
         </div>
         <div class="columns list-group-item">
@@ -26,10 +26,10 @@
                 <p>Status: Shipped</p>
             </div>
             <div class="column is-2">
-                <button><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
+                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
             </div>
             <div class="column is-2">
-                <button>Delete</button>
+                <button class="button">Delete</button>
             </div>
         </div>
         <div class="columns list-group-item">
@@ -40,10 +40,10 @@
                 <p>Status: Ready To Ship</p>
             </div>
             <div class="column is-2">
-                <button><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
+                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
             </div>
             <div class="column is-2">
-                <button>Delete</button>
+                <button class="button">Delete</button>
             </div>
         </div>
     </div>
