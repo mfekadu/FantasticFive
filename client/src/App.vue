@@ -47,17 +47,17 @@ export default class App extends Vue {
   }
 
   get isLoggedIn(): boolean {
-    return !!this.$store.state.userId;
+    return !!this.$store.state.user;
   }
 
   logout() {
-    debugger;
     axios
       .post(APIConfig.buildUrl("/logout"), null, {
         headers: { token: this.$store.state.userToken }
       })
       .then(() => {
         this.$store.commit("logout");
+        this.$router.push({ name: "home" });
       });
   }
 }
