@@ -31,7 +31,7 @@
             <div class="name">Bike</div>
             <div class="description">Bike Description</div>
             <div class="price">$FREE.99</div>
-            <button class="button">Add to Cart</button>
+            <button>Add to Cart</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -40,7 +40,7 @@
             <div class="name">Bike</div>
             <div class="description">Bike Description</div>
             <div class="price">$FREE.99</div>
-            <button class="button">Add to Cart</button>
+            <button>Add to Cart</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -49,7 +49,7 @@
             <div class="name">Bike</div>
             <div class="description">Bike Description</div>
             <div class="price">$FREE.99</div>
-            <button class="button">Add to Cart</button>
+            <button>Add to Cart</button>
         </div>
     </div>
     <Footer/>
