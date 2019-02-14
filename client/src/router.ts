@@ -10,9 +10,10 @@ import Track from "./views/Track.vue";
 import Status from "./views/Status.vue";
 import MyProfile from "./views/MyProfile.vue";
 import Login from "./views/Login.vue";
-import Inventory from "./views/Inventory.vue";
+import ItemEdit from "./views/ItemEdit.vue";
 import Orders from "./views/Orders.vue";
 import OrderDetails from "./views/OrderDetails.vue";
+import Inventory from "./views/Inventory.vue";
 
 Vue.use(Router);
 
@@ -93,6 +94,11 @@ export default new Router({
       path: "/inventory",
       name: "inventory",
       component: Inventory
+    },
+    {
+      path: "/itemedit",
+      name: "itemedit",
+      component: ItemEdit
     }
   ]
 });
