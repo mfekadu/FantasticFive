@@ -15,6 +15,14 @@
 * ["Git Flow"][gitflow]
 * [Git cheat sheet][gitbasics]
 
+* cool commands
+```
+git branch
+git branch -vv
+git checkout -b '<branch_name>'
+git pull professor master
+```
+
 ## Collaborators:
 
 * __Team Lead__: Michael Fekadu ([mfekadu][mfekadu])
