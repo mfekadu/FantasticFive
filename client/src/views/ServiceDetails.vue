@@ -3,19 +3,16 @@
   <AdminHeader/>
   <body>
     <h2 class="title is-2">Add/Edit Service</h2>
-    <input class="input" v-model="item.title" type="text" placeholder="Title">
-    <br>
-    <textarea class="textarea has-fixed-size" v-model="item.desc" placeholder="Description"></textarea>
-    <br>
-    <input class="input" v-model="item.price" type="text" placeholder="Price">
-    <br>
-    <br>
-    <button class="button" style="margin-right: 15px" v-on:click="addService">
+    <div><input class="input" v-model="item.title" type="text" placeholder="Title"></div>
+    <div style="margin-top: 15px"><textarea class="textarea has-fixed-size" v-model="item.desc" placeholder="Description"></textarea></div>
+    <div style="margin-top: 15px"><input class="input" v-model="item.price" type="text" placeholder="Price"></div>
+
+    <div style="margin-top: 15px"><button class="button" style="margin-right: 15px" v-on:click="addService">
       <router-link to="/editservices">Save</router-link>
     </button>
     <button class="button">
       <router-link to="/editservices">Cancel</router-link>
-    </button>
+    </button></div>
   </body>
 </div>
 </template>
