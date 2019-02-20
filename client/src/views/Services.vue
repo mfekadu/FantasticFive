@@ -13,10 +13,7 @@
     <Header/>
 
     <h2 class="title is-2" style="text-align:center">Services</h2>
-    <div style="text-align: center">Major Tune-Up: $100
-      <br>Minor Tune-Up: $50
-      <br>Brake Repair: $100
-      <br>
+    <div style="text-align: center">
       <div
         v-for="(service, index) in services"
         v-bind:key="index"

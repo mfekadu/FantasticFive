@@ -18,6 +18,11 @@
         </div>
       </div>
     </div>
+    <div style="margin-top: 15px">
+      <button class="button">
+        <router-link to="/servicedetails" exact-active-class="is-active">New Service</router-link>
+      </button>
+    </div>
   </body>
 </div>
 </template>
