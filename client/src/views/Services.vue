@@ -20,7 +20,7 @@
       <div
         v-for="(service, index) in services"
         v-bind:key="index"
-      >{{ service.title }}: {{ service.desc }}: {{ service.price}}</div>
+      >{{ service.title }}: {{ service.desc }}: {{ service.price }}</div>
     </div>
 
     <div class="center" style="margin-top:20px">
