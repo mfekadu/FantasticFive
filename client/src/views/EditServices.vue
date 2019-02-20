@@ -1,0 +1,78 @@
+<template>
+<div class="editservices">
+  <AdminHeader/>
+  <body>
+    <h3 class="title" style="text-align: center">Orders</h3>
+    <div v-for="(service, index) in services" v-bind:key="index">
+      <div class="columns list-group-item">
+        <div class="column is-4">
+          <p>{{ service.title }}</p>
+        </div>
+        <div class="column is-2">
+          <button class="button">
+            <router-link to="/servicedetails" exact-active-class="is-active">Edit</router-link>
+          </button>
+        </div>
+        <div class="column is-2">
+          <button class="button">Delete</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</div>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import Footer from "@/components/Footer.vue";
+import AdminHeader from "@/components/AdminHeader.vue";
+import axios, { AxiosResponse } from "axios";
+import { APIConfig } from "../utils/api.utils";
+
+@Component({
+  components: {
+    Footer,
+    AdminHeader
+  }
+})
+export default class EditServices extends Vue {
+  item: Service = {
+    title: "",
+    desc: "",
+    price: ""
+  };
+
+  services: Service[] = [];
+
+  mounted() {
+    axios.get(APIConfig.buildUrl("/services")).then(response => {
+      this.services = response.data.items;
+    });
+  }
+}
+
+export interface Service {
+  title: string;
+  desc: string;
+  price: string;
+}
+</script>
+
+<style scoped>
+.column {
+  margin: auto;
+  width: 25%;
+}
+
+.center {
+  text-align: center;
+}
+
+.list-group-item {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+</style>
