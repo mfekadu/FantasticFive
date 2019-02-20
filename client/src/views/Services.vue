@@ -52,9 +52,7 @@ export default class Services extends Vue {
     price: ""
   };
 
-  services: Service[] = [
-    { title: "Major Tune-Up", desc: "description", price: "$100" }
-  ];
+  services: Service[] = [];
 
   mounted() {
     axios.get(APIConfig.buildUrl("/services")).then(response => {

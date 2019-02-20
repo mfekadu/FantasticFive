@@ -28,7 +28,19 @@ export class ServiceController extends DefaultController {
             serviceRepo.save(service).then((savedService: Service) => {
                 res.status(200).send({ service });
             });
-        });
+        })
+        .put((req: Request, res: Response) => {
+            const itemRepo = getRepository(Service);
+            itemRepo.findOneOrFail(req.params.id).then((foundService: Service) => {
+              // save updates here
+              foundService.title = req.body.title;
+              foundService.desc = req.body.desc;
+              foundService.price = req.body.price;
+              itemRepo.save(foundService).then((updatedService: Service) => {
+                res.send(200).send({service: updatedService});
+              });
+            });
+          });
 
         return router;
     }
