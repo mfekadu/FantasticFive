@@ -34,17 +34,10 @@ git pull professor master
 
 ## Getting Started
 
-inside root directory (above /api and /client)
-
-* `docker-compose up`
-
-get client running (inside /client directory)
-
-* `npm run serve`
-
-get the backend running (inside /api directory)
-
-* `npm run dev`
+### How do I set up all the things?
+1. `docker-compose up` get the backend running (inside root directory; above /api and /client)
+2. `npm run serve` get frontend running (inside /client directory)
+3. `npm run dev` get the backend running (inside /api directory)
 
 ### Useful Tidbits
 * rename `config.json.example` to `config.json`
