@@ -8,7 +8,7 @@
       <div style="margin-bottom: 5px"><input class="input" type="text" placeholder="Username"></div>
       <div><input class="input" type="password" placeholder="Password"></div>
       <br>
-      <button class="button"><router-link to="/inventory" exact-active-class="is-active">Login</router-link></button>
+      <button class="button"><router-link to="/orders" exact-active-class="is-active">Login</router-link></button>
     </div>
     <Footer/>
   </div>
