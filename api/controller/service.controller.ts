@@ -28,6 +28,22 @@ export class ServiceController extends DefaultController {
         serviceRepo.save(service).then((savedService: Service) => {
           res.status(200).send({ service });
         });
+      });
+
+    router.route("/services/:id")
+      .delete((req: Request, res: Response) => {
+        const itemRepo = getRepository(Service);
+        itemRepo.findOneOrFail(req.params.id).then((foundService: Service) => {
+          itemRepo.remove(foundService).then((updatedService: Service) => {
+            res.status(200).send({ service: updatedService });
+          });
+        });
+      })
+      .get((req: Request, res: Response) => {
+        const itemRepo = getRepository(Service);
+        itemRepo.findOneOrFail(req.params.id).then((item: Service) => {
+          res.status(200).send({ item });
+        });
       })
       .put((req: Request, res: Response) => {
         const itemRepo = getRepository(Service);
@@ -37,16 +53,7 @@ export class ServiceController extends DefaultController {
           foundService.desc = req.body.desc;
           foundService.price = req.body.price;
           itemRepo.save(foundService).then((updatedService: Service) => {
-            res.send(200).send({ service: updatedService });
-          });
-        });
-      });
-    router.route("/services/:id")
-      .delete((req: Request, res: Response) => {
-        const itemRepo = getRepository(Service);
-        itemRepo.findOneOrFail(req.params.id).then((foundService: Service) => {
-          itemRepo.remove(foundService).then((updatedService: Service) => {
-            res.send(200).send({ service: updatedService });
+            res.status(200).send({ service: updatedService });
           });
         });
       });

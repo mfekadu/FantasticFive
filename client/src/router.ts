@@ -115,7 +115,7 @@ export default new Router({
       component: ServiceList
     },
     {
-      path: "/serviceedit",
+      path: "/serviceedit/:id",
       name: "serviceedit",
       component: ServiceEdit,
       props: true

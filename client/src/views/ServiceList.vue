@@ -2,7 +2,7 @@
 <div class="servicelist">
   <AdminHeader/>
   <body>
-    <h3 class="title" style="text-align: center">Orders</h3>
+    <h3 class="title" style="text-align: center">Services</h3>
     <div v-for="(service, index) in services" v-bind:key="index">
       <div class="columns list-group-item">
         <div class="column is-4">
@@ -10,7 +10,7 @@
         </div>
         <div class="column is-2">
           <button class="button">
-            <router-link to="/serviceedit" exact-active-class="is-active">Edit</router-link>
+            <router-link :to="{path: '/serviceedit/'+ service.id}" exact-active-class="is-active">Edit</router-link>
           </button>
         </div>
         <div class="column is-2">
@@ -20,7 +20,7 @@
     </div>
     <div style="margin-top: 15px">
       <button class="button">
-        <router-link to="/serviceedit" exact-active-class="is-active">New Service</router-link>
+        <router-link to="/serviceedit/0" exact-active-class="is-active">New Service</router-link>
       </button>
     </div>
   </body>
