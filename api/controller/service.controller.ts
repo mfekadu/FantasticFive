@@ -40,7 +40,8 @@ export class ServiceController extends DefaultController {
             res.send(200).send({ service: updatedService });
           });
         });
-      })
+      });
+    router.route("/services/:id")
       .delete((req: Request, res: Response) => {
         const itemRepo = getRepository(Service);
         itemRepo.findOneOrFail(req.params.id).then((foundService: Service) => {

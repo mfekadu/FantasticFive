@@ -1,5 +1,5 @@
 <template>
-<div class="service_details">
+<div class="serviceedit">
   <AdminHeader/>
   <body>
     <h2 class="title is-2">Add/Edit Service</h2>
@@ -8,10 +8,10 @@
     <div style="margin-top: 15px"><input class="input" v-model="item.price" type="text" placeholder="Price"></div>
 
     <div style="margin-top: 15px"><button class="button" style="margin-right: 15px" v-on:click="addService">
-      <router-link to="/editservices">Save</router-link>
+      <router-link to="/servicelist">Save</router-link>
     </button>
     <button class="button">
-      <router-link to="/editservices">Cancel</router-link>
+      <router-link to="/servicelist">Cancel</router-link>
     </button></div>
   </body>
 </div>
@@ -28,7 +28,7 @@ import { APIConfig } from "../utils/api.utils";
     AdminHeader
   }
 })
-export default class ServiceDetails extends Vue {
+export default class ServiceEdit extends Vue {
   item: Service = {
     title: "",
     desc: "",

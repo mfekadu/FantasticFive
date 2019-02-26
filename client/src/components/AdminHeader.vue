@@ -22,7 +22,7 @@
         <router-link to="/announcement">Announcement</router-link>
       </li>
       <li>
-        <router-link to="/editservices">Services</router-link>
+        <router-link to="/servicelist">Services</router-link>
       </li>
     </ul>
     <br>

@@ -1,5 +1,5 @@
 <template>
-<div class="editservices">
+<div class="servicelist">
   <AdminHeader/>
   <body>
     <h3 class="title" style="text-align: center">Orders</h3>
@@ -10,17 +10,17 @@
         </div>
         <div class="column is-2">
           <button class="button">
-            <router-link to="/servicedetails" exact-active-class="is-active">Edit</router-link>
+            <router-link to="/serviceedit" exact-active-class="is-active">Edit</router-link>
           </button>
         </div>
         <div class="column is-2">
-          <button class="button">Delete</button>
+          <button class="button" v-on:click="deleteItem(service.id)">Delete</button>
         </div>
       </div>
     </div>
     <div style="margin-top: 15px">
       <button class="button">
-        <router-link to="/servicedetails" exact-active-class="is-active">New Service</router-link>
+        <router-link to="/serviceedit" exact-active-class="is-active">New Service</router-link>
       </button>
     </div>
   </body>
@@ -40,7 +40,7 @@ import { APIConfig } from "../utils/api.utils";
     AdminHeader
   }
 })
-export default class EditServices extends Vue {
+export default class ServiceList extends Vue {
   item: Service = {
     title: "",
     desc: "",
@@ -53,6 +53,17 @@ export default class EditServices extends Vue {
     axios.get(APIConfig.buildUrl("/services")).then(response => {
       this.services = response.data.items;
     });
+  }
+
+  refreshList() {
+    axios.get(APIConfig.buildUrl("/services")).then(response => {
+      this.services = response.data.items;
+    });
+  }
+
+  deleteItem(id: number) {
+    axios.delete(APIConfig.buildUrl("/services/" + id));
+    this.refreshList();
   }
 }
 

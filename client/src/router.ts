@@ -16,8 +16,8 @@ import ItemEdit from "./views/ItemEdit.vue";
 import Orders from "./views/Orders.vue";
 import OrderDetails from "./views/OrderDetails.vue";
 import Inventory from "./views/Inventory.vue";
-import EditServices from "./views/EditServices.vue";
-import ServiceDetails from "./views/ServiceDetails.vue";
+import ServiceList from "./views/ServiceList.vue";
+import ServiceEdit from "./views/ServiceEdit.vue";
 
 Vue.use(Router);
 
@@ -110,14 +110,15 @@ export default new Router({
       component: ItemEdit
     },
     {
-      path: "/editservices",
-      name: "editservices",
-      component: EditServices
+      path: "/servicelist",
+      name: "servicelist",
+      component: ServiceList
     },
     {
-      path: "/servicedetails",
-      name: "servicedetails",
-      component: ServiceDetails
+      path: "/serviceedit",
+      name: "serviceedit",
+      component: ServiceEdit,
+      props: true
     }
   ]
 });
