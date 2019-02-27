@@ -10,11 +10,14 @@
         </div>
         <div class="column is-2">
           <button class="button">
-            <router-link :to="{path: '/serviceedit/'+ service.id}" exact-active-class="is-active">Edit</router-link>
+            <router-link
+              :to="{path: '/serviceedit/'+ service.id}"
+              exact-active-class="is-active"
+            >Edit</router-link>
           </button>
         </div>
         <div class="column is-2">
-          <button class="button" v-on:click="deleteItem(service.id)">Delete</button>
+          <button class="button" v-on:click="currentID = service.id; isShowing = true;">Delete</button>
         </div>
       </div>
     </div>
@@ -23,6 +26,13 @@
         <router-link to="/serviceedit/0" exact-active-class="is-active">New Service</router-link>
       </button>
     </div>
+    <modal
+      v-bind:is-showing="isShowing"
+      title="Confirmation"
+      success-button="Delete"
+      v-on:success="deleteItem(currentID)"
+      v-on:cancel="isShowing = false"
+    >Are you sure you want to delete?</modal>
   </body>
 </div>
 </template>
@@ -33,11 +43,13 @@ import Footer from "@/components/Footer.vue";
 import AdminHeader from "@/components/AdminHeader.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
+import Modal from "@/components/Modal.vue";
 
 @Component({
   components: {
     Footer,
-    AdminHeader
+    AdminHeader,
+    Modal
   }
 })
 export default class ServiceList extends Vue {
@@ -48,6 +60,8 @@ export default class ServiceList extends Vue {
   };
 
   services: Service[] = [];
+  currentID: number = 0;
+  isShowing: boolean = false;
 
   mounted() {
     axios.get(APIConfig.buildUrl("/services")).then(response => {
@@ -62,6 +76,7 @@ export default class ServiceList extends Vue {
   }
 
   deleteItem(id: number) {
+    this.isShowing = false;
     axios.delete(APIConfig.buildUrl("/services/" + id));
     this.refreshList();
   }
