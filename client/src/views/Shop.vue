@@ -27,6 +27,7 @@
     <div class="columns productsContainer">
         <div class="column filterColumn is-one-fifth">
             <ProductFilters/>
+
         </div>
         <div class="column outerProductsContainer">
             <div class="columns innerProductsContainer">
