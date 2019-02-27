@@ -19,7 +19,7 @@
         <router-link to="/employees">Employees</router-link>
       </li>
       <li>
-        <router-link to="/announcement">Announcement</router-link>
+        <router-link to="/announcementlist">Announcements</router-link>
       </li>
       <li>
         <router-link to="/servicelist">Services</router-link>

@@ -18,6 +18,8 @@ import OrderDetails from "./views/OrderDetails.vue";
 import Inventory from "./views/Inventory.vue";
 import ServiceList from "./views/ServiceList.vue";
 import ServiceEdit from "./views/ServiceEdit.vue";
+import AnnouncementList from "./views/AnnouncementList.vue";
+import AnnouncementEdit from "./views/AnnouncementEdit.vue";
 
 Vue.use(Router);
 
@@ -118,6 +120,17 @@ export default new Router({
       path: "/serviceedit/:id",
       name: "serviceedit",
       component: ServiceEdit,
+      props: true
+    },
+    {
+      path: "/announcementlist",
+      name: "announcementlist",
+      component: AnnouncementList
+    },
+    {
+      path: "/announcementedit/:id",
+      name: "announcementedit",
+      component: AnnouncementEdit,
       props: true
     }
   ]
