@@ -14,16 +14,18 @@
 
     <h2 class="title is-2" style="text-align:center">Services</h2>
     <div style="text-align: center">
-      <div
-        v-for="(service, index) in services"
-        v-bind:key="index"
-      >{{ service.title }}: {{ service.desc }}: {{ service.price }}</div>
+      <div v-for="(service, index) in services" v-bind:key="index">
+        <p class="title is-4">{{ service.title }}: {{ service.price }}</p>
+        <p class="subtitle is-5" style="margin-bottom: 20px">{{ service.desc }}</p>
+      </div>
     </div>
 
     <div class="center" style="margin-top:20px">
-      Call
-      <a class="is-link" href="tel:805-555-5555">(805) 555-5555</a>
-      to order
+      <h4 class="title is-4" style="color: red">
+        Call
+        <a class="is-link" href="tel:805-555-5555" style="color: red">(805) 555-5555</a>
+        to order
+      </h4>
     </div>
     <Footer/>
   </div>
