@@ -3,41 +3,13 @@
     <AdminHeader/>
   <body>
     <h3 class="title" style="text-align: center">Orders</h3>
-    <div>
+    <div v-for="(item, index) in orders" v-bind:key="index">
         <div class="columns list-group-item">
             <div class="column is-4">
-                <p>Order #P7G639</p>
+                <p>{{ item.orderNumber }}</p>
             </div>
             <div class="column is-4">
-                <p>Status: In Process</p>
-            </div>
-            <div class="column is-2">
-                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
-            </div>
-            <div class="column is-2">
-                <button class="button">Delete</button>
-            </div>
-        </div>
-        <div class="columns list-group-item">
-            <div class="column is-4">
-                <p>Order #P7G640</p>
-            </div>
-            <div class="column is-4">
-                <p>Status: Shipped</p>
-            </div>
-            <div class="column is-2">
-                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
-            </div>
-            <div class="column is-2">
-                <button class="button">Delete</button>
-            </div>
-        </div>
-        <div class="columns list-group-item">
-            <div class="column is-4">
-                <p>Order #P7G641</p>
-            </div>
-            <div class="column is-4">
-                <p>Status: Ready To Ship</p>
+                <p>Status: {{ item.status }}</p>
             </div>
             <div class="column is-2">
                 <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
@@ -56,6 +28,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
 import AdminHeader from "@/components/AdminHeader.vue";
+import axios, { AxiosResponse } from "axios";
+import { APIConfig } from "../utils/api.utils";
 
 @Component({
   components: {
@@ -63,7 +37,51 @@ import AdminHeader from "@/components/AdminHeader.vue";
     AdminHeader
   }
 })
-export default class Orders extends Vue {}
+export default class Orders extends Vue {
+    item: Order = {
+        orderNumber: 0,
+        status: "",
+        shippingYN: "",
+        firstShip: "",
+        lastShip: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zip: "",
+        firstBill: "",
+        lastBill: "",
+        cardNumber: "",
+        expiration: "",
+        cvv: ""
+    };
+
+    orders: Order[] = [];
+
+    mounted() {
+        axios.get(APIConfig.buildUrl("/orders")).then(response => {
+        this.orders = response.data.order;
+        });
+    }
+}
+
+export interface Order {
+  orderNumber: number;
+  status: string;
+  shippingYN: string;
+  firstShip: string;
+  lastShip: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  firstBill: string;
+  lastBill: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
+}
 </script>
 
 <style scoped>
