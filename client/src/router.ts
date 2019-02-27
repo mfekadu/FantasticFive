@@ -20,6 +20,7 @@ import ServiceList from "./views/ServiceList.vue";
 import ServiceEdit from "./views/ServiceEdit.vue";
 import AnnouncementList from "./views/AnnouncementList.vue";
 import AnnouncementEdit from "./views/AnnouncementEdit.vue";
+import Employees from "./views/Employees.vue";
 
 Vue.use(Router);
 
@@ -132,6 +133,11 @@ export default new Router({
       name: "announcementedit",
       component: AnnouncementEdit,
       props: true
+    },
+    {
+      path: "/employees",
+      name: "employees",
+      component: Employees
     }
   ]
 });

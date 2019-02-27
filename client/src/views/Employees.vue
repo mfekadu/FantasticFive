@@ -1,29 +1,29 @@
 <template>
-<div class="servicelist">
+<div class="employees">
   <AdminHeader/>
   <body>
-    <h3 class="title" style="text-align: center">Services</h3>
-    <div v-for="(service, index) in services" v-bind:key="index">
+    <h3 class="title" style="text-align: center">Employees</h3>
+    <div v-for="(employee, index) in employees" v-bind:key="index">
       <div class="columns list-group-item">
         <div class="column is-4">
-          <p>{{ service.title }}</p>
+          <p>{{ employee.firstName }}</p>
         </div>
         <div class="column is-2">
           <button class="button">
             <router-link
-              :to="{path: '/serviceedit/'+ service.id}"
+              :to="{path: '/employeeedit/'+ employee.id}"
               exact-active-class="is-active"
             >Edit</router-link>
           </button>
         </div>
         <div class="column is-2">
-          <button class="button" v-on:click="currentID = service.id; isShowing = true;">Delete</button>
+          <button class="button" v-on:click="currentID = employee.id; isShowing = true;">Delete</button>
         </div>
       </div>
     </div>
     <div style="margin-top: 15px">
       <button class="button">
-        <router-link to="/serviceedit/0" exact-active-class="is-active">New Service</router-link>
+        <router-link to="/employeeedit/0" exact-active-class="is-active">New Employee</router-link>
       </button>
     </div>
     <modal
@@ -52,34 +52,36 @@ import Modal from "@/components/Modal.vue";
     Modal
   }
 })
-export default class ServiceList extends Vue {
-  services: Service[] = [];
+export default class Employees extends Vue {
+  employees: User[] = [];
   currentID: number = 0;
   isShowing: boolean = false;
 
   mounted() {
-    axios.get(APIConfig.buildUrl("/services")).then(response => {
-      this.services = response.data.items;
+    axios.get(APIConfig.buildUrl("/users")).then(response => {
+      this.employees = response.data.users;
     });
   }
 
   refreshList() {
-    axios.get(APIConfig.buildUrl("/services")).then(response => {
-      this.services = response.data.items;
+    axios.get(APIConfig.buildUrl("/users")).then(response => {
+      this.employees = response.data.users;
     });
   }
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/services/" + id));
+    axios.delete(APIConfig.buildUrl("/users/" + id));
     this.refreshList();
   }
 }
 
-export interface Service {
-  title: string;
-  desc: string;
-  price: string;
+export interface User {
+  firstName: string;
+  lastName: string;
+  password: string;
+  profileUrl: string;
+  username: string;
 }
 </script>
 
