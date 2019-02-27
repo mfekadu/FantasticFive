@@ -20,11 +20,11 @@ export class UserController extends DefaultController {
       })
       .post((req: Request, res: Response) => {
         const userRepo = getRepository(User);
-        const { firstName, lastName, emailAddress, password } = req.body;
+        const { firstName, lastName, username, password } = req.body;
         const user = new User();
         user.firstName = firstName;
         user.lastName = lastName;
-        user.emailAddress = emailAddress;
+        user.username = username;
         user.password = password;
         userRepo.save(user).then(
           createdUser => {
