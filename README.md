@@ -4,6 +4,9 @@
 
 ## Documentation
 * [All docs][shared_gdrive]
+* [Wireframe Doc][wireframe]
+* [Requirements Doc][requirements]
+* Acceptence Testing Doc (due March 4, 2019)
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -12,6 +15,14 @@
 ## Useful Git Info
 * ["Git Flow"][gitflow]
 * [Git cheat sheet][gitbasics]
+
+* cool commands
+```
+git branch
+git branch -vv
+git checkout -b '<branch_name>'
+git pull professor master
+```
 
 ## Collaborators:
 
@@ -23,17 +34,10 @@
 
 ## Getting Started
 
-inside root directory (above /api and /client)
-
-* `docker-compose up`
-
-get client running (inside /client directory)
-
-* `npm run serve`
-
-get the backend running (inside /api directory)
-
-* `npm run dev`
+### How do I set up all the things?
+1. `docker-compose up` get the backend running (inside root directory; above /api and /client)
+2. `npm run serve` get frontend running (inside /client directory)
+3. `npm run dev` get the backend running (inside /api directory)
 
 ### Useful Tidbits
 * rename `config.json.example` to `config.json`
@@ -68,5 +72,8 @@ get the backend running (inside /api directory)
 [//]: # (misc)
 
 [shared_gdrive]: https://drive.google.com/drive/u/0/folders/1kT1bq_aAEvqXJfDculGMjT0Cxi3J-3IB
+
+[wireframe]: https://drive.google.com/open?id=1RiFUKtNt0i6gadxtpuz12RtlToLHqjBY
+[requirements]: https://docs.google.com/document/d/1GLAbqnLXSJi8diQ_CJmz5hnz5zkAz6_TDh62P7a9_Ss/edit#heading=h.rv6hsfad8zu2
 
 [dev_link]: https://github.com/CSC307Winter2019/Group5/tree/dev
