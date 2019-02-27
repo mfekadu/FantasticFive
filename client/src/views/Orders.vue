@@ -6,7 +6,7 @@
     <div v-for="(item, index) in orders" v-bind:key="index">
         <div class="columns list-group-item">
             <div class="column is-4">
-                <p>{{ item.orderNumber }}</p>
+                <p>Order #: {{ item.orderNumber }}</p>
             </div>
             <div class="column is-4">
                 <p>Status: {{ item.status }}</p>
