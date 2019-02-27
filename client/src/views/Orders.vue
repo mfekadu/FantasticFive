@@ -1,26 +1,27 @@
 <template>
 <div class="orders">
-    <AdminHeader/>
+  <AdminHeader/>
   <body>
     <h3 class="title" style="text-align: center">Orders</h3>
     <div v-for="(item, index) in orders" v-bind:key="index">
-        <div class="columns list-group-item">
-            <div class="column is-4">
-                <p>Order #: {{ item.orderNumber }}</p>
-            </div>
-            <div class="column is-4">
-                <p>Status: {{ item.status }}</p>
-            </div>
-            <div class="column is-2">
-                <button class="button"><router-link to="/orderDetails" exact-active-class="is-active">View</router-link></button>
-            </div>
-            <div class="column is-2">
-                <button class="button">Delete</button>
-            </div>
+      <div class="columns list-group-item">
+        <div class="column is-4">
+          <p>Order #: {{ item.orderNumber }}</p>
         </div>
+        <div class="column is-4">
+          <p>Status: {{ item.status }}</p>
+        </div>
+        <div class="column is-2">
+          <button class="button">
+            <router-link to="/orderDetails" exact-active-class="is-active">View</router-link>
+          </button>
+        </div>
+        <div class="column is-2">
+          <button class="button">Delete</button>
+        </div>
+      </div>
     </div>
   </body>
-  <Footer/>
 </div>
 </template>
 
@@ -38,31 +39,31 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class Orders extends Vue {
-    item: Order = {
-        orderNumber: 0,
-        status: "",
-        shippingYN: "",
-        firstShip: "",
-        lastShip: "",
-        address1: "",
-        address2: "",
-        city: "",
-        state: "",
-        zip: "",
-        firstBill: "",
-        lastBill: "",
-        cardNumber: "",
-        expiration: "",
-        cvv: ""
-    };
+  item: Order = {
+    orderNumber: 0,
+    status: "",
+    shippingYN: "",
+    firstShip: "",
+    lastShip: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    zip: "",
+    firstBill: "",
+    lastBill: "",
+    cardNumber: "",
+    expiration: "",
+    cvv: ""
+  };
 
-    orders: Order[] = [];
+  orders: Order[] = [];
 
-    mounted() {
-        axios.get(APIConfig.buildUrl("/orders")).then(response => {
-        this.orders = response.data.order;
-        });
-    }
+  mounted() {
+    axios.get(APIConfig.buildUrl("/orders")).then(response => {
+      this.orders = response.data.order;
+    });
+  }
 }
 
 export interface Order {
@@ -96,9 +97,9 @@ export interface Order {
 
 .list-group-item {
   position: relative;
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 </style>
