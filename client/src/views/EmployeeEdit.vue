@@ -17,9 +17,7 @@
     </div>
 
     <div style="margin-top: 15px">
-      <button class="button" style="margin-right: 15px" v-on:click="addUser">
-        <router-link to="/employees">Save</router-link>
-      </button>
+      <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
       <button class="button">
         <router-link to="/employees">Cancel</router-link>
       </button>
@@ -60,13 +58,21 @@ export default class EmployeeEdit extends Vue {
 
   addUser() {
     if (this.id == "0") {
-      axios.post(APIConfig.buildUrl("/users"), {
-        ...this.item
-      });
+      axios
+        .post(APIConfig.buildUrl("/users"), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/employees");
+        });
     } else {
-      axios.put(APIConfig.buildUrl("/users/" + this.id), {
-        ...this.item
-      });
+      axios
+        .put(APIConfig.buildUrl("/users/" + this.id), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/employees");
+        });
     }
   }
 }
