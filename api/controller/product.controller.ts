@@ -26,9 +26,27 @@ export class ProductController extends DefaultController {
             // then set OK status and send back the productArray
             productRepo.find().then(getProductArray);
         };
+
+        // private helper function to handle POST requests
+        let createProduct = (req: Request, res: Response) => {
+            const productRepo = getRepository(Product);
+            // unravel the req.body properties into variables
+            const { title, desc, quantity, price, photoURL } = req.body;
+            const product = new Product();
+            product.title = title;
+            product.desc = desc;
+            product.quantity = quantity;
+            product.price = price;
+            product.photoURL = photoURL;
+            // save the product, set OK, send back product
+            productRepo.save(product).then((createdProduct : Product) => {
+                res.status(OK).send({createdProduct});
+            });
+        };
         const router = Router();
         router.route("/shop")
             .get( getProducts )
+            .post( createProduct )
 
         return router;
     };
