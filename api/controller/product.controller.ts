@@ -51,19 +51,37 @@ export class ProductController extends DefaultController {
             const { title, desc, quantity, price, photoURL } = req.body;
             // get the product to be updated
             productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
-                // save updates here
-                foundProduct.title = "updated";
+                // update the actual product
+                foundProduct.title = title;
+                foundProduct.desc = desc;
+                foundProduct.quantity = quantity;
+                foundProduct.price = price;
+                foundProduct.photoURL = photoURL;
+                // save the updated product
                 productRepo.save(foundProduct).then((updatedProduct : Product) => {
                     res.send(OK).send({product: updatedProduct});
                 });
             });
         };
 
+        // private helper to handle DELETE requests
+        let deleteProduct = (req: Request, res: Response) => {
+            const productRepo = getRepository(Product);
+            productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
+                productRepo.remove(foundProduct).then((updatedProduct: Product) => {
+                res.status(OK).send({ product: updatedProduct });
+              });
+            });
+          };
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
-            .post( createProduct )
-            .put( updateProduct );
+            .post( createProduct );
+
+        router.route("/shop/:id")
+            .put( updateProduct )
+            .delete( deleteProduct );
 
         return router;
     };
