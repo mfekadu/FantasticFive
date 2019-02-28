@@ -6,10 +6,10 @@
       <h4 class="title is-4" style="color: red">**Not for Customers**</h4>
 
       <div style="margin-bottom: 5px">
-        <input class="input" type="text" v-model="signin.username" placeholder="Username">
+        <input class="input" type="text" v-on:keyup.enter="login()" v-model="signin.username" placeholder="Username">
       </div>
       <div>
-        <input class="input" v-model="signin.password" type="password" placeholder="Password">
+        <input class="input" v-on:keyup.enter="login()" v-model="signin.password" type="password" placeholder="Password">
       </div>
       <br>
       <button class="button" v-on:click="login()">Login</button>
