@@ -43,10 +43,27 @@ export class ProductController extends DefaultController {
                 res.status(OK).send({createdProduct});
             });
         };
+
+        // private helper to handle PUT requests
+        let updateProduct = (req: Request, res: Response) => {
+            const productRepo = getRepository(Product);
+            // unravel the req.body properties into variables
+            const { title, desc, quantity, price, photoURL } = req.body;
+            // get the product to be updated
+            productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
+                // save updates here
+                foundProduct.title = "updated";
+                productRepo.save(foundProduct).then((updatedProduct : Product) => {
+                    res.send(OK).send({product: updatedProduct});
+                });
+            });
+        };
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
             .post( createProduct )
+            .put( updateProduct );
 
         return router;
     };
