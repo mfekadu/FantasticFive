@@ -58,9 +58,7 @@ export default class Employees extends Vue {
   isShowing: boolean = false;
 
   mounted() {
-    axios.get(APIConfig.buildUrl("/users")).then(response => {
-      this.employees = response.data.users;
-    });
+    this.refreshList();
   }
 
   refreshList() {
@@ -71,8 +69,10 @@ export default class Employees extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/users/" + id));
-    this.refreshList();
+    axios.delete(APIConfig.buildUrl("/users/" + id))
+    .then(res => {
+      this.refreshList();
+    });
   }
 }
 

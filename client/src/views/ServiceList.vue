@@ -58,9 +58,7 @@ export default class ServiceList extends Vue {
   isShowing: boolean = false;
 
   mounted() {
-    axios.get(APIConfig.buildUrl("/services")).then(response => {
-      this.services = response.data.items;
-    });
+    this.refreshList();
   }
 
   refreshList() {
@@ -71,8 +69,9 @@ export default class ServiceList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/services/" + id));
-    this.refreshList();
+    axios.delete(APIConfig.buildUrl("/services/" + id))
+    .then(res => {
+      this.refreshList()});
   }
 }
 

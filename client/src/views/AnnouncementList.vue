@@ -63,9 +63,7 @@ export default class AnnouncementList extends Vue {
   isShowing: boolean = false;
 
   mounted() {
-    axios.get(APIConfig.buildUrl("/announcements")).then(response => {
-      this.announcements = response.data.items;
-    });
+    this.refreshList();
   }
 
   refreshList() {
@@ -76,8 +74,10 @@ export default class AnnouncementList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/announcements/" + id));
-    this.refreshList();
+    axios.delete(APIConfig.buildUrl("/announcements/" + id))
+    .then(res => {
+      this.refreshList();
+    });
   }
 }
 

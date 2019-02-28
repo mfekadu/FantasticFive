@@ -14,9 +14,7 @@
     </div>
 
     <div style="margin-top: 15px">
-      <button class="button" style="margin-right: 15px" v-on:click="addService">
-        <router-link to="/servicelist">Save</router-link>
-      </button>
+      <button class="button" style="margin-right: 15px" v-on:click="addService()">Save</button>
       <button class="button">
         <router-link to="/servicelist">Cancel</router-link>
       </button>
@@ -56,13 +54,21 @@ export default class ServiceEdit extends Vue {
 
   addService() {
     if (this.id == "0") {
-      axios.post(APIConfig.buildUrl("/services"), {
-        ...this.item
-      });
+      axios
+        .post(APIConfig.buildUrl("/services"), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/servicelist");
+        });
     } else {
-      axios.put(APIConfig.buildUrl("/services/" + this.id), {
-        ...this.item
-      });
+      axios
+        .put(APIConfig.buildUrl("/services/" + this.id), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/servicelist");
+        });
     }
   }
 }
