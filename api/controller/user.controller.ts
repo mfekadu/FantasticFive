@@ -58,21 +58,43 @@ export class UserController extends DefaultController {
         });
       }
     );
-    router.route("/users/:id").get((req: Request, res: Response) => {
-      const userRepo = getRepository(User);
-      userRepo.findOne(req.params.id).then(
-        (user: User | undefined) => {
-          if (user) {
-            res.send({ user });
-          } else {
+    router.route("/users/:id")
+      .get((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOne(req.params.id).then(
+          (user: User | undefined) => {
+            if (user) {
+              res.send({ user });
+            } else {
+              res.sendStatus(404);
+            }
+          },
+          () => {
             res.sendStatus(404);
           }
-        },
-        () => {
-          res.sendStatus(404);
-        }
-      );
-    });
+        );
+      })
+      .delete((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOneOrFail(req.params.id).then((foundUser: User) => {
+          userRepo.remove(foundUser).then((updatedUser: User) => {
+            res.status(200).send({ user: updatedUser });
+          });
+        });
+      })
+      .put((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOneOrFail(req.params.id).then((foundUser: User) => {
+          // save updates here
+          foundUser.firstName = req.body.firstName;
+          foundUser.lastName = req.body.lastName;
+          foundUser.username = req.body.username;
+          foundUser.password = req.body.password;
+          userRepo.save(foundUser).then((updatedUser: User) => {
+            res.status(200).send({ user: updatedUser });
+          });
+        });
+      });
     return router;
   }
 
