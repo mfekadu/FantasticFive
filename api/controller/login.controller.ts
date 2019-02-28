@@ -10,11 +10,11 @@ export class LoginController extends DefaultController {
     const router = express.Router();
 
     router.route("/login").post((req: Request, res: Response) => {
-      const { emailAddress, password } = req.body;
+      const { username, password } = req.body;
       const userRepo = getRepository(User);
       const sessionRepo = getRepository(Session);
       userRepo
-        .findOne({ where: { emailAddress } })
+        .findOne({ where: { username } })
         .then((user: User | undefined) => {
           console.log("found user:", user);
           if (user && user.password === password) {

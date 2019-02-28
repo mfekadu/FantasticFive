@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
-import { LoginController, UserController } from "./controller";
+import { LoginController, UserController, ServiceController, 
+         AnnouncementController, OrderController, ProductController } from "./controller";
 
 import { DBConnection } from "./connection";
 
@@ -18,9 +19,14 @@ export class Server {
 
       app.use(cors());
       app.use(express.json());
+      app.use(express.static("public"));
 
       app.use("/", new UserController().router);
       app.use("/", new LoginController().router);
+      app.use("/", new OrderController().router);
+      app.use("/", new ServiceController().router);
+      app.use("/", new AnnouncementController().router);
+      app.use("/", new ProductController().router);
 
       return app;
     });

@@ -20,14 +20,14 @@ export class UserController extends DefaultController {
       })
       .post((req: Request, res: Response) => {
         const userRepo = getRepository(User);
-        const { firstName, lastName, emailAddress, password } = req.body;
+        const { firstName, lastName, username, password } = req.body;
         const user = new User();
         user.firstName = firstName;
         user.lastName = lastName;
-        user.emailAddress = emailAddress;
+        user.username = username;
         user.password = password;
         userRepo.save(user).then(
-          (createdUser) => {
+          createdUser => {
             res.status(200).send({ createdUser });
           },
           (reason: any) => {
@@ -35,38 +35,66 @@ export class UserController extends DefaultController {
           }
         );
       });
-    router.route("/users/:id/profile_photo").post(
+    router.route("/users/:id").post(
       this.isAuthenticated(true),
       multer({
         dest: Path.join(__dirname, "..", "public", "profilePhotos")
-      }).single(),
+      }).single("profilePhoto"),
       (req: Request, res: Response) => {
         const userRepo = getRepository(User);
         userRepo.findOne(req.params.id).then((user: User | undefined) => {
           if (user) {
-            user.profileUrl = Path.join(req.file.path, req.file.filename);
-            userRepo.save(user).then((savedUser: User) => {
-              res.send({ savedUser });
-            });
+            if (req.file) {
+              user.profileUrl = `profilePhotos/${req.file.filename}`;
+              userRepo.save(user).then((savedUser: User) => {
+                res.send({ user: savedUser });
+              });
+            } else {
+              res.sendStatus(500);
+            }
+          } else {
+            res.sendStatus(500);
           }
         });
       }
     );
-    router.route("/users/:id").get((req: Request, res: Response) => {
-      const userRepo = getRepository(User);
-      userRepo.findOne(req.params.id).then(
-        (user: User | undefined) => {
-          if (user) {
-            res.send({ user });
-          } else {
-            res.status(404);
+    router.route("/users/:id")
+      .get((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOne(req.params.id).then(
+          (user: User | undefined) => {
+            if (user) {
+              res.send({ user });
+            } else {
+              res.sendStatus(404);
+            }
+          },
+          () => {
+            res.sendStatus(404);
           }
-        },
-        () => {
-          res.status(404);
-        }
-      );
-    });
+        );
+      })
+      .delete((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOneOrFail(req.params.id).then((foundUser: User) => {
+          userRepo.remove(foundUser).then((updatedUser: User) => {
+            res.status(200).send({ user: updatedUser });
+          });
+        });
+      })
+      .put((req: Request, res: Response) => {
+        const userRepo = getRepository(User);
+        userRepo.findOneOrFail(req.params.id).then((foundUser: User) => {
+          // save updates here
+          foundUser.firstName = req.body.firstName;
+          foundUser.lastName = req.body.lastName;
+          foundUser.username = req.body.username;
+          foundUser.password = req.body.password;
+          userRepo.save(foundUser).then((updatedUser: User) => {
+            res.status(200).send({ user: updatedUser });
+          });
+        });
+      });
     return router;
   }
 
@@ -75,20 +103,23 @@ export class UserController extends DefaultController {
       const token: string | undefined = req.get("token");
       if (token) {
         const sessionRepo = getRepository(Session);
-        sessionRepo.findOne(token).then((foundSession: Session | undefined) => {
-          if (
-            foundSession &&
-            ((checkSameUser && foundSession.user.id === req.params.id) ||
-              !checkSameUser) &&
-            foundSession.expiresAt.getTime() > new Date().getTime()
-          ) {
-            next();
-          } else {
-            res.status(403);
-          }
-        });
+        sessionRepo
+          .findOne(token, { relations: ["user"] })
+          .then((foundSession: Session | undefined) => {
+            if (
+              foundSession &&
+              ((checkSameUser &&
+                foundSession.user.id === parseInt(req.params.id, 10)) ||
+                !checkSameUser) &&
+              foundSession.expiresAt.getTime() > new Date().getTime()
+            ) {
+              next();
+            } else {
+              res.sendStatus(403);
+            }
+          });
       } else {
-        res.status(401);
+        res.sendStatus(401);
       }
     };
   }
