@@ -6,3 +6,4 @@ export * from "./shipping.entity";
 export * from "./billing.entity";
 export * from "./service.entity";
 export * from "./announcement.entity";
+export * from "./product.entity";
