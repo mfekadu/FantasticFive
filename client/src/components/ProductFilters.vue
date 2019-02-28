@@ -56,5 +56,6 @@ export default class ProductFilters extends Vue {
   margin-bottom: 25px;
   margin-top: 25px;
   padding-left: 15px;
+  padding-bottom: 20px;
 }
 </style>
