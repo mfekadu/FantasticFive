@@ -59,11 +59,24 @@ export class ProductController extends DefaultController {
             });
         };
 
+        // private helper to handle DELETE requests
+        let deleteProduct = (req: Request, res: Response) => {
+            const productRepo = getRepository(Product);
+            productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
+                productRepo.remove(foundProduct).then((updatedProduct: Product) => {
+                res.status(OK).send({ product: updatedProduct });
+              });
+            });
+          };
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
             .post( createProduct )
             .put( updateProduct );
+
+        router.route("/shop/:id")
+            .delete( deleteProduct );
 
         return router;
     };
