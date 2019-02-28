@@ -15,7 +15,14 @@ export class Product {
   public quantity!: number;
 
   @Column()
-  public price!: string;
+  public price!: number;
+
+// should there be an array here ??
+// should there be a relationship to a Category Entity ??
+// ... it should be a ManyToMany
+// ... typeorm
+// ... Question Category is the same thing in the docs
+// ... 
 
   @Column({default: null})
   public photoURL!: string;

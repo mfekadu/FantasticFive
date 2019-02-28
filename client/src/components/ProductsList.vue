@@ -1,22 +1,20 @@
 <style scoped>
+.products {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 
-    .products {
-        text-align:center;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
+.product {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 50px;
+}
 
-    .product {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        padding: 50px;
-    }
-
-    .product-image {
-    }
-
+.product-image {
+}
 </style>
 
 <template>
@@ -56,11 +54,8 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 @Component
-export default class ProductsList extends Vue {
-    
-}
+export default class ProductsList extends Vue {}
 </script>
 
 <style scoped>
-
 </style>
