@@ -26,7 +26,7 @@
             <div class="title">{{ " " + p.title }}</div>
             <div class="description">{{ " " + p.desc }}</div>
             <div class="price">{{ " $FREE." + p.price }}</div>
-            <button>Add to Cart</button>
+            <button class="button" v-on:click="addToCart(p.id)">Add to Cart</button>
         </div>
     </div>
 </template>
@@ -34,33 +34,60 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-
-interface _iProduct {
-  title: string;
-  desc: string;
-  quantity: number;
-  price: number;
-  photoURL: string;
-}
+import { iProduct } from "@/models/product.interface";
 
 @Component
 export default class ProductsList extends Vue {
-  product1: _iProduct = {
-    title: "Bike",
+  p1: iProduct = {
+    id: 0,
+    title: "Trek Bike",
     desc: "description",
-    quantity: 5,
-    price: 99,
-    photoURL: "foo"
-  };
+    brand: "",
+    categories: [""],
+    quantity: 1,
+    price: 499,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: ""
+  }
 
-  products: _iProduct[] = [
-    this.product1,
-    this.product1,
-    this.product1,
-    this.product1,
-    this.product1,
-    this.product1,
-    this.product1
+  p2: iProduct = {
+    id: 1,
+    title: "Bike Pump",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    quantity: 1,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: ""
+  }
+
+  cart: iProduct[] = [
+    this.p1,
+    this.p2,
+  ];
+
+  // given a product id (Primary Key), add the iProduct obj to cart
+  addToCart(id: number): void {
+    // log the id
+    console.log(id);
+    // get the iProduct that has id
+    // TODO: give cart a "getter" function
+    const toPush: iProduct = (id === 0) ? this.p1 : this.p2
+    // update the shared state array with the iProduct
+    // TODO: give cart a "setter" function
+    this.$store.state.cart.push(toPush);
+  }
+
+  products: iProduct[] = [
+    this.p1,
+    this.p2,
+    this.p1,
+    this.p2,
   ];
 }
 </script>

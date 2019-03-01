@@ -3,18 +3,11 @@
     <Header/>
   <body>
     <h3 class="title is-3" style="text-align: center">Cart</h3>
-    <div class="row">
-      <div class="column">Trek Bike *Picture*
-        <br>$499
-        <br>Quantity: 1
-        <br>
-        <button class="button">Delete</button>
-        <br>
-      </div>
-      <br>
-      <div class="column">Bike Pump *Picture*
-        <br>$29
-        <br>Quantity: 1
+    <div class="row" v-for="(p, index) in this.$store.state.cart" v-bind:key="index">
+      <div class="column">
+        {{ " " + p.title }}
+        <br>{{ p.price }}
+        <br>Quantity: {{ p.quantity }}
         <br>
         <button class="button">Delete</button>
         <br>
