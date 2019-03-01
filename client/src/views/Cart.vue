@@ -42,7 +42,17 @@ import Header from "@/components/Header.vue";
     Header
   }
 })
-export default class Cart extends Vue {}
+export default class Cart extends Vue {
+
+  created() {
+    // this log should show the same data as in Home.Vue (with duplicate values)
+    // if user comes to cart from Home, not if they come from anywhere else
+    // and that should prove the concept of shared state
+    // so that concept can just be tied to a button!
+    console.log(this.$store.state.cart);
+  }
+  
+}
 </script>
 
 <style scoped>

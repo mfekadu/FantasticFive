@@ -6,11 +6,14 @@ import axios, { AxiosResponse } from "axios";
 
 import { iUser } from "@/models/user.interface";
 
+import { iProduct } from "@/models/product.interface";
+
 Vue.use(Vuex);
 
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
+  cart: iProduct[];
 }
 
 interface iLoginPayload {
@@ -20,7 +23,8 @@ interface iLoginPayload {
 
 const state: iRootState = {
   userToken: null,
-  user: null
+  user: null,
+  cart: []
 };
 
 const mutations: MutationTree<iRootState> = {
