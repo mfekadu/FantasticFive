@@ -35,7 +35,7 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-interface Product {
+interface _iProduct {
   title: string;
   desc: string;
   quantity: number;
@@ -45,7 +45,7 @@ interface Product {
 
 @Component
 export default class ProductsList extends Vue {
-  product1: Product = {
+  product1: _iProduct = {
     title: "Bike",
     desc: "description",
     quantity: 5,
@@ -53,7 +53,7 @@ export default class ProductsList extends Vue {
     photoURL: "foo"
   };
 
-  products: Product[] = [
+  products: _iProduct[] = [
     this.product1,
     this.product1,
     this.product1,
