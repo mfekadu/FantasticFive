@@ -11,7 +11,7 @@
         <br>{{ p.price }}
         <br>Quantity: {{ p.cartQuantity }}
         <br>
-        <button class="button">Delete</button>
+        <button class="button" v-on:click="deleteFromCart(p)">Delete</button>
         <br>
       </div>
     </div>
@@ -35,6 +35,8 @@ import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 
+import { iProduct } from "@/models/product.interface";
+
 @Component({
   components: {
     Footer,
@@ -46,6 +48,12 @@ export default class Cart extends Vue {
   // return boolean
   cartNotEmpty(): boolean {
     return Object.keys(this.$store.state.cart).length > 0;
+  }
+
+  // function to talk to the store and remove a product
+  deleteFromCart(product: iProduct) {
+      this.$store.commit("deleteFromCart", product);
+      this.$forceUpdate();
   }
 
   created() {

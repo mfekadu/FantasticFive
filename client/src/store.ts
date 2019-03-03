@@ -61,6 +61,14 @@ const mutations: MutationTree<iRootState> = {
       state.cart[product.id] = product;
       state.cart[product.id].cartQuantity++;
     }
+  },
+  // given an iRootState and an iProduct, mutate cart by removing the given iProduct by id
+  deleteFromCart(state: iRootState, product: iProduct) {
+    delete state.cart[product.id];
+  },
+  // given state and product, mutate the cart by setting the cart product object's quantity to the one given.
+  setProductQuantityInCart(state: iRootState, product: iProduct) {
+    state.cart[product.id].cartQuantity = product.cartQuantity;
   }
 };
 
