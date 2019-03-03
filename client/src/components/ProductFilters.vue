@@ -5,24 +5,23 @@
     <div class="filterList">
         <div class="brand filterChunk">
             <p class="title">Brand</p>
-            <label class="checkbox"> <input type="checkbox"> Trek </label><br>
-            <label class="checkbox"> <input type="checkbox"> Diamondback </label><br>
-            <label class="checkbox"> <input type="checkbox"> Specialized </label><br>
+            <div v-for="(foo, index) in brands" v-bind:key="index">
+                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+            </div>
         </div>
 
         <div class="category filterChunk">
             <p class="title">Category</p>
-            <label class="checkbox"> <input type="checkbox"> Bikes </label><br>
-            <label class="checkbox"> <input type="checkbox"> Clothes </label><br>
-            <label class="checkbox"> <input type="checkbox"> Bike Parts </label><br>
+            <div v-for="(foo, index) in categories" v-bind:key="index">
+                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+            </div>
         </div>
 
         <div class="price filterChunk">
             <p class="title">Price</p>
-            <label class="checkbox"> <input type="checkbox"> under $50 </label><br>
-            <label class="checkbox"> <input type="checkbox"> $51 - $100 </label><br>
-            <label class="checkbox"> <input type="checkbox"> $101 - $200 </label><br>
-            <label class="checkbox"> <input type="checkbox"> $201+ </label><br>
+            <div v-for="(foo, index) in prices" v-bind:key="index">
+                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+            </div>
         </div>
 
         <div class="storePickup filterChunk">
@@ -42,17 +41,21 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 @Component
-export default class ProductFilters extends Vue { }
+export default class ProductFilters extends Vue {
+  brands: String[] = ["Trek", "Diamondback", "Specialized"];
+  categories: String[] = ["Bikes", "Clothes", "Bike Parts"];
+  prices: String[] = ["under $50", "$51 - $100", "$101 - $200", "$201+"];
+}
 </script>
 
 <style scoped>
-
-.filters { }
-
-.filterChunk {
-    margin-bottom:25px;
-    margin-top:25px;
-    padding-left:15px;
+.filters {
 }
 
+.filterChunk {
+  margin-bottom: 25px;
+  margin-top: 25px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
 </style>

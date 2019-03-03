@@ -11,9 +11,7 @@
     </div>
 
     <div style="margin-top: 15px">
-      <button class="button" style="margin-right: 15px" v-on:click="addService">
-        <router-link to="/announcementlist">Save</router-link>
-      </button>
+      <button class="button" style="margin-right: 15px" v-on:click="addService">Save</button>
       <button class="button">
         <router-link to="/announcementlist">Cancel</router-link>
       </button>
@@ -44,9 +42,11 @@ export default class AnnouncementEdit extends Vue {
 
   mounted() {
     if (this.id != "0") {
-      axios.get(APIConfig.buildUrl("/announcements/" + this.id)).then(response => {
-        this.item = response.data.item;
-      });
+      axios
+        .get(APIConfig.buildUrl("/announcements/" + this.id))
+        .then(response => {
+          this.item = response.data.item;
+        });
     }
   }
 
@@ -54,10 +54,14 @@ export default class AnnouncementEdit extends Vue {
     if (this.id == "0") {
       axios.post(APIConfig.buildUrl("/announcements"), {
         ...this.item
+      }).then(res => {
+        this.$router.push("/announcementlist");
       });
     } else {
       axios.put(APIConfig.buildUrl("/announcements/" + this.id), {
         ...this.item
+      }).then(res => {
+        this.$router.push("/announcementlist");
       });
     }
   }

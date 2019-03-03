@@ -1,22 +1,20 @@
 <style scoped>
-
 .products {
-    text-align:center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 .product {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 50px;
 }
 
 .product-image {
 }
-
 </style>
 
 <template>
