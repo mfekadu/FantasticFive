@@ -34,12 +34,6 @@
         <input class="input is-small" style="width: 50%" type="text" placeholder="Expiration Date" v-model="order.expiration">
         <input class="input is-small" style="width: 50%" type="text" placeholder="CVV" v-model="order.cvv">
         <br>
-        <!-- <input class="input is-small" type="text" placeholder="Address">
-        <br>
-        <input class="input is-small" type="text" placeholder="City">
-        <br>
-        <input class="input is-small" type="text" placeholder="ZIP Code">
-        <br> -->
         <br>
         <button class="button" style="margin-right: 15px">
           <router-link to="/cart">Back to Cart</router-link>
@@ -76,21 +70,33 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class Checkout extends Vue {
-  order: OrderForm = {
-    status: 1,
-    shippingYN: true,
-    firstShip: "",
-    lastShip: "",
+  shippingItem: Shipping = {
+    firstName: "",
+    lastName: "",
     address1: "",
     address2: "",
     city: "",
     state: "",
-    zip: "",
-    firstBill: "",
-    lastBill: "",
+    zip: ""
+  }
+
+  billingItem: Billing = {
+    firstName: "",
+    lastName: "",
     cardNumber: "",
     expiration: "",
     cvv: ""
+  }
+
+  order: Order = {
+    orderNumber: 0,
+    status: "",
+    shippingYN: "",
+    orderMonth: 0,
+    orderDay: 0,
+    orderYear: 0,
+    shipping: this.shippingItem,
+    billing: this.billingItem
   };
 
   addOrder() {
@@ -100,21 +106,33 @@ export default class Checkout extends Vue {
   }
 }
 
-export interface OrderForm {
-  status: number;
-  shippingYN: boolean;
-  firstShip: string;
-  lastShip: string;
-  address1: string;
-  address2: string;
-  city: string;
-  state: string;
-  zip: string;
-  firstBill: string;
-  lastBill: string;
-  cardNumber: string;
-  expiration: string;
-  cvv: string;
+export interface Order {
+  orderNumber: number;
+  status: string;
+  shippingYN: string;
+  orderMonth: number;
+  orderDay: number;
+  orderYear: number;
+  shipping: Shipping;
+  billing: Billing;
+}
+
+export interface Billing {
+    firstName: string;
+    lastName: string;
+    cardNumber: string;
+    expiration: string;
+    cvv: string;
+}
+
+export interface Shipping {
+    firstName: string;
+    lastName: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zip: string;
 }
 </script>
 

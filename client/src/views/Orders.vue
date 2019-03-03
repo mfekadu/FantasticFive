@@ -3,7 +3,7 @@
   <AdminHeader/>
   <body>
     <h3 class="title" style="text-align: center">Orders</h3>
-    <div v-for="(item, index) in orders" v-bind:key="index">
+    <div v-for="(item, index) in orders" v-bind:key="index" style="padding: 13px">
       <div class="columns list-group-item">
         <div class="column is-4">
           <p>Order #: {{ item.orderNumber }}</p>
@@ -12,12 +12,14 @@
           <p>Status: {{ item.status }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link to="/orderDetails" exact-active-class="is-active">View</router-link>
-          </button>
+          <p>Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">Delete</button>
+          <button class="button">
+            <router-link
+            :to="{path: '/orderDetails/'+ item.orderNumber}"
+             exact-active-class="is-active">View</router-link>
+          </button>
         </div>
       </div>
     </div>
@@ -39,22 +41,33 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class Orders extends Vue {
-  item: Order = {
-    orderNumber: 0,
-    status: "",
-    shippingYN: "",
-    firstShip: "",
-    lastShip: "",
+  shippingItem: Shipping = {
+    firstName: "",
+    lastName: "",
     address1: "",
     address2: "",
     city: "",
     state: "",
-    zip: "",
-    firstBill: "",
-    lastBill: "",
+    zip: ""
+  }
+
+  billingItem: Billing = {
+    firstName: "",
+    lastName: "",
     cardNumber: "",
     expiration: "",
     cvv: ""
+  }
+
+  item: Order = {
+    orderNumber: 0,
+    status: "",
+    shippingYN: "",
+    orderMonth: 0,
+    orderDay: 0,
+    orderYear: 0,
+    shipping: this.shippingItem,
+    billing: this.billingItem
   };
 
   orders: Order[] = [];
@@ -70,18 +83,29 @@ export interface Order {
   orderNumber: number;
   status: string;
   shippingYN: string;
-  firstShip: string;
-  lastShip: string;
-  address1: string;
-  address2: string;
-  city: string;
-  state: string;
-  zip: string;
-  firstBill: string;
-  lastBill: string;
-  cardNumber: string;
-  expiration: string;
-  cvv: string;
+  orderMonth: number;
+  orderDay: number;
+  orderYear: number;
+  shipping: Shipping;
+  billing: Billing;
+}
+
+export interface Billing {
+    firstName: string;
+    lastName: string;
+    cardNumber: string;
+    expiration: string;
+    cvv: string;
+}
+
+export interface Shipping {
+    firstName: string;
+    lastName: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zip: string;
 }
 </script>
 
