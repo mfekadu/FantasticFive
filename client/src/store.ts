@@ -13,6 +13,9 @@ Vue.use(Vuex);
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
+  userID: number;
+  firstName: string;
+  admin: boolean;
   cart: { [key: number]: iProduct }; // cart is a map of iProduct id numbers to iProducts
 }
 
@@ -24,6 +27,9 @@ interface iLoginPayload {
 const state: iRootState = {
   userToken: null,
   user: null,
+  userID: 0,
+  firstName: "",
+  admin: false,
   cart: {}
 };
 

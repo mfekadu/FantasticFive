@@ -15,6 +15,16 @@
     <div style="margin-top: 15px">
       <input class="input" v-model="item.password" type="text" placeholder="Password">
     </div>
+    <div class="control" style="margin-top: 15px">
+      <label class="radio">
+        <input type="radio" name="yes" v-model="item.admin" v-bind:value="true">
+        Admin
+      </label>
+      <label class="radio">
+        <input type="radio" name="no" v-model="item.admin" v-bind:value="false">
+        Employee
+      </label>
+    </div>
 
     <div style="margin-top: 15px">
       <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
@@ -45,7 +55,8 @@ export default class EmployeeEdit extends Vue {
     firstName: "",
     lastName: "",
     password: "",
-    username: ""
+    username: "",
+    admin: false
   };
 
   mounted() {
@@ -82,6 +93,7 @@ export interface User {
   lastName: string;
   password: string;
   username: string;
+  admin: boolean;
 }
 </script>
 

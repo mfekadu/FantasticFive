@@ -30,7 +30,7 @@ export class LoginController extends DefaultController {
                 sessionRepo.save(session).then(updatedSession => {
                   res
                     .status(200)
-                    .send({ token: updatedSession.id, userId: user.id });
+                    .send({ token: updatedSession.id, user: user });
                 });
               });
           } else {
