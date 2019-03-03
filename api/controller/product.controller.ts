@@ -15,11 +15,11 @@ export class ProductController extends DefaultController {
         // private helper function to handle GET requests
         // ... given HTTP GET Request 'req' 
         // ... find and send back the productArray from DB via 'res' using Express
-        let getProducts = (req: Request, res: Response) => {
+        const getProducts = (req: Request, res: Response) => {
             // get a productRepo object for typeorm
             const productRepo = getRepository(Product);
             // define the function to handle the find() Promise
-            let getProductArray = (productArray : Product[]) => {
+            const getProductArray = (productArray : Product[]) => {
                 res.status(OK).send({ productArray });
              };
             // find the product table in DB, 
@@ -28,7 +28,7 @@ export class ProductController extends DefaultController {
         };
 
         // private helper function to handle POST requests
-        let createProduct = (req: Request, res: Response) => {
+        const createProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
             // unravel the req.body properties into variables
             const { title, desc, quantity, price, photoURL } = req.body;
@@ -45,7 +45,7 @@ export class ProductController extends DefaultController {
         };
 
         // private helper to handle PUT requests
-        let updateProduct = (req: Request, res: Response) => {
+        const updateProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
             // unravel the req.body properties into variables
             const { title, desc, quantity, price, photoURL } = req.body;
@@ -65,7 +65,7 @@ export class ProductController extends DefaultController {
         };
 
         // private helper to handle DELETE requests
-        let deleteProduct = (req: Request, res: Response) => {
+        const deleteProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
             productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
                 productRepo.remove(foundProduct).then((updatedProduct: Product) => {
