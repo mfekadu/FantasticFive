@@ -94,9 +94,10 @@ export default new Router({
       component: Orders
     },
     {
-      path: "/orderDetails",
+      path: "/orderDetails/:id",
       name: "orderDetails",
-      component: OrderDetails
+      component: OrderDetails,
+      props: true
     },
     {
       path: "/login",
