@@ -16,7 +16,7 @@ const toast = (title: string) => {
   const name: string = "AddedProduct";
   // open new 300x300 window, write notification text, bring it to front of windows
   const w: Window | null = window.open(url,name,features);
-  w!.document.write(`<h1>Added <em>${title}</em> to your cart!</h1>`);
+  w!.document.write(`<h1 class="notification">Added <em>${title}</em> to your cart!</h1>`);
   w!.focus();
   // close the popup in 2 seconds
   setTimeout(() => { w!.close(); }, 2000); 
