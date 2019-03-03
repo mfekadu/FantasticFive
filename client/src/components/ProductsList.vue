@@ -44,14 +44,14 @@ export default class ProductsList extends Vue {
     desc: "description",
     brand: "",
     categories: [""],
-    inventoryQuantity: 1,
+    inventoryQuantity: 3,
     cartQuantity: 0,
     price: 499,
     saleYN: false,
     salesPrice: 499,
     canShipYN: false,
     photoURL: ""
-  }
+  };
 
   p2: iProduct = {
     id: 1,
@@ -59,36 +59,28 @@ export default class ProductsList extends Vue {
     desc: "description",
     brand: "",
     categories: [""],
-    inventoryQuantity: 1,
+    inventoryQuantity: 3,
     cartQuantity: 0,
     price: 99,
     saleYN: false,
     salesPrice: 499,
     canShipYN: false,
     photoURL: ""
-  }
+  };
 
-  cart: iProduct[] = [
-    this.p1,
-    this.p2,
-  ];
+  cart: iProduct[] = [this.p1, this.p2];
 
   // given a product id (Primary Key), add the iProduct obj to cart
   addToCart(id: number): void {
     // log the id
     console.log(id);
     // get the iProduct that has id
-    const p: iProduct = (id === 0) ? this.p1 : this.p2
+    const p: iProduct = id === 0 ? this.p1 : this.p2;
     // update the store using the addToCart mutator
     this.$store.commit("addToCart", p);
   }
 
-  products: iProduct[] = [
-    this.p1,
-    this.p2,
-    this.p1,
-    this.p2,
-  ];
+  products: iProduct[] = [this.p1, this.p2, this.p1, this.p2];
 }
 </script>
 

@@ -1,27 +1,31 @@
 <template>
 <div class="cart">
     <Header/>
-  <body>
+  <div v-if="cartNotEmpty()" >
     <h3 class="title is-3" style="text-align: center">Cart</h3>
-      <div v-if="cartNotEmpty()" class="row" 
-           v-for="(p, index) in this.$store.state.cart" 
-           v-bind:key="index">
-        <div class="column">
-          {{ " " + p.title }}
-          <br>{{ p.price }}
-          <br>Quantity: {{ p.cartQuantity }}
-          <br>
-          <button class="button">Delete</button>
-          <br>
-        </div>
+    <div class="row" 
+          v-for="(p, index) in this.$store.state.cart" 
+          v-bind:key="index">
+      <div class="column">
+        {{ " " + p.title }}
+        <br>{{ p.price }}
+        <br>Quantity: {{ p.cartQuantity }}
+        <br>
+        <button class="button">Delete</button>
+        <br>
       </div>
-    <br>
+    </div>
     <div class="center">
       <button class="button">
         <router-link to="/checkout" exact-active-class="is-active">Proceed to Checkout</router-link>
       </button>
     </div>
-  </body>
+  </div>
+  <div v-else style="text-align: center">
+    <h3 class="title is-3">Cart is empty</h3>
+    <h3 class="title is-3" >Please buy stuff!</h3>
+    <h1 class="title is-1">💸💸💸</h1>
+  </div>
   <Footer/>
 </div>
 </template>
@@ -38,14 +42,10 @@ import Header from "@/components/Header.vue";
   }
 })
 export default class Cart extends Vue {
-
-  cartNotEmpty() {
-    // if cart == {0:null} then length is 1 because Object.keys returns ["0"]
-    // and that means avoid v-for looping because cart is empty
-    // return Object.keys(this.$store.state.cart).length > 1
-    console.log("cartnotempty")
-    console.log(Object.keys(this.$store.state.cart))
-    return true;
+  // function to talk to cart is ask if it is empty, used by v-if directive
+  // return boolean
+  cartNotEmpty(): boolean {
+    return Object.keys(this.$store.state.cart).length > 0;
   }
 
   created() {
@@ -55,7 +55,6 @@ export default class Cart extends Vue {
     // so that concept can just be tied to a button!
     console.log(this.$store.state.cart);
   }
-  
 }
 </script>
 

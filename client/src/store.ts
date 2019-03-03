@@ -6,14 +6,14 @@ import axios, { AxiosResponse } from "axios";
 
 import { iUser } from "@/models/user.interface";
 
-import { iProduct, createEmptyProduct} from "@/models/product.interface";
+import { iProduct } from "@/models/product.interface";
 
 Vue.use(Vuex);
 
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
-  cart: { [key:number]: iProduct }; // cart is a map of iProduct id numbers to iProducts
+  cart: { [key: number]: iProduct }; // cart is a map of iProduct id numbers to iProducts
 }
 
 interface iLoginPayload {
@@ -24,7 +24,7 @@ interface iLoginPayload {
 const state: iRootState = {
   userToken: null,
   user: null,
-  cart: {} 
+  cart: {}
 };
 
 const mutations: MutationTree<iRootState> = {
@@ -40,41 +40,18 @@ const mutations: MutationTree<iRootState> = {
     state.userToken = null;
     state.user = null;
   },
-  // O(1) runtime
-  // NOTE: id 0 is not possible in mysql
-  addToCart(state, payload){
-    payload.cartQuantity++;
-    state.cart[payload.id] = payload;
-  },
-  // function that can mutate the cart. 
-  // O(n) runtime, consider hashtable with key = state.cart.id for O(1)
-  addToCartWithArray(state, payload) {
-    // // if (state.cart === null) {
-    //   // state.cart[payload.id] = payload;
-    //   // return;
-    // // }
-
-    // let didUpdateQuantity: boolean = false;
-    // // loop over the cart
-    // console.log("addtoCart")
-    // for (let i = 0; i < state.cart.length; i++) {
-    //   // if product id already in cart and there is stock
-    //   if (state.cart[i].id == payload.id &&
-    //       state.cart[i].inventoryQuantity > state.cart[i].cartQuantity
-    //   ) {
-    //     // increment the cartQuantity and stop looping
-    //     state.cart[i].cartQuantity++;
-    //     didUpdateQuantity = true;
-    //     console.log("inLoop",state.cart, "didup...", didUpdateQuantity);
-    //     break;
-    //   }
-    // }
-    // // after looping, if this is a new addition to the cart
-    // if (didUpdateQuantity === false) {
-    //   state.cart.push(payload);
-    //   console.log("afterLoop",state.cart, "didUp???", didUpdateQuantity);
-    // }
-    // console.log("endFunc",state.cart, "didUp???", didUpdateQuantity);
+  // given an iRootState and an iProduct, mutate the cart. O(1) runtime
+  // NOTE: id 0 is not possible in mysql so expect payload.id never 0
+  addToCart(state: iRootState, product: iProduct) {
+    if (product.inventoryQuantity <= product.cartQuantity) {
+      // if out of stock
+      console.log("out of stock",product.inventoryQuantity,"<=",product.cartQuantity);
+      alert("out of stock");
+    } else { 
+      // else have stock, so grab another off the shelves
+      product.cartQuantity++;
+      state.cart[product.id] = product;
+    }
   }
 };
 
