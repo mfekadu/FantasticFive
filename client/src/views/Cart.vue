@@ -3,16 +3,18 @@
     <Header/>
   <body>
     <h3 class="title is-3" style="text-align: center">Cart</h3>
-    <div class="row" v-for="(p, index) in this.$store.state.cart" v-bind:key="index">
-      <div class="column">
-        {{ " " + p.title }}
-        <br>{{ p.price }}
-        <br>Quantity: {{ p.quantity }}
-        <br>
-        <button class="button">Delete</button>
-        <br>
+      <div v-if="cartNotEmpty()" class="row" 
+           v-for="(p, index) in this.$store.state.cart" 
+           v-bind:key="index">
+        <div class="column">
+          {{ " " + p.title }}
+          <br>{{ p.price }}
+          <br>Quantity: {{ p.cartQuantity }}
+          <br>
+          <button class="button">Delete</button>
+          <br>
+        </div>
       </div>
-    </div>
     <br>
     <div class="center">
       <button class="button">
@@ -36,6 +38,15 @@ import Header from "@/components/Header.vue";
   }
 })
 export default class Cart extends Vue {
+
+  cartNotEmpty() {
+    // if cart == {0:null} then length is 1 because Object.keys returns ["0"]
+    // and that means avoid v-for looping because cart is empty
+    // return Object.keys(this.$store.state.cart).length > 1
+    console.log("cartnotempty")
+    console.log(Object.keys(this.$store.state.cart))
+    return true;
+  }
 
   created() {
     // this log should show the same data as in Home.Vue (with duplicate values)

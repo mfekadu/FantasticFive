@@ -44,7 +44,8 @@ export default class ProductsList extends Vue {
     desc: "description",
     brand: "",
     categories: [""],
-    quantity: 1,
+    inventoryQuantity: 1,
+    cartQuantity: 0,
     price: 499,
     saleYN: false,
     salesPrice: 499,
@@ -58,7 +59,8 @@ export default class ProductsList extends Vue {
     desc: "description",
     brand: "",
     categories: [""],
-    quantity: 1,
+    inventoryQuantity: 1,
+    cartQuantity: 0,
     price: 99,
     saleYN: false,
     salesPrice: 499,
@@ -76,11 +78,9 @@ export default class ProductsList extends Vue {
     // log the id
     console.log(id);
     // get the iProduct that has id
-    // TODO: give cart a "getter" function
-    const toPush: iProduct = (id === 0) ? this.p1 : this.p2
-    // update the shared state array with the iProduct
-    // TODO: give cart a "setter" function
-    this.$store.state.cart.push(toPush);
+    const p: iProduct = (id === 0) ? this.p1 : this.p2
+    // update the store using the addToCart mutator
+    this.$store.commit("addToCart", p);
   }
 
   products: iProduct[] = [
