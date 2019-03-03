@@ -7,17 +7,17 @@
           v-for="(p, index) in this.$store.state.cart" 
           v-bind:key="index">
       <div class="column">
-        {{ " " + p.title }}
-        <br>{{ p.price }}
-        <br>Quantity: {{ p.cartQuantity }}
-        <br>
-        <button class="button" v-on:click="deleteFromCart(p)">Delete</button>
-        <br>
+        <ProductCard v-bind:product="p"
+                     v-bind:hasCartDetail="true"
+                     v-bind:hasDeleteButton="true"
+                     v-on:deleted="deleteHandler()"/>
       </div>
     </div>
     <div class="center">
       <button class="button">
-        <router-link to="/checkout" exact-active-class="is-active">Proceed to Checkout</router-link>
+        <router-link to="/checkout" exact-active-class="is-active">
+          Proceed to Checkout
+        </router-link>
       </button>
     </div>
   </div>
@@ -35,12 +35,15 @@ import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 
+import ProductCard from "@/components/ProductCard.vue";
+
 import { iProduct } from "@/models/product.interface";
 
 @Component({
   components: {
     Footer,
-    Header
+    Header,
+    ProductCard
   }
 })
 export default class Cart extends Vue {
@@ -50,10 +53,9 @@ export default class Cart extends Vue {
     return Object.keys(this.$store.state.cart).length > 0;
   }
 
-  // function to talk to the store and remove a product
-  deleteFromCart(product: iProduct) {
-      this.$store.commit("deleteFromCart", product);
-      this.$forceUpdate();
+  // handle the successful deletion event
+  deleteHandler() {
+    this.$forceUpdate();
   }
 
   created() {
