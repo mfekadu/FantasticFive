@@ -50,10 +50,19 @@ const mutations: MutationTree<iRootState> = {
     const cartQuantity: number = productInCart ? state.cart[product.id].cartQuantity : 0;
     const productIsOutOfStock: boolean = productInCart && (inventoryQuantity <= cartQuantity);
 
+    // catch out of stock
     if (productInCart && productIsOutOfStock) {
       console.log("out of stock",state.cart[product.id].inventoryQuantity,"<=",state.cart[product.id].cartQuantity);
-      alert("out of stock");
-    } else if (productInCart) {
+      alert("SORRY! OUT OF STOCK!");
+      return;
+    }
+
+    // make sure they want it by clicking OK, CANCEL means false
+    if (confirm("add " + product.title + " to cart?") !== true) {
+      return;
+    }
+
+    if (productInCart) {
       // have stock, so grab another off the shelves
       state.cart[product.id].cartQuantity++;
     } else {
