@@ -48,9 +48,54 @@ export default class ProductsList extends Vue {
     photoURL: "./128x128.png"
   };
 
-  cart: iProduct[] = [this.p1, this.p2];
+  p3: iProduct = {
+    id: 2,
+    title: "foo",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
 
-  products: iProduct[] = [this.p1, this.p2, this.p1, this.p2];
+  p4: iProduct = {
+    id: 3,
+    title: "bar",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  p5: iProduct = {
+    id: 4,
+    title: "baz",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  cart: iProduct[] = [this.p1, this.p2, this.p3];
+
+  products: iProduct[] = [this.p1, this.p2, this.p3, this.p4, this.p5];
 }
 </script>
 
