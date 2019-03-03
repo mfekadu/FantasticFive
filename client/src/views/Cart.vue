@@ -1,25 +1,27 @@
 <template>
 <div class="cart">
-    <Header/>
+  <Header/>
   <div v-if="cartNotEmpty()" >
+    <!-- ..... -->
     <h3 class="title is-3" style="text-align: center">Cart</h3>
-    <div class="row" 
-          v-for="(p, index) in this.$store.state.cart" 
-          v-bind:key="index">
-      <div class="column">
-        {{ " " + p.title }}
-        <br>{{ p.price }}
-        <br>Quantity: {{ p.cartQuantity }}
-        <br>
-        <button class="button" v-on:click="deleteFromCart(p)">Delete</button>
-        <br>
+    <div class="columns">
+      <div class="column" 
+        v-for="(p, index) in this.$store.state.cart" 
+        v-bind:key="index">
+        <ProductCard v-bind:product="p"
+                     v-bind:hasCartDetail="true"
+                     v-bind:hasDeleteButton="true"
+                     v-on:deleted="deleteHandler()"/>
       </div>
     </div>
-    <div class="center">
+    <div class="center checkout">
       <button class="button">
-        <router-link to="/checkout" exact-active-class="is-active">Proceed to Checkout</router-link>
+        <router-link to="/checkout" exact-active-class="is-active">
+          Proceed to Checkout
+        </router-link>
       </button>
     </div>
+    <!-- ..... -->
   </div>
   <div v-else style="text-align: center">
     <h3 class="title is-3">Cart is empty</h3>
@@ -35,44 +37,40 @@ import { Component, Vue } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 
+import ProductCard from "@/components/ProductCard.vue";
+
 import { iProduct } from "@/models/product.interface";
 
 @Component({
   components: {
     Footer,
-    Header
+    Header,
+    ProductCard
   }
 })
 export default class Cart extends Vue {
   // function to talk to cart is ask if it is empty, used by v-if directive
-  // return boolean
   cartNotEmpty(): boolean {
     return Object.keys(this.$store.state.cart).length > 0;
   }
 
-  // function to talk to the store and remove a product
-  deleteFromCart(product: iProduct) {
-      this.$store.commit("deleteFromCart", product);
-      this.$forceUpdate();
+  // handle the successful deletion event
+  deleteHandler() {
+    this.$forceUpdate();
   }
 
   created() {
-    // this log should show the same data as in Home.Vue (with duplicate values)
-    // if user comes to cart from Home, not if they come from anywhere else
-    // and that should prove the concept of shared state
-    // so that concept can just be tied to a button!
     console.log(this.$store.state.cart);
   }
 }
 </script>
 
 <style scoped>
-.column {
-  margin: auto;
-  width: 25%;
-}
-
 .center {
   text-align: center;
+}
+
+.checkout {
+  margin-bottom: 25%;
 }
 </style>

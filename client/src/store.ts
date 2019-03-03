@@ -10,6 +10,18 @@ import { iProduct } from "@/models/product.interface";
 
 Vue.use(Vuex);
 
+const toast = (title: string) => { 
+  const url: string = ''; // blank
+  const features: string = 'width=300,height=300'
+  const name: string = "AddedProduct";
+  // open new 300x300 window, write notification text, bring it to front of windows
+  const w: Window | null = window.open(url,name,features);
+  w!.document.write(`<h1 class="notification">Added <em>${title}</em> to your cart!</h1>`);
+  w!.focus();
+  // close the popup in 2 seconds
+  setTimeout(() => { w!.close(); }, 2000); 
+};
+
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
@@ -56,10 +68,14 @@ const mutations: MutationTree<iRootState> = {
     const cartQuantity: number = productInCart ? state.cart[product.id].cartQuantity : 0;
     const productIsOutOfStock: boolean = productInCart && (inventoryQuantity <= cartQuantity);
 
+    // catch out of stock
     if (productInCart && productIsOutOfStock) {
       console.log("out of stock",state.cart[product.id].inventoryQuantity,"<=",state.cart[product.id].cartQuantity);
-      alert("out of stock");
-    } else if (productInCart) {
+      alert("SORRY! OUT OF STOCK!");
+      return;
+    }
+
+    if (productInCart) {
       // have stock, so grab another off the shelves
       state.cart[product.id].cartQuantity++;
     } else {
@@ -67,10 +83,16 @@ const mutations: MutationTree<iRootState> = {
       state.cart[product.id] = product;
       state.cart[product.id].cartQuantity++;
     }
+
+    // notify user of cart addition
+    toast(product.title);
   },
   // given an iRootState and an iProduct, mutate cart by removing the given iProduct by id
   deleteFromCart(state: iRootState, product: iProduct) {
-    delete state.cart[product.id];
+    // make sure they want it by clicking OK, CANCEL means false
+    if (confirm("delete " + product.title + " from cart?") === true) {
+      delete state.cart[product.id];
+    }
   },
   // given state and product, mutate the cart by setting the cart product object's quantity to the one given.
   setProductQuantityInCart(state: iRootState, product: iProduct) {

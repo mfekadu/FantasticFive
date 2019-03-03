@@ -32,15 +32,6 @@ export default class Home extends Vue {
 
   created() {
     console.log("Home created");
-    console.log(this);
-    console.log(this.$store);
-    console.log(this.$store.state);
-    // this log should show the same data as the log in App.vue
-    console.log(this.$store.state.cart);
-    const duplicatedCartContents = this.$store.state.cart.concat(this.$store.state.cart);
-    this.$store.state.cart = duplicatedCartContents;
-    // this log should show the same data with duplicate values
-    console.log(this.$store.state.cart);
   }
 
   mounted() {

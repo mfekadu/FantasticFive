@@ -30,13 +30,13 @@
         <div class="column outerProductsContainer">
             <div class="columns innerProductsContainer">
                 <div class="column productColumn" id="productsColumn1">
-                    <ProductsList/>
+                    <ProductsList v-bind:products="threeChunkProducts[0]"/>
                 </div>
                 <div class="column productColumn" id="productsColumn2">
-                    <ProductsList/>
+                    <ProductsList v-bind:products="threeChunkProducts[1]"/>
                 </div>
                 <div class="column productColumn" id="productsColumn3">
-                    <ProductsList/>
+                    <ProductsList v-bind:products="threeChunkProducts[2]"/>
                 </div>
             </div>
         </div>
@@ -53,6 +53,7 @@ import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import ProductsList from "@/components/ProductsList.vue";
 import ProductFilters from "@/components/ProductFilters.vue";
+import { iProduct } from "@/models/product.interface";
 
 @Component({
   components: {
@@ -62,5 +63,103 @@ import ProductFilters from "@/components/ProductFilters.vue";
     ProductFilters
   }
 })
-export default class Shop extends Vue {}
+export default class Shop extends Vue {
+
+  p1: iProduct = {
+    id: 0,
+    title: "A Trek Bike",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 499,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./logo.png"
+  };
+
+  p2: iProduct = {
+    id: 1,
+    title: "B Bike Pump",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  p3: iProduct = {
+    id: 2,
+    title: "C foo",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  p4: iProduct = {
+    id: 3,
+    title: "D bar",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  p5: iProduct = {
+    id: 4,
+    title: "E baz",
+    desc: "description",
+    brand: "",
+    categories: [""],
+    inventoryQuantity: 3,
+    cartQuantity: 0,
+    price: 99,
+    saleYN: false,
+    salesPrice: 499,
+    canShipYN: false,
+    photoURL: "./128x128.png"
+  };
+
+  products: iProduct[] = [this.p1, this.p2, this.p3, this.p4, this.p5,this.p5,this.p5,this.p1,this.p2,this.p3,this.p4,];
+  threeChunkProducts: iProduct[] = [];
+
+  created() {
+    this.threeChunkProducts = this.splitArrayInto(this.products, 3);
+  }
+
+  // given an array and a chunk, split the array into chunks with row-major ordering
+  // given arr=[1,2,3,4], chunk=2 -> expect [[1,3],[2,4]]
+  // given arr=[1,2,3,4], chunk=2 -> do NOT expect [[1,2],[3,4]]
+  splitArrayInto = (arr: Array<any>, chunk: number): Array<any> => {
+    let i; let j; let temp = [];
+    for (let col = 0; col < chunk; col++) {
+      let colElements = [];
+      for (let row = col; row < arr.length; row+=chunk) {
+        colElements.push(arr[row]);
+      }
+      temp.push(colElements);
+    }
+    return temp;
+  }
+}
 </script>
