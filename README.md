@@ -2,6 +2,16 @@
 
 ## A single-page webapp for a bike shop.
 
+## FOR TESTERS
+* Use the included "SQLInfo.sql" file to insert example data into the DB
+* This will add two staff accounts:
+  * Admin
+    * username: admin
+    * password: pass
+  * Employee
+    * username: employee
+    * password: pass
+
 ## Documentation
 * [All docs][shared_gdrive]
 * [Wireframe Doc][wireframe]
