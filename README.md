@@ -17,6 +17,7 @@
 * [Wireframe Doc][wireframe]
 * [Requirements Doc][requirements]
 * [Acceptence Testing Doc][testDoc]
+* [Database Schema][dbSchema]
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -93,3 +94,5 @@ git pull professor master
 [vue]: https://vuejs.org/
 
 [testDoc]: https://docs.google.com/spreadsheets/d/1JB5Ob-wsxctpGG39j6sa86BroTBSDHibVtg3gy-dJPM/edit#gid=0
+
+[dbSchema]: https://app.sqldbm.com/SQLServer/Share/NEklr69rWj4W3a_WqUdLf0GFrngIE8md_DYjF4jNYw0
