@@ -16,7 +16,7 @@
 * [All docs][shared_gdrive]
 * [Wireframe Doc][wireframe]
 * [Requirements Doc][requirements]
-* Acceptence Testing Doc (due March 4, 2019)
+* [Acceptence Testing Doc][testDoc]
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -91,3 +91,5 @@ git pull professor master
 [sqlfile]: ./SQLInfo.sql
 
 [vue]: https://vuejs.org/
+
+[testDoc]: https://docs.google.com/spreadsheets/d/1JB5Ob-wsxctpGG39j6sa86BroTBSDHibVtg3gy-dJPM/edit#gid=0
