@@ -14,133 +14,184 @@
 }
 
 #toast {
-    visibility: hidden;
-    max-width: 50px;
-    height: 50px;
-    /*margin-left: -125px;*/
-    margin: auto;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
+  visibility: hidden;
+  max-width: 50px;
+  height: 50px;
+  /*margin-left: -125px;*/
+  margin: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
 
-    position: fixed;
-    z-index: 1;
-    left: 0;right:0;
-    bottom: 30px;
-    font-size: 17px;
-    white-space: nowrap;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  font-size: 17px;
+  white-space: nowrap;
 }
-#toast #img{
-	width: 50px;
-	height: 50px;
-    
-    float: left;
-    
-    padding-top: 16px;
-    padding-bottom: 16px;
-    
-    box-sizing: border-box;
+#toast #img {
+  width: 50px;
+  height: 50px;
 
-    
-    background-color: #111;
-    color: #fff;
+  float: left;
+
+  padding-top: 16px;
+  padding-bottom: 16px;
+
+  box-sizing: border-box;
+
+  background-color: #111;
+  color: #fff;
 }
-#toast #desc{
+#toast #desc {
+  color: #fff;
 
-    
-    color: #fff;
-   
-    padding: 16px;
-    
-    overflow: hidden;
-	white-space: nowrap;
+  padding: 16px;
+
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #toast.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s,
+    fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s,
+    fadeout 0.5s 4.5s;
 }
 
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes expand {
-    from {min-width: 50px} 
-    to {min-width: 350px}
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 
 @keyframes expand {
-    from {min-width: 50px}
-    to {min-width: 350px}
+  from {
+    min-width: 50px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @-webkit-keyframes stay {
-    from {min-width: 350px} 
-    to {min-width: 350px}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 
 @keyframes stay {
-    from {min-width: 350px}
-    to {min-width: 350px}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 350px;
+  }
 }
 @-webkit-keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
 }
 
 @keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
+  from {
+    min-width: 350px;
+  }
+  to {
+    min-width: 50px;
+  }
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 60px; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 60px; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
 </style>
 
 <template>
   <div class="shop">
     <Header/>
-        <div id="toast"><div id="img">Icon</div><div id="desc">A notification message..</div></div>
+    <div id="toast">
+      <div id="img">
+        <font-awesome-icon icon="cart-plus"/>
+      </div>
+      <div id="desc">Item Added!</div>
+    </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
 
     <div class="columns productsContainer">
-        <div class="column filterColumn is-one-fifth">
-            <ProductFilters/>
-
+      <div class="column filterColumn is-one-fifth">
+        <ProductFilters/>
+      </div>
+      <div class="column outerProductsContainer">
+        <div class="columns innerProductsContainer">
+          <div class="column productColumn" id="productsColumn1">
+            <ProductsList v-bind:products="threeChunkProducts[0]"/>
+          </div>
+          <div class="column productColumn" id="productsColumn2">
+            <ProductsList v-bind:products="threeChunkProducts[1]"/>
+          </div>
+          <div class="column productColumn" id="productsColumn3">
+            <ProductsList v-bind:products="threeChunkProducts[2]"/>
+          </div>
         </div>
-        <div class="column outerProductsContainer">
-            <div class="columns innerProductsContainer">
-                <div class="column productColumn" id="productsColumn1">
-                    <ProductsList v-bind:products="threeChunkProducts[0]"/>
-                </div>
-                <div class="column productColumn" id="productsColumn2">
-                    <ProductsList v-bind:products="threeChunkProducts[1]"/>
-                </div>
-                <div class="column productColumn" id="productsColumn3">
-                    <ProductsList v-bind:products="threeChunkProducts[2]"/>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
     <Footer/>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -160,7 +211,6 @@ import { iProduct } from "@/models/product.interface";
   }
 })
 export default class Shop extends Vue {
-
   p1: iProduct = {
     id: 0,
     title: "A Trek Bike",
@@ -236,7 +286,19 @@ export default class Shop extends Vue {
     photoURL: "./128x128.png"
   };
 
-  products: iProduct[] = [this.p1, this.p2, this.p3, this.p4, this.p5,this.p5,this.p5,this.p1,this.p2,this.p3,this.p4,];
+  products: iProduct[] = [
+    this.p1,
+    this.p2,
+    this.p3,
+    this.p4,
+    this.p5,
+    this.p5,
+    this.p5,
+    this.p1,
+    this.p2,
+    this.p3,
+    this.p4
+  ];
   threeChunkProducts: iProduct[] = [];
 
   created() {
@@ -247,15 +309,17 @@ export default class Shop extends Vue {
   // given arr=[1,2,3,4], chunk=2 -> expect [[1,3],[2,4]]
   // given arr=[1,2,3,4], chunk=2 -> do NOT expect [[1,2],[3,4]]
   splitArrayInto = (arr: Array<any>, chunk: number): Array<any> => {
-    let i; let j; let temp = [];
+    let i;
+    let j;
+    let temp = [];
     for (let col = 0; col < chunk; col++) {
       let colElements = [];
-      for (let row = col; row < arr.length; row+=chunk) {
+      for (let row = col; row < arr.length; row += chunk) {
         colElements.push(arr[row]);
       }
       temp.push(colElements);
     }
     return temp;
-  }
+  };
 }
 </script>
