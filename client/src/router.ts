@@ -84,9 +84,10 @@ export default new Router({
       component: Track
     },
     {
-      path: "/status",
+      path: "/status/:id",
       name: "status",
-      component: Status
+      component: Status,
+      props: true
     },
     {
       path: "/orders",
@@ -94,9 +95,10 @@ export default new Router({
       component: Orders
     },
     {
-      path: "/orderDetails",
+      path: "/orderDetails/:id",
       name: "orderDetails",
-      component: OrderDetails
+      component: OrderDetails,
+      props: true
     },
     {
       path: "/login",

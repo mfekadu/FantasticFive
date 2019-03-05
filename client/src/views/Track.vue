@@ -4,11 +4,12 @@
   <body>
     <div class="center">
       <h3 class="title is-3">Order Tracking</h3>
-      <input class="input" type="text" placeholder="Order Number">
+      <input class="input" type="text" placeholder="Order Number" v-model='item.val'>
       <br>
       <br>
       <button class="button">
-        <router-link to="/status">View Order Status</router-link>
+        <router-link 
+        :to="{path: '/status/'+ item.val }">View Order Status</router-link>
       </button>
     </div>
   </body>
@@ -27,7 +28,15 @@ import Header from "@/components/Header.vue";
     Header
   }
 })
-export default class Track extends Vue {}
+export default class Track extends Vue {
+  item: test = {
+    val: ""
+  }
+}
+
+export interface test {
+  val: string | undefined;
+}
 </script>
 
 <style scoped>

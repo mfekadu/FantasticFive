@@ -30,6 +30,10 @@ export default class Home extends Vue {
 
   announcements: Announcement[] = [];
 
+  created() {
+    console.log("Home created");
+  }
+
   mounted() {
     axios.get(APIConfig.buildUrl("/announcements")).then(response => {
       this.announcements = response.data.items;

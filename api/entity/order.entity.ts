@@ -6,10 +6,19 @@ export class Order {
   public orderNumber!: number;
 
   @Column()
-  public status!: number;
+  public status!: string;
 
   @Column()
   public shippingYN!: boolean;
+
+  @Column()
+  public orderMonth!:  number;
+  
+  @Column()
+  public orderDay!:  number;
+
+  @Column()
+  public orderYear!:  number;
 
   @OneToOne((type) => Shipping, { cascade: true })
   @JoinColumn()

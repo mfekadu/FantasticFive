@@ -14,8 +14,8 @@ export class User {
   @Column()
   public password!: string;
 
-  @Column({default: null})
-  public profileUrl!: string;
+  @Column({default: false})
+  public admin!: boolean;
 
   @Column()
   @Index({ unique: true })
