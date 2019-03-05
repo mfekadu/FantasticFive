@@ -13,7 +13,7 @@ Vue.use(Vuex);
 const toast = (title: string) => { 
   var x = document.getElementById("toast")
   x!.className = "show";
-  setTimeout(function(){ x!.className = x!.className.replace("show", ""); }, 5000);
+  setTimeout(function(){ x!.className = x!.className.replace("show", ""); }, 1000);
 };
 
 interface iRootState {
