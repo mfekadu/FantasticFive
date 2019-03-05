@@ -6,7 +6,7 @@
         <div class="brand filterChunk">
             <p class="title">Brand</p>
             <div v-for="(brand, index) in brands" v-bind:key="index">
-                <label class="checkbox"> <input v-on:click="checked" v-model="brand.checked" type="checkbox">{{ " " + brand }}</label><br>
+                <label class="checkbox"> <input v-on:click="checked(brand)" v-model="brand.checked" type="checkbox">{{ " " + brand }}</label><br>
                 Checked: {{ brand.checked }}
             </div>
         </div>
