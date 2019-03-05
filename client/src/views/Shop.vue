@@ -13,14 +13,21 @@
   padding: 50px;
 }
 
+/* unset the Bulma styles for notification */
+/* keep the background-color tho, that is useful */
+.notification {
+  padding: unset;
+}
+
 #toast {
   visibility: hidden;
   max-width: 50px;
   height: 50px;
   /*margin-left: -125px;*/
   margin: auto;
-  background-color: #333;
-  color: #fff;
+  /* comment out for use with Bulma .notification .is-primary .is-danger */
+  /* background-color: #333; */
+  /* color: #fff; */
   text-align: center;
   border-radius: 2px;
 
@@ -163,7 +170,7 @@
 <template>
   <div class="shop">
     <Header/>
-    <div id="toast">
+    <div id="toast" class="notification is-primary">
       <div id="img">
         <font-awesome-icon icon="cart-plus"/>
       </div>

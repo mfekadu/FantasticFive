@@ -10,10 +10,13 @@ import { iProduct } from "@/models/product.interface";
 
 Vue.use(Vuex);
 
-const toast = (title: string) => { 
-  var x = document.getElementById("toast")
-  x!.className = "show";
-  setTimeout(function(){ x!.className = x!.className.replace("show", ""); }, 1000);
+const toast = (message: string, type: string) => { 
+  let x = document.getElementById("toast");
+  let y = document.getElementById("desc");
+  y!.textContent = message;
+  let newClass = `${type} show`;
+  x!.className = newClass;
+  setTimeout(() => { x!.className = x!.className.replace(newClass, ""); }, 2000);
 };
 
 interface iRootState {
@@ -65,7 +68,9 @@ const mutations: MutationTree<iRootState> = {
     // catch out of stock
     if (productInCart && productIsOutOfStock) {
       console.log("out of stock",state.cart[product.id].inventoryQuantity,"<=",state.cart[product.id].cartQuantity);
-      alert("SORRY! OUT OF STOCK!");
+      let message = "SORRY! OUT OF STOCK!";
+      let type = "notification is-danger";
+      toast(message, type);
       return;
     }
 
@@ -79,7 +84,9 @@ const mutations: MutationTree<iRootState> = {
     }
 
     // notify user of cart addition
-    toast(product.title);
+    let message = `${state.cart[product.id].cartQuantity} of ${product.title} in cart!`
+    let type = "notification is-primary";
+    toast(message, type);
   },
   // given an iRootState and an iProduct, mutate cart by removing the given iProduct by id
   deleteFromCart(state: iRootState, product: iProduct) {
