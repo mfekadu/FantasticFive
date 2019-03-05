@@ -11,15 +11,9 @@ import { iProduct } from "@/models/product.interface";
 Vue.use(Vuex);
 
 const toast = (title: string) => { 
-  const url: string = ''; // blank
-  const features: string = 'width=300,height=300'
-  const name: string = "AddedProduct";
-  // open new 300x300 window, write notification text, bring it to front of windows
-  const w: Window | null = window.open(url,name,features);
-  w!.document.write(`<h1 class="notification">Added <em>${title}</em> to your cart!</h1>`);
-  w!.focus();
-  // close the popup in 2 seconds
-  setTimeout(() => { w!.close(); }, 2000); 
+  var x = document.getElementById("toast")
+  x!.className = "show";
+  setTimeout(function(){ x!.className = x!.className.replace("show", ""); }, 5000);
 };
 
 interface iRootState {
