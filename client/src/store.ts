@@ -19,11 +19,6 @@ const toast = (message: string, type: string) => {
   setTimeout(() => { x!.className = x!.className.replace(newClass, ""); }, 2000);
 };
 
-const oos = (title: string) => {
-  var x = document.getElementById("oos")
-  x!.className = "show";
-}
-
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
