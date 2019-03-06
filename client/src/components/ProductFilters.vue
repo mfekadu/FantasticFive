@@ -5,30 +5,34 @@
     <div class="filterList">
         <div class="brand filterChunk">
             <p class="title">Brand</p>
-            <div v-for="(foo, index) in brands" v-bind:key="index">
-                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+            <div v-for="(brand, index) in brands" v-bind:key="index">
+                <label class="checkbox"> <input v-on:click="checked(brand)" v-model="brand.checked" type="checkbox">{{ " " + brand }}</label><br>
+                Checked: {{ brand.checked }}
             </div>
         </div>
 
         <div class="category filterChunk">
             <p class="title">Category</p>
             <div v-for="(foo, index) in categories" v-bind:key="index">
-                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+                <label class="checkbox"> <input v-on:click="checked($event)" v-model="checkedCategories" type="checkbox">{{ " " + foo }}</label><br>
+                {{ checkedCategories }}
             </div>
         </div>
 
         <div class="price filterChunk">
             <p class="title">Price</p>
             <div v-for="(foo, index) in prices" v-bind:key="index">
-                <label class="checkbox"> <input type="checkbox">{{ " " + foo }}</label><br>
+                <label class="checkbox"> <input v-on:click="checked($event)" v-model="checkedPrices" type="checkbox">{{ " " + foo }}</label><br>
+                {{ checkedPrices }}
             </div>
         </div>
 
         <div class="storePickup filterChunk">
             <p class="title">Store Pickup</p>
             <div class="control">
-                <label class="radio"> <input type="radio" name="answer"> Yes </label>
-                <label class="radio"> <input type="radio" name="answer"> No </label>
+                <label class="radio"> <input v-on:click="picked($event)" v-model="pickupChoice" type="radio" name="answer"> Yes </label>
+                <label class="radio"> <input v-on:click="picked($event)" v-model="pickupChoice" type="radio" name="answer"> No </label>
+                {{ pickupChoice }}
             </div>
         </div>
 
@@ -39,11 +43,42 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
+export interface iFilters {
+  checkedBrands: string[];
+  checkedCategories: string[];
+  checkedPrices: string[];
+  pickupChoice: string;
+}
+
 @Component
 export default class ProductFilters extends Vue {
-  brands: String[] = ["Trek", "Diamondback", "Specialized"];
+  brands: any[] = [{name: "Trek"}, {name: "Diamondback"}, {name: "Specialized"}];
   categories: String[] = ["Bikes", "Clothes", "Bike Parts"];
   prices: String[] = ["under $50", "$51 - $100", "$101 - $200", "$201+"];
+  checkedBrands: string[] = [];
+  checkedCategories: string[] = [];
+  checkedPrices: string[] = [];
+  pickupChoice: string = "";
+
+  checked(b) {
+    console.log("the brand", b, b.checked);
+    console.log("brands", this.brands.map((b) => ({...b})));
+    console.log(this.brands.filter((b) => b.checked));
+    this.$nextTick(() => {
+      console.log(this.brands.filter((b) => b.checked));
+    })
+  }
+
+  picked(e: any) {
+    console.log(e);
+  }
+
+  mounted() {
+    console.log(this.checkedBrands);
+    console.log(this.checkedCategories);
+    console.log(this.checkedPrices);
+    console.log(this.pickupChoice);
+  }
 }
 </script>
 
