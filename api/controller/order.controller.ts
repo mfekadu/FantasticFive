@@ -20,7 +20,7 @@ export class OrderController extends DefaultController {
                 state, zip, firstBill, lastBill, cardNumber, expiration, cvv } = req.body;
             const order = new Order();
             const today = new Date();
-            order.orderMonth = today.getMonth();
+            order.orderMonth = today.getMonth() + 1;
             order.orderDay = today.getDate();
             order.orderYear = today.getFullYear();
             order.status = status;
