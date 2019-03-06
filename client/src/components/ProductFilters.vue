@@ -60,12 +60,19 @@ export default class ProductFilters extends Vue {
   checkedPrices: string[] = [];
   pickupChoice: string = "";
 
-  checked(b) {
+  checked(b: any) {
+    console.log("these ones lag behind:")
     console.log("the brand", b, b.checked);
-    console.log("brands", this.brands.map((b) => ({...b})));
-    console.log(this.brands.filter((b) => b.checked));
+    let foo = this.brands.map((b) => ({...b}));
+    console.log("brands", foo, ...foo);
+
+    console.log("these ones do not:")
+    let bar = this.brands.filter((b) => b.checked);
+    console.log(bar, ...bar);
     this.$nextTick(() => {
-      console.log(this.brands.filter((b) => b.checked));
+      let baz = this.brands.filter((b) => b.checked);
+      console.log(baz, ...baz);
+      baz.forEach((observer,index,arr)=>{console.log(`${observer.name} is ${observer.checked}`)});
     })
   }
 
