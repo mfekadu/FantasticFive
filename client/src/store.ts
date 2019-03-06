@@ -16,6 +16,11 @@ const toast = (title: string) => {
   setTimeout(function(){ x!.className = x!.className.replace("show", ""); }, 5000);
 };
 
+const oos = (title: string) => {
+  var x = document.getElementById("oos")
+  x!.className = "show";
+}
+
 interface iRootState {
   userToken: string | null;
   user: iUser | null;
@@ -65,7 +70,7 @@ const mutations: MutationTree<iRootState> = {
     // catch out of stock
     if (productInCart && productIsOutOfStock) {
       console.log("out of stock",state.cart[product.id].inventoryQuantity,"<=",state.cart[product.id].cartQuantity);
-      alert("SORRY! OUT OF STOCK!");
+      oos("Out of Stock");
       return;
     }
 

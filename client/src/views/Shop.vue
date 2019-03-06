@@ -13,6 +13,18 @@
   padding: 50px;
 }
 
+#oos {
+  visibility: hidden;
+}
+
+#oos.show {
+  visibility: visible;
+}
+
+#oos.hide {
+  visibility: hidden;
+}
+
 #toast {
   visibility: hidden;
   max-width: 50px;
@@ -168,6 +180,10 @@
         <font-awesome-icon icon="cart-plus"/>
       </div>
       <div id="desc">Item Added!</div>
+    </div>
+    <div class="notification is-danger" id="oos">
+      <button class="delete"></button>
+      Item is out of stock
     </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
 
