@@ -2,7 +2,8 @@
 <div class="orderDetails">
   <AdminHeader/>
   <body>
-    <h3 class="title" style="text-align: center">Order# {{ item.orderNumber }}, 
+    <h3 class="title" style="text-align: center">
+      Order# {{ item.orderNumber }},
       Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}
     </h3>
     <div class="columns">
@@ -67,9 +68,7 @@
         </div>
         <br>
         <br>
-        <button class="button" style="margin-right: 15px" v-on:click="addOrder">
-          <router-link to="/orders">Save</router-link>
-        </button>
+        <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
         <button class="button">
           <router-link to="/orders">Cancel</router-link>
         </button>
@@ -105,7 +104,7 @@ export default class OrderDetails extends Vue {
     city: "",
     state: "",
     zip: ""
-  }
+  };
 
   billingItem: Billing = {
     firstName: "",
@@ -113,7 +112,7 @@ export default class OrderDetails extends Vue {
     cardNumber: "",
     expiration: "",
     cvv: ""
-  }
+  };
 
   item: Order = {
     orderNumber: 0,
@@ -135,6 +134,8 @@ export default class OrderDetails extends Vue {
   addOrder() {
     axios.put(APIConfig.buildUrl("/orderDetails/" + this.id), {
       ...this.item
+    }).then(res => {
+      this.$router.push("/orders");
     });
   }
 }
@@ -151,21 +152,21 @@ export interface Order {
 }
 
 export interface Billing {
-    firstName: string;
-    lastName: string;
-    cardNumber: string;
-    expiration: string;
-    cvv: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
 }
 
 export interface Shipping {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 </script>
 
