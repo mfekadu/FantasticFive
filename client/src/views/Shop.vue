@@ -176,10 +176,6 @@
       </div>
       <div id="desc">Item Added!</div>
     </div>
-    <div class="notification is-danger" id="oos" v-if="show_oos">
-      <button class="delete"></button>
-      Item is out of stock
-    </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
 
     <div class="columns productsContainer">
@@ -222,8 +218,6 @@ import { iProduct } from "@/models/product.interface";
   }
 })
 export default class Shop extends Vue {
-  show_oos: boolean = false;
-
   p1: iProduct = {
     id: 0,
     title: "A Trek Bike",
