@@ -338,6 +338,7 @@ export default class Shop extends Vue {
   }
 
   // filters is a map of the filter type to an iFilter object
+  // e.g. { 'brand' : <iFilter> }
   filters : {[type: string] : iFilter} = {};
 
   // given the type of filter, the value to filter by, and the status of include or not include in the filtered array
@@ -346,31 +347,45 @@ export default class Shop extends Vue {
   doFilter(type: string, value: string, status: boolean, arr: iProduct[] | undefined) : iProduct[] {
     let filteredProducts: iProduct[] = (arr) ? arr : this.products;
 
+    // define the Cond predicate type
+    type Cond = (arg0: iProduct) => boolean
+
     // cond is a helper lambda function for filtering
-    let cond: (arg0: iProduct) => void;
+    let cond: Cond;
+
+    // list of conditions to filter later
+    let conditions: Cond[] = [];
 
     switch (type) {
       case "brand":
-        console.log("dofilter",type,value,status);
+        cond = (x) => { return x.brand === value };
+        conditions.push(cond);
         // filter products if status is true
-        filteredProducts = status ? this.products.filter(x => x.brand === value) : filteredProducts;
+        // filteredProducts = status ? this.products.filter(x => x.brand === value) : filteredProducts;
         break;
       case "price":
-        console.log("dofilter",type,value,status);
         switch (value) {
           case "under $50":
-            filteredProducts = status ? this.products.filter((x) => x['price'] <= 50) : filteredProducts;
+            cond = (x) => { return x['price'] <= 50 };
+            conditions.push(cond);
+            // filteredProducts = status ? this.products.filter((x) => x['price'] <= 50) : filteredProducts;
             break;
           case "$51 - $100":
-            cond = (x) => { (x['price'] >= 51 || x['price'] <= 100) };
-            filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
+            cond = (x) => { return (x['price'] >= 51 && x['price'] <= 100) };
+            conditions.push(cond);
+            // cond = (x) => {  };
+            // filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
             break;
           case "$101 - $200":
-            cond = (x) => { (x['price'] >= 101 || x['price'] <= 200) };
-            filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
+            cond = (x) => { return (x['price'] >= 101 && x['price'] <= 200) };
+            conditions.push(cond);
+            // cond = (x) => {  };
+            // filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
             break;
           case "$201+":
-            filteredProducts = status ? this.products.filter((x) => x['price'] >= 201) : filteredProducts;
+            cond = (x) => { return x['price'] >= 201 };
+            conditions.push(cond);
+            // filteredProducts = status ? this.products.filter((x) => ) : filteredProducts;
             break;
           default: break;
         }
@@ -380,12 +395,28 @@ export default class Shop extends Vue {
         // this.products.filter((x) => x['categories'] === value);
         break;
       case "pickup":
-        filteredProducts = status ? this.products.filter((x) => x['canShipYN'] !== status) : filteredProducts;
-        console.log("dofilter",type,value,status);
+        cond = (x) => { return x['canShipYN'] !== status };
+        conditions.push(cond);
+        // filteredProducts = status ? this.products.filter((x) => ) : filteredProducts;
         break;
       default:
         break;
     }
+
+    // helper to call all cond on one product
+    // for when 
+    const allCondFunc : Cond = (x: iProduct) => { 
+      let res : boolean = true;
+      for (const key in conditions) {
+        const func = conditions[key];
+        res = res && func(x);
+      }
+      return res;
+    }
+
+    // for (let fun of conditions) {
+    filteredProducts = status ? this.products.filter(allCondFunc) : filteredProducts;
+    // }
     return filteredProducts;
   }
 
@@ -395,6 +426,7 @@ export default class Shop extends Vue {
     
     // append filter to list of filters; overwrite on second time
     this.filters[type] = {type, value, status};
+    console.log("this.filters...",this.filters);
 
     // start unfiltered
     let filteredProducts: iProduct[] = this.products;
