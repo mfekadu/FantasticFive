@@ -28,10 +28,15 @@
 
     <div style="margin-top: 15px">
       <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
-      <button class="button">
-        <router-link to="/employees">Cancel</router-link>
-      </button>
+      <router-link class="button" to="/employees">Cancel</router-link>
     </div>
+    <modal
+      v-bind:is-showing="isShowing"
+      title="Error"
+      success-button="Ok"
+      v-on:success="isShowing = false"
+      v-on:cancel="isShowing = false"
+    >Username is not unique</modal>
   </body>
 </div>
 </template>
@@ -41,15 +46,17 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import AdminHeader from "@/components/AdminHeader.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
+import Modal from "@/components/Modal.vue";
 
 @Component({
   components: {
-    AdminHeader
+    AdminHeader,
+    Modal
   }
 })
 export default class EmployeeEdit extends Vue {
   @Prop() id: string | undefined;
-
+  isShowing: boolean = false;
   item: User = {
     firstName: "",
     lastName: "",
@@ -73,16 +80,26 @@ export default class EmployeeEdit extends Vue {
           ...this.item
         })
         .then(res => {
-          this.$router.push("/employees");
-        });
+          if (res.status == 200) {
+            this.$router.push("/employees");
+          }
+        })
+        .catch((res) => {
+          this.isShowing = true;
+      });
     } else {
       axios
         .put(APIConfig.buildUrl("/users/" + this.id), {
           ...this.item
         })
         .then(res => {
-          this.$router.push("/employees");
-        });
+          if (res.status == 200) {
+            this.$router.push("/employees");
+          }
+        })
+        .catch((res) => {
+          this.isShowing = true;
+      });
     }
   }
 }

@@ -9,12 +9,11 @@
           <p>{{ employee.firstName }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link
-              :to="{path: '/employeeedit/'+ employee.id}"
-              exact-active-class="is-active"
-            >Edit</router-link>
-          </button>
+          <router-link
+            class="button"
+            :to="{path: '/employeeedit/'+ employee.id}"
+            exact-active-class="is-active"
+          >Edit</router-link>
         </div>
         <div class="column is-2">
           <button class="button" v-on:click="currentID = employee.id; isShowing = true;">Delete</button>
@@ -22,9 +21,7 @@
       </div>
     </div>
     <div style="margin-top: 15px">
-      <button class="button">
-        <router-link to="/employeeedit/0" exact-active-class="is-active">New Employee</router-link>
-      </button>
+      <router-link class="button" to="/employeeedit/0" exact-active-class="is-active">New Employee</router-link>
     </div>
     <modal
       v-bind:is-showing="isShowing"

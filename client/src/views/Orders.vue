@@ -15,11 +15,11 @@
           <p>Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link
+          <router-link
+            class="button"
             :to="{path: '/orderDetails/'+ item.orderNumber}"
-             exact-active-class="is-active">View</router-link>
-          </button>
+            exact-active-class="is-active"
+          >View</router-link>
         </div>
       </div>
     </div>
