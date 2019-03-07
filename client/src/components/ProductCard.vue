@@ -29,7 +29,7 @@
         <div class="title is-5">{{ 'Quantity: ' + product.cartQuantity }}</div>
         <div></div>
       </div>
-      <div name="price" class="title is-5">{{ " $FREE." + product.price }}</div>
+      <div name="price" class="title is-5">{{ "$" + product.price }}</div>
       <!-- vue conditional logic for when this component used in Cart.vue -->
       <div v-if="hasDeleteButton">
           <button class="button" v-on:click="deleteFromCart(product)">Delete From Cart</button>
