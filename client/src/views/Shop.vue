@@ -212,6 +212,12 @@ import { iProduct } from "@/models/product.interface";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
 
+interface iFilter {
+  type: string;    // brand, category, price, picked
+  value: string;   // a value corresponding to a key in an iProduct object
+  status: boolean; // to include or not include in filtered array
+}
+
 @Component({
   components: {
     Footer,
@@ -225,14 +231,14 @@ export default class Shop extends Vue {
     id: 0,
     title: "A Trek Bike",
     desc: "description",
-    brand: "",
+    brand: "Trek",
     categories: [""],
     inventoryQuantity: 3,
     cartQuantity: 0,
     price: 499,
     saleYN: false,
     salesPrice: 499,
-    canShipYN: false,
+    canShipYN: true,
     photoURL: "./logo.png"
   };
 
@@ -240,7 +246,7 @@ export default class Shop extends Vue {
     id: 1,
     title: "B Bike Pump",
     desc: "description",
-    brand: "",
+    brand: "Diamondback",
     categories: [""],
     inventoryQuantity: 3,
     cartQuantity: 0,
@@ -297,17 +303,9 @@ export default class Shop extends Vue {
   };
 
   products: iProduct[] = [
-    // this.p1
-    // this.p2,
-    // this.p3,
-    // this.p4,
-    // this.p5,
-    // this.p5,
-    // this.p5,
-    // this.p1,
-    // this.p2,
-    // this.p3,
-    // this.p4
+    this.p1,
+    this.p2,
+    this.p3
   ];
   threeChunkProducts: iProduct[] = [];
 
@@ -315,12 +313,13 @@ export default class Shop extends Vue {
     this.refreshList();
   }
 
+  // safely update the data bound to the template without messing with the this.products array
+  updateView(products: iProduct[]) {
+    this.threeChunkProducts = this.splitArrayInto(products, 3);
+  }
+
   refreshList() {
-    axios
-    
-    .get(APIConfig.buildUrl("/shop"))
-    
-    .then(response => {
+    axios.get(APIConfig.buildUrl("/shop")).then(response => {
       let dbProducts = response.data.productArray;
 
       // put the data in the thing
@@ -333,16 +332,83 @@ export default class Shop extends Vue {
       });
 
       // update the view
-      this.threeChunkProducts = this.splitArrayInto(this.products, 3);
+      this.updateView(this.products);
       console.log(this.products);
     });
   }
 
-  filterUpdate(type: string, name: string, status: boolean) {
-    console.log(type, name, status);
-    // console.log(this.products);
-    // this.products.filter((x) => x[name] === );
-    // console.log(this.products);
+  // filters is a map of the filter type to an iFilter object
+  filters : {[type: string] : iFilter} = {};
+
+  // given the type of filter, the value to filter by, and the status of include or not include in the filtered array
+  // output a filtered iProduct array starting from this.products
+  // optionally provide an array as a starting point
+  doFilter(type: string, value: string, status: boolean, arr: iProduct[] | undefined) : iProduct[] {
+    let filteredProducts: iProduct[] = (arr) ? arr : this.products;
+
+    // cond is a helper lambda function for filtering
+    let cond: (arg0: iProduct) => void;
+
+    switch (type) {
+      case "brand":
+        console.log("dofilter",type,value,status);
+        // filter products if status is true
+        filteredProducts = status ? this.products.filter(x => x.brand === value) : filteredProducts;
+        break;
+      case "price":
+        console.log("dofilter",type,value,status);
+        switch (value) {
+          case "under $50":
+            filteredProducts = status ? this.products.filter((x) => x['price'] <= 50) : filteredProducts;
+            break;
+          case "$51 - $100":
+            cond = (x) => { (x['price'] >= 51 || x['price'] <= 100) };
+            filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
+            break;
+          case "$101 - $200":
+            cond = (x) => { (x['price'] >= 101 || x['price'] <= 200) };
+            filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
+            break;
+          case "$201+":
+            filteredProducts = status ? this.products.filter((x) => x['price'] >= 201) : filteredProducts;
+            break;
+          default: break;
+        }
+        break;
+      case "category":
+        console.log("dofilter",type,value,status);
+        // this.products.filter((x) => x['categories'] === value);
+        break;
+      case "pickup":
+        filteredProducts = status ? this.products.filter((x) => x['canShipYN'] !== status) : filteredProducts;
+        console.log("dofilter",type,value,status);
+        break;
+      default:
+        break;
+    }
+    return filteredProducts;
+  }
+
+  filterUpdate(type: string, value: string, status: boolean) {
+    console.log(type, value, status);
+    console.log(this.products);
+    
+    // append filter to list of filters; overwrite on second time
+    this.filters[type] = {type, value, status};
+
+    // start unfiltered
+    let filteredProducts: iProduct[] = this.products;
+
+    // filter for each in filters
+    for (let key in this.filters) {
+      let t = this.filters[key].type;
+      let v = this.filters[key].value;
+      let s = this.filters[key].status;
+      filteredProducts = this.doFilter(t, v, s, filteredProducts);
+    }
+
+    this.updateView(filteredProducts);
+    console.log(filteredProducts);
   }
 
   // given an array and a chunk, split the array into chunks with row-major ordering

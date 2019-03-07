@@ -42,8 +42,8 @@
         <div class="storePickup filterChunk">
             <p class="title">Store Pickup</p>
             <div class="control">
-                <label class="radio"> <input v-on:change="filterUpdate('pickup', 'pickup', pickupChoice)" v-model="pickupChoice" type="radio" value=true name="answer"> Yes </label>
-                <label class="radio"> <input v-on:change="filterUpdate('pickup', 'pickup', pickupChoice)" v-model="pickupChoice" type="radio" value=false name="answer"> No </label>
+                <label class="radio"> <input v-on:change="filterUpdate('pickup', 'pickup', true)" v-model="pickupChoice" type="radio" value=true name="answer"> Yes </label>
+                <label class="radio"> <input v-on:change="filterUpdate('pickup', 'pickup', false)" v-model="pickupChoice" type="radio" value=false name="answer"> No </label>
                 {{ pickupChoice }}
             </div>
         </div>
