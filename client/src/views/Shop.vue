@@ -180,7 +180,7 @@
 
     <div class="columns productsContainer">
       <div class="column filterColumn is-one-fifth">
-        <ProductFilters/>
+        <ProductFilters v-on:filterUpdate="filterUpdate"/>
       </div>
       <div class="column outerProductsContainer">
         <div class="columns innerProductsContainer">
@@ -310,6 +310,10 @@ export default class Shop extends Vue {
 
   created() {
     this.threeChunkProducts = this.splitArrayInto(this.products, 3);
+  }
+
+  filterUpdate(type: string, name: string, status: boolean) {
+    console.log(type, name, status);
   }
 
   // given an array and a chunk, split the array into chunks with row-major ordering
