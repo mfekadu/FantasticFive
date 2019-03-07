@@ -32,7 +32,7 @@ export class UserController extends DefaultController {
             res.status(200).send({ createdUser });
           },
           (reason: any) => {
-            res.status(500).send({ reason: "The email was not unique" });
+            res.status(500).send({ reason: "The username was not unique" });
           }
         );
       });
@@ -93,6 +93,9 @@ export class UserController extends DefaultController {
           foundUser.admin = req.body.admin;
           userRepo.save(foundUser).then((updatedUser: User) => {
             res.status(200).send({ user: updatedUser });
+          },
+          (reason: any) => {
+            res.status(500).send({ reason: "The username was not unique" });
           });
         });
       });
