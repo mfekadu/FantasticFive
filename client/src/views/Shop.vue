@@ -209,6 +209,9 @@ import ProductsList from "@/components/ProductsList.vue";
 import ProductFilters from "@/components/ProductFilters.vue";
 import { iProduct } from "@/models/product.interface";
 
+import axios, { AxiosResponse } from "axios";
+import { APIConfig } from "../utils/api.utils";
+
 @Component({
   components: {
     Footer,
@@ -294,26 +297,52 @@ export default class Shop extends Vue {
   };
 
   products: iProduct[] = [
-    this.p1,
-    this.p2,
-    this.p3,
-    this.p4,
-    this.p5,
-    this.p5,
-    this.p5,
-    this.p1,
-    this.p2,
-    this.p3,
-    this.p4
+    // this.p1
+    // this.p2,
+    // this.p3,
+    // this.p4,
+    // this.p5,
+    // this.p5,
+    // this.p5,
+    // this.p1,
+    // this.p2,
+    // this.p3,
+    // this.p4
   ];
   threeChunkProducts: iProduct[] = [];
 
-  created() {
-    this.threeChunkProducts = this.splitArrayInto(this.products, 3);
+  mounted() {
+    this.refreshList();
+  }
+
+  refreshList() {
+    axios
+    
+    .get(APIConfig.buildUrl("/shop"))
+    
+    .then(response => {
+      let dbProducts = response.data.productArray;
+
+      // put the data in the thing
+      dbProducts.forEach((prod : any) : void => {
+         let p: iProduct = {...prod};
+         // converts a Database Product entity into an iProduct
+         p.cartQuantity = 0;
+         p.inventoryQuantity = prod.quantity;
+         this.products.push(p);
+      });
+
+      // update the view
+      this.threeChunkProducts = this.splitArrayInto(this.products, 3);
+      console.log(this.products);
+    });
   }
 
   filterUpdate(type: string, name: string, status: boolean) {
     console.log(type, name, status);
+    // console.log(this.products);
+    // this.products.filter((x) => x[name] === );
+    // console.log(this.products);
   }
 
   // given an array and a chunk, split the array into chunks with row-major ordering
