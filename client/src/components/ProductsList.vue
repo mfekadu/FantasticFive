@@ -15,11 +15,15 @@ import ProductCard from "@/components/ProductCard.vue";
 import { iProduct } from "@/models/product.interface";
 
 @Component({
-  components: { ProductCard } 
+  components: { ProductCard }
 })
 export default class ProductsList extends Vue {
   // see 'github.com/vuejs/vue/issues/1032' for why function is used here
-  @Prop({ default: () => { return [] } })
+  @Prop({
+    default: () => {
+      return [];
+    }
+  })
   products!: iProduct[];
 
   created() {

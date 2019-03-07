@@ -50,10 +50,10 @@ export default class ProductCard extends Vue {
   @Prop({ default: null })
   product!: iProduct | null;
 
-  @Prop({ type:Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
   hasCartDetail!: boolean | null;
 
-  @Prop({ type:Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
   hasDeleteButton!: boolean | null;
 
   created() {
@@ -66,9 +66,9 @@ export default class ProductCard extends Vue {
 
   // function to talk to the store and remove a product
   deleteFromCart(product: iProduct) {
-      this.$store.commit("deleteFromCart", product);
-      // emit a "deleted" event that Cart can handle via v-on:deleted="func()"
-      this.$emit("deleted");
+    this.$store.commit("deleteFromCart", product);
+    // emit a "deleted" event that Cart can handle via v-on:deleted="func()"
+    this.$emit("deleted");
   }
 
   // given an iProduct, get its photoURL, else return a placeholder
