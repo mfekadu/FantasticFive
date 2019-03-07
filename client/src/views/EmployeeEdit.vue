@@ -28,9 +28,7 @@
 
     <div style="margin-top: 15px">
       <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
-      <button class="button">
-        <router-link to="/employees">Cancel</router-link>
-      </button>
+      <router-link class="button" to="/employees">Cancel</router-link>
     </div>
   </body>
 </div>

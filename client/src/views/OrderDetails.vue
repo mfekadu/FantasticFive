@@ -69,9 +69,7 @@
         <br>
         <br>
         <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
-        <button class="button">
-          <router-link to="/orders">Cancel</router-link>
-        </button>
+        <router-link class="button" to="/orders">Cancel</router-link>
       </div>
     </div>
   </body>
