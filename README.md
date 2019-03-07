@@ -3,6 +3,7 @@
 ## A [Vue.js][vue] webapp for a bike shop.
 
 ## FOR TESTERS
+* Don't forget to run 'npm install' and create ad "dev" database in MySQL
 * Use the included ["SQLInfo.sql"][sqlfile] file to insert example data into the DB
 * This will add two staff accounts:
   * Admin
