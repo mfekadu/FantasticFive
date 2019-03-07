@@ -11,4 +11,4 @@ export interface iProduct {
   salesPrice: number;
   canShipYN: boolean;
   photoURL: string;
-};
+}

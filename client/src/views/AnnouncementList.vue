@@ -74,8 +74,7 @@ export default class AnnouncementList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/announcements/" + id))
-    .then(res => {
+    axios.delete(APIConfig.buildUrl("/announcements/" + id)).then(res => {
       this.refreshList();
     });
   }

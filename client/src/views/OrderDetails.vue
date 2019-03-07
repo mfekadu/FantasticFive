@@ -93,8 +93,7 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class OrderDetails extends Vue {
-  @Prop()
-  id: string | undefined;
+  @Prop() id: string | undefined;
 
   shippingItem: Shipping = {
     firstName: "",
@@ -132,11 +131,13 @@ export default class OrderDetails extends Vue {
   }
 
   addOrder() {
-    axios.put(APIConfig.buildUrl("/orderDetails/" + this.id), {
-      ...this.item
-    }).then(res => {
-      this.$router.push("/orders");
-    });
+    axios
+      .put(APIConfig.buildUrl("/orderDetails/" + this.id), {
+        ...this.item
+      })
+      .then(res => {
+        this.$router.push("/orders");
+      });
   }
 }
 

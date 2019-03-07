@@ -32,8 +32,7 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class AnnouncementEdit extends Vue {
-  @Prop()
-  id: string | undefined;
+  @Prop() id: string | undefined;
 
   item: Announcement = {
     title: "",
@@ -52,17 +51,21 @@ export default class AnnouncementEdit extends Vue {
 
   addService() {
     if (this.id == "0") {
-      axios.post(APIConfig.buildUrl("/announcements"), {
-        ...this.item
-      }).then(res => {
-        this.$router.push("/announcementlist");
-      });
+      axios
+        .post(APIConfig.buildUrl("/announcements"), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/announcementlist");
+        });
     } else {
-      axios.put(APIConfig.buildUrl("/announcements/" + this.id), {
-        ...this.item
-      }).then(res => {
-        this.$router.push("/announcementlist");
-      });
+      axios
+        .put(APIConfig.buildUrl("/announcements/" + this.id), {
+          ...this.item
+        })
+        .then(res => {
+          this.$router.push("/announcementlist");
+        });
     }
   }
 }

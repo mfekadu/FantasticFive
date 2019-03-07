@@ -69,8 +69,7 @@ export default class Employees extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/users/" + id))
-    .then(res => {
+    axios.delete(APIConfig.buildUrl("/users/" + id)).then(res => {
       this.refreshList();
     });
   }

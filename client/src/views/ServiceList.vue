@@ -69,9 +69,9 @@ export default class ServiceList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/services/" + id))
-    .then(res => {
-      this.refreshList()});
+    axios.delete(APIConfig.buildUrl("/services/" + id)).then(res => {
+      this.refreshList();
+    });
   }
 }
 

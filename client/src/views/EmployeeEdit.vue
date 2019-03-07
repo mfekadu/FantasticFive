@@ -48,8 +48,7 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class EmployeeEdit extends Vue {
-  @Prop()
-  id: string | undefined;
+  @Prop() id: string | undefined;
 
   item: User = {
     firstName: "",

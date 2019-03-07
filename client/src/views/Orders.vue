@@ -49,7 +49,7 @@ export default class Orders extends Vue {
     city: "",
     state: "",
     zip: ""
-  }
+  };
 
   billingItem: Billing = {
     firstName: "",
@@ -57,7 +57,7 @@ export default class Orders extends Vue {
     cardNumber: "",
     expiration: "",
     cvv: ""
-  }
+  };
 
   item: Order = {
     orderNumber: 0,
@@ -91,21 +91,21 @@ export interface Order {
 }
 
 export interface Billing {
-    firstName: string;
-    lastName: string;
-    cardNumber: string;
-    expiration: string;
-    cvv: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
 }
 
 export interface Shipping {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 </script>
 
