@@ -34,7 +34,7 @@ export const CAN_SHIP: iFilter = {
 };
 
 // will display just canShipYN = false
-export const PICKUP_ONLY: iFilter = {
+export const DEFAULT_SHIP: iFilter = {
   type   : FT.s,
   value  : FT.s,
   status : false

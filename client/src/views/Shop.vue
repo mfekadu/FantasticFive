@@ -185,7 +185,7 @@
                         v-on:brandUpdate="brandUpdate"
                         v-on:categoryUpdate="categoryUpdate"
                         v-on:priceUpdate="priceUpdate"
-                        v-on:pickupUpdate="pickupUpdate"/>
+                        v-on:shippingUpdate="shippingUpdate"/>
       </div>
       <!-- the Products -->
       <div class="column outerProductsContainer">
@@ -215,9 +215,12 @@ import ProductsList from "@/components/ProductsList.vue";
 import ProductFilters from "@/components/ProductFilters.vue";
 import { iProduct } from "@/models/product.interface";
 
-import { iFilter, FT } from "@/models/filter.interface";
+import { iFilter, iAllFilters, FT, DEFAULT_SHIP } from "@/models/filter.interface";
+
+import "@/utils/array.utils";
 
 import axios, { AxiosResponse } from "axios";
+
 import { APIConfig } from "../utils/api.utils";
 
 // interface iFilter {
@@ -327,22 +330,31 @@ export default class Shop extends Vue {
   }
 
   refreshList() {
-    // axios.get(APIConfig.buildUrl("/shop")).then(response => {
-    //   let dbProducts = response.data.productArray;
+    axios.get(APIConfig.buildUrl("/shop"))
+    
+    .then(response => {
+      let dbProducts = response.data.productArray;
 
-    //   // put the data in the thing
-    //   dbProducts.forEach((prod : any) : void => {
-    //      let p: iProduct = {...prod};
-    //      // converts a Database Product entity into an iProduct
-    //      p.cartQuantity = 0;
-    //      p.inventoryQuantity = prod.quantity;
-    //      this.products.push(p);
-    //   });
+      // put the data in the thing
+      dbProducts.forEach((prod : any) : void => {
+         let p: iProduct = {...prod};
+         // converts a Database Product entity into an iProduct
+         p.cartQuantity = 0;
+         p.inventoryQuantity = prod.quantity;
+         this.products.push(p);
+      });
 
-    //   // update the view
-    //   this.updateView(this.products);
-    //   console.log(this.products);
-    // });
+      // update the view
+      this.updateView(this.products);
+      console.log(this.products);
+    })
+    .catch(reason => {
+      this.brandUpdate(this.givenFilters);
+      // update the view
+      // this.updateView(this.products);
+      console.log(this.products);
+    })
+    ;
   }
 
   // filters is a map of the filter type to an iFilter object
@@ -404,7 +416,7 @@ export default class Shop extends Vue {
         console.log("dofilter",type,value,status);
         // this.products.filter((x) => x['categories'] === value);
         break;
-      case "pickup":
+      case "shipping":
         cond = (x) => { return x['canShipYN'] !== status };
         conditions.push(cond);
         // filteredProducts = status ? this.products.filter((x) => ) : filteredProducts;
@@ -434,13 +446,98 @@ export default class Shop extends Vue {
   // e.g. { 'brand' : <iFilter> }
   newf : { [type: string] : { [value: string] : iFilter } } = {};
 
-  brandUpdate(brand: iFilter) {
-    const { type, value, status } = brand;
-    console.log("brandUpdate", type, value, status);
-    // filters['brand']
-    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
-    this.newf[type][value] = brand;
-    this.fillUp();
+  givenFilters : iAllFilters = {
+    brands : [], 
+    categories : [],
+    prices : [],
+    shipping : DEFAULT_SHIP
+  };
+
+  brandUpdate(data: iAllFilters) {
+    // const { type, value, status } = brand;
+    // console.log("brandUpdate", type, value, status);
+    // console.log('same?', this.applesauce);
+    // this.applesauce = "banana";
+    // console.log("update...",data);
+    // console.log(data.shipping.status);
+    // console.log(typeof data.shipping.status);
+    this.givenFilters = data;
+    let products : iProduct[] = this.products;
+    let filteredByBrand : iProduct[] = [];
+    let filteredByPrice : iProduct[] = [];
+    let filteredByCategory : iProduct[] = [];
+    let filteredByShipping : iProduct[] = [];
+    let finalFilter : iProduct[] = this.products;
+    // these booleans get set to true iff a checkbox is checked
+    let includeBrand : boolean = false;
+    let includePrice : boolean = false;
+    let includeCategory : boolean = false;
+    let includeShipping : boolean = false;
+    let temp : iProduct[] = [];
+    // define the Cond predicate type
+    type Cond = (arg0: iProduct) => boolean
+
+    // cond is a helper lambda function for filtering
+    let cond: Cond;
+
+    for (const brand of data.brands) {
+      if (brand.status) {includeBrand=true}
+      // console.log({...brand}, products);
+      cond = (x) => {return x.brand === brand.value};
+      // include depending on brand.status
+      temp = (brand.status) ? products.filter(cond) : [];
+      filteredByBrand = filteredByBrand.union(temp);
+    }
+    console.log("Shop brandUpdate filteredByBrand:",filteredByBrand);
+
+    let filtered: any[] = [];
+
+    for (const price of data.prices) {
+      if (price.status) {includePrice=true}
+      // console.log({...price});
+      // "$0 - $50" --> ['0', '50']
+      // "$201+" --> ['201']
+      const tuple: any[] = price.value.replace(new RegExp('\\$|\\+|\\-','g'), '').split(/\s+/)
+      const min = parseInt(tuple[0]);
+      const max = (tuple[1]) ? parseInt(tuple[1]) : Number.MAX_SAFE_INTEGER;
+      console.log("min max", min, max);
+      cond = (x) => { return (x['price'] >= min && x['price'] <= max) };
+      temp = (price.status) ? products.filter(cond) : [];
+      filteredByPrice = filteredByPrice.union(temp);
+    }
+    console.log("Shop brandUpdate filteredByPrice.and():",filteredByPrice.intersection(filteredByBrand));
+    console.log("Shop brandUpdate filteredByPrice:",filteredByPrice);
+
+    for (const category of data.categories) {
+      // if (category.status) {includeCategory=true}
+      // 
+    }
+
+    cond = (x) => { return x['canShipYN'] === data.shipping.status };
+    temp = (data.shipping.status) ? products.filter(cond) : [];
+    filteredByShipping = filteredByPrice.union(temp);
+
+
+    console.log("at the end");
+    console.log(filteredByBrand);
+    console.log(filteredByCategory);
+    console.log(filteredByPrice);
+    console.log(filteredByShipping);
+    if (includeBrand) {
+      finalFilter = finalFilter.intersection(filteredByBrand);
+    }
+    if (includeCategory) {
+      finalFilter = finalFilter.intersection(filteredByCategory);
+    }
+    if (includePrice) {
+      finalFilter = finalFilter.intersection(filteredByPrice);
+    }
+    if (includeShipping) {
+      finalFilter = finalFilter.intersection(filteredByShipping);
+    }
+
+    this.updateView(finalFilter);
+
   }
 
   categoryUpdate(category: iFilter) {
@@ -459,11 +556,11 @@ export default class Shop extends Vue {
     this.fillUp();
   }
 
-  pickupUpdate(pickup: iFilter) {
-    const { type, value, status } = pickup;
-    console.log("pickupUpdate", type, value, status);
+  shippingUpdate(ship: iFilter) {
+    const { type, value, status } = ship;
+    console.log("shippingUpdate", type, value, status);
     this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
-    this.newf[type][value] = pickup;
+    this.newf[type][value] = ship;
     this.fillUp();
   }
 

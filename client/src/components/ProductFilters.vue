@@ -7,10 +7,11 @@
             <p class="title">Brand</p>
             <div v-for="(brand, index) in brands" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="brandUpdate(brand)"
+                  <input v-on:change="brandUpdate()"
                   v-model="brand.status"
                   type="checkbox">
                     {{ " " + brand.value }}
+                    {{ "...status=" + brand.status }}
                 </label>
             </div>
         </div>
@@ -19,7 +20,7 @@
             <p class="title">Category</p>
             <div v-for="(category, index) in categories" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="categoryUpdate(category)"
+                  <input v-on:change="categoryUpdate()"
                          v-model="category.status"
                          type="checkbox">
                     {{ " " + category.value }}
@@ -31,7 +32,7 @@
             <p class="title">Price</p>
             <div v-for="(price, index) in prices" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="priceUpdate(price)"
+                  <input v-on:change="priceUpdate()"
                          v-model="price.status"
                          type="checkbox">
                     {{ " " + price.value }}
@@ -40,25 +41,25 @@
         </div>
 
         <div class="storePickup filterChunk">
-            <p class="title">Store Pickup</p>
+            <p class="title">Shipping</p>
             <div class="control">
                 <label class="radio">
-                    <input v-on:change="pickupUpdate(YES)" 
-                            v-model="pickupChoice"
+                    <input v-on:change="shipUpdate()" 
+                            v-model="ship.status"
                             type="radio"
-                            value=true
+                            v-bind:value=true
                             name="answer">
-                    Yes
+                    Shipping Available
                 </label>
                 <label class="radio">
-                    <input v-on:change="pickupUpdate(NO)" 
-                            v-model="pickupChoice"
+                    <input v-on:change="shipUpdate()" 
+                            v-model="ship.status"
                             type="radio"
-                            value=false
+                            v-bind:value=false
                             name="answer">
-                    No
+                    In-Store Pickup
                 </label>
-                {{ pickupChoice }}
+                {{ ship.status }}
             </div>
         </div>
 
@@ -69,47 +70,31 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-// export interface iFilters {
-//   checkedBrands: string[];
-//   checkedCategories: string[];
-//   checkedPrices: string[];
-//   pickupChoice: string;
-// };
 
-import { iFilter, FT, YES_PICKUP, NO_PICKUP } from "@/models/filter.interface";
-
-// interface iFilter {
-//   name: string;
-//   checked: boolean;
-// }
-
-
+import { iFilter, iAllFilters, FT, PRICES, DEFAULT_SHIP, CAN_SHIP } from "@/models/filter.interface";
 
 @Component
 export default class ProductFilters extends Vue {
-  YES: iFilter = YES_PICKUP;
-  NO: iFilter = NO_PICKUP;
+  YES: iFilter = DEFAULT_SHIP;
+  NO: iFilter = CAN_SHIP;
 
-  brands: iFilter[] = this.stringArrayToFilterArray(FT.br, [
+  brands: iFilter[] = this.stringArrayToFilterArray(FT.b, [
     "Trek",
     "Diamondback",
     "Specialized"
   ]);
-  categories: iFilter[] = this.stringArrayToFilterArray(FT.ca, [
+  categories: iFilter[] = this.stringArrayToFilterArray(FT.c, [
     "Bikes",
     "Clothes",
     "Bike Parts"
   ]);
-  prices: iFilter[] = this.stringArrayToFilterArray(FT.pr, [
-    "under $50",
-    "$51 - $100",
-    "$101 - $200",
-    "$201+"
+  prices: iFilter[] = this.stringArrayToFilterArray(FT.p, [
+    PRICES.low,
+    PRICES.med,
+    PRICES.high,
+    PRICES.extra
   ]);
-  checkedBrands: string[] = [];
-  checkedCategories: string[] = [];
-  checkedPrices: string[] = [];
-  pickupChoice: string = "";
+  ship: iFilter = DEFAULT_SHIP;
 
   // given an array of strings and the filter type, convert to iFilter[] array
   stringArrayToFilterArray(type: string, arr: string[]): iFilter[] {
@@ -126,32 +111,32 @@ export default class ProductFilters extends Vue {
     this.$emit("filterUpdate", type, value, status);
   }
 
-  brandUpdate(brand: iFilter) {
-    this.$emit("brandUpdate", brand);
+  brandUpdate() {
+    const eventData : iAllFilters = {
+      brands : this.brands, 
+      categories : this.categories,
+      prices : this.prices,
+      shipping : this.ship
+    }
+    console.log("ProductFilters brandUpdate eventData:",eventData);
+    this.$emit("brandUpdate", eventData);
   }
 
   categoryUpdate(category: iFilter) {
-    this.$emit("categoryUpdate", category);
+    // this.$emit("categoryUpdate", category);
+    this.brandUpdate();
   }
 
   priceUpdate(price: iFilter) {
-    this.$emit("priceUpdate", price);
+    // this.$emit("priceUpdate", price);
+    this.brandUpdate();
   }
 
-  pickupUpdate(pickup: iFilter) {
-    this.$emit("pickupUpdate", pickup);
+  shipUpdate(pickup: iFilter) {
+    // this.$emit("shippingUpdate", pickup);
+    this.brandUpdate();
   }
 
-  picked() {
-    console.log(this.pickupChoice);
-  }
-
-  mounted() {
-    console.log(this.checkedBrands);
-    console.log(this.checkedCategories);
-    console.log(this.checkedPrices);
-    console.log(this.pickupChoice);
-  }
 }
 </script>
 
@@ -164,5 +149,10 @@ export default class ProductFilters extends Vue {
   margin-top: 25px;
   padding-left: 15px;
   padding-bottom: 20px;
+}
+
+label {
+  display:block; /* make it behave like a div */
+  margin: 10px;
 }
 </style>
