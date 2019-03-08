@@ -1,6 +1,6 @@
 // tell typescript to interpret this file as a module
 // allows for 'augmenting' the global scope in this file
-// also no need to actually "import" this file. 
+// do this ... `import "@/utils/array.utils"`;
 // Global Array is affected
 export {}
 
