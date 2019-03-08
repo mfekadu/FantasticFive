@@ -4,13 +4,38 @@ export interface iFilter {
   status: boolean; // to include or not include in filtered array
 };
 
-// filter type enum
-export enum FT {
-  br = 'brand',
-  ca = 'category',
-  pr = 'price',
-  pi = 'pickup'
+export interface iAllFilters {
+  brands : iFilter[], 
+  categories : iFilter[],
+  prices : iFilter[],
+  shipping : iFilter
 }
 
-export const YES_PICKUP: iFilter = {type:'pickup', value:'pickup',status:true};
-export const NO_PICKUP: iFilter = {type:'pickup', value:'pickup',status:false};
+export enum PRICES {
+  low = "$0 - $50",
+  med = "$51 - $100",
+  high = "$101 - $200",
+  extra = "$201+"
+}
+
+// filter type enum
+export enum FT {
+  b = 'brand',
+  c = 'category',
+  p = 'price',
+  s = 'shipping'
+}
+
+// will display just canShipYN = true
+export const CAN_SHIP: iFilter = {
+  type   : FT.s,
+  value  : FT.s,
+  status : true
+};
+
+// will display just canShipYN = false
+export const PICKUP_ONLY: iFilter = {
+  type   : FT.s,
+  value  : FT.s,
+  status : false
+};
