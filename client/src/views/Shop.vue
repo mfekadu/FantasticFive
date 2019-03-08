@@ -177,11 +177,17 @@
       <div id="desc">Item Added!</div>
     </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
-
+    <!-- the Shop -->
     <div class="columns productsContainer">
+      <!-- the Filters -->
       <div class="column filterColumn is-one-fifth">
-        <ProductFilters v-on:filterUpdate="filterUpdate"/>
+        <ProductFilters v-on:filterUpdate="filterUpdate"
+                        v-on:brandUpdate="brandUpdate"
+                        v-on:categoryUpdate="categoryUpdate"
+                        v-on:priceUpdate="priceUpdate"
+                        v-on:pickupUpdate="pickupUpdate"/>
       </div>
+      <!-- the Products -->
       <div class="column outerProductsContainer">
         <div class="columns innerProductsContainer">
           <div class="column productColumn" id="productsColumn1">
@@ -209,14 +215,16 @@ import ProductsList from "@/components/ProductsList.vue";
 import ProductFilters from "@/components/ProductFilters.vue";
 import { iProduct } from "@/models/product.interface";
 
+import { iFilter, FT } from "@/models/filter.interface";
+
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
 
-interface iFilter {
-  type: string;    // brand, category, price, picked
-  value: string;   // a value corresponding to a key in an iProduct object
-  status: boolean; // to include or not include in filtered array
-}
+// interface iFilter {
+//   type: string;    // brand, category, price, picked
+//   value: string;   // a value corresponding to a key in an iProduct object
+//   status: boolean; // to include or not include in filtered array
+// }
 
 @Component({
   components: {
@@ -319,22 +327,22 @@ export default class Shop extends Vue {
   }
 
   refreshList() {
-    axios.get(APIConfig.buildUrl("/shop")).then(response => {
-      let dbProducts = response.data.productArray;
+    // axios.get(APIConfig.buildUrl("/shop")).then(response => {
+    //   let dbProducts = response.data.productArray;
 
-      // put the data in the thing
-      dbProducts.forEach((prod : any) : void => {
-         let p: iProduct = {...prod};
-         // converts a Database Product entity into an iProduct
-         p.cartQuantity = 0;
-         p.inventoryQuantity = prod.quantity;
-         this.products.push(p);
-      });
+    //   // put the data in the thing
+    //   dbProducts.forEach((prod : any) : void => {
+    //      let p: iProduct = {...prod};
+    //      // converts a Database Product entity into an iProduct
+    //      p.cartQuantity = 0;
+    //      p.inventoryQuantity = prod.quantity;
+    //      this.products.push(p);
+    //   });
 
-      // update the view
-      this.updateView(this.products);
-      console.log(this.products);
-    });
+    //   // update the view
+    //   this.updateView(this.products);
+    //   console.log(this.products);
+    // });
   }
 
   // filters is a map of the filter type to an iFilter object
@@ -346,6 +354,7 @@ export default class Shop extends Vue {
   // optionally provide an array as a starting point
   doFilter(type: string, value: string, status: boolean, arr: iProduct[] | undefined) : iProduct[] {
     let filteredProducts: iProduct[] = (arr) ? arr : this.products;
+    console.log("arr?",arr, "filteredProducts?",filteredProducts, "this.products?",this.products);
 
     // define the Cond predicate type
     type Cond = (arg0: iProduct) => boolean
@@ -358,13 +367,14 @@ export default class Shop extends Vue {
 
     switch (type) {
       case "brand":
-        cond = (x) => { return x.brand === value };
+        cond = (x) => { return x['brand'] === value };
         conditions.push(cond);
         // filter products if status is true
         // filteredProducts = status ? this.products.filter(x => x.brand === value) : filteredProducts;
         break;
       case "price":
         switch (value) {
+          // TODO: simplify this by having price tag have value=###
           case "under $50":
             cond = (x) => { return x['price'] <= 50 };
             conditions.push(cond);
@@ -420,10 +430,70 @@ export default class Shop extends Vue {
     return filteredProducts;
   }
 
+  // filters is a map of the filter type to an iFilter object
+  // e.g. { 'brand' : <iFilter> }
+  newf : { [type: string] : { [value: string] : iFilter } } = {};
+
+  brandUpdate(brand: iFilter) {
+    const { type, value, status } = brand;
+    console.log("brandUpdate", type, value, status);
+    // filters['brand']
+    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
+    this.newf[type][value] = brand;
+    this.fillUp();
+  }
+
+  categoryUpdate(category: iFilter) {
+    const { type, value, status } = category;
+    console.log("categoryUpdate", type, value, status);
+    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
+    this.newf[type][value] = category;
+    this.fillUp();
+  }
+
+  priceUpdate(price: iFilter) {
+    const { type, value, status } = price;
+    console.log("priceUpdate", type, value, status);
+    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
+    this.newf[type][value] = price;
+    this.fillUp();
+  }
+
+  pickupUpdate(pickup: iFilter) {
+    const { type, value, status } = pickup;
+    console.log("pickupUpdate", type, value, status);
+    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
+    this.newf[type][value] = pickup;
+    this.fillUp();
+  }
+
+  fillUp() {
+    console.log('fillUp', this.products, "newf", this.newf);
+    let filteredProducts: iProduct[] = this.products;
+    // filter for each in newf
+    for (let key in this.newf) {
+      let newlyFiltered: iProduct[] = [];
+      for (let key2 in this.newf[key]){
+        let t = this.newf[key][key2].type;
+        let v = this.newf[key][key2].value;
+        let s = this.newf[key][key2].status;
+        let temp = newlyFiltered;
+        console.log("temp", temp);
+        newlyFiltered = this.doFilter(t, v, s, this.products);
+        let unionArray = [...new Set([...newlyFiltered, ...temp])];
+        newlyFiltered = unionArray;
+      }
+      let intersection = [...new Set(filteredProducts)].filter(x => new Set(newlyFiltered).has(x))
+      filteredProducts = intersection;
+    }
+    console.log('full', filteredProducts);
+    this.updateView(filteredProducts);
+  }
+
   filterUpdate(type: string, value: string, status: boolean) {
     console.log(type, value, status);
     console.log(this.products);
-    
+
     // append filter to list of filters; overwrite on second time
     this.filters[type] = {type, value, status};
     console.log("this.filters...",this.filters);
