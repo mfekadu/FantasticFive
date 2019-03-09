@@ -56,14 +56,6 @@ export default class ProductCard extends Vue {
   @Prop({ type: Boolean, default: false })
   hasDeleteButton!: boolean | null;
 
-  created() {
-    console.log("created ProductCard");
-  }
-
-  mounted() {
-    console.log("mounted ProductCard");
-  }
-
   // function to talk to the store and remove a product
   deleteFromCart(product: iProduct) {
     this.$store.commit("deleteFromCart", product);
@@ -78,7 +70,6 @@ export default class ProductCard extends Vue {
 
   // given an iProduct, add it to cart
   addToCart(p: iProduct): void {
-    console.log(p);
     // update the store using the addToCart mutator
     this.$store.commit("addToCart", p);
   }
