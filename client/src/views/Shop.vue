@@ -234,6 +234,9 @@ import { APIConfig } from "../utils/api.utils";
 //   status: boolean; // to include or not include in filtered array
 // }
 
+// define the Cond predicate type
+type Cond = (arg0: iProduct) => boolean;
+
 @Component({
   components: {
     Footer,
@@ -366,6 +369,29 @@ export default class Shop extends Vue {
     prices: [],
     shipping: DEFAULT_SHIP
   };
+
+  // given products array, an iFilter array, and the Cond predicate
+  // outputs the products that have match the condition
+  // if no filtering occurs then the result is null
+  // otherwise an array (empty or otherwise) is the filtered result
+  filterByArray(
+    products: iProduct[],
+    filters: iFilter[],
+    cond: Cond
+  ): iProduct[] | null {
+    let result: iProduct[] = [];
+    // set to true if a checkbox / radio status is true
+    let didFilter: boolean = false;
+    for (const filter of filters) {
+      // if filtering is desired
+      if (filter.status) {
+        didFilter = true;
+        let temp = products.filter(cond);
+        result = result.union(temp);
+      }
+    }
+    return didFilter ? result : null;
+  }
 
   filterUpdate(data: iAllFilters): iProduct[] {
     // update local variable for correctly filtering after `mounted`
