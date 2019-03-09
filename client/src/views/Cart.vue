@@ -4,7 +4,14 @@
   <div v-if="cartNotEmpty()" >
     <!-- ..... -->
     <h3 class="title is-3" style="text-align: center">Cart</h3>
-    <div class="columns">
+    <div class="center checkout">
+      <button class="button is-primary">
+        <router-link to="/checkout" exact-active-class="is-active">
+          Proceed to Checkout
+        </router-link>
+      </button>
+    </div>
+    <div class="columns productsBox">
       <div class="column" 
         v-for="(p, index) in this.$store.state.cart" 
         v-bind:key="index">
@@ -13,13 +20,6 @@
                      v-bind:hasDeleteButton="true"
                      v-on:deleted="deleteHandler()"/>
       </div>
-    </div>
-    <div class="center checkout">
-      <button class="button">
-        <router-link to="/checkout" exact-active-class="is-active">
-          Proceed to Checkout
-        </router-link>
-      </button>
     </div>
     <!-- ..... -->
   </div>
@@ -67,6 +67,11 @@ export default class Cart extends Vue {
 }
 
 .checkout {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.productsBox {
   margin-bottom: 25%;
 }
 </style>
