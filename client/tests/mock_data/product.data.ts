@@ -1,7 +1,7 @@
 import { iProduct } from "@/models/product.interface";
 
 const p1: iProduct = {
-  id: 0,
+  id: Number.MAX_SAFE_INTEGER - 4,
   title: "A Trek Bike",
   desc: "description",
   brand: "Trek",
@@ -16,7 +16,7 @@ const p1: iProduct = {
 };
 
 const p2: iProduct = {
-  id: 1,
+  id: Number.MAX_SAFE_INTEGER - 3,
   title: "B Diamod",
   desc: "description",
   brand: "Diamondback",
@@ -31,7 +31,7 @@ const p2: iProduct = {
 };
 
 const p3: iProduct = {
-  id: 2,
+  id: Number.MAX_SAFE_INTEGER - 2,
   title: "C Bikes,Bike Parts",
   desc: "description",
   brand: "",
@@ -46,7 +46,7 @@ const p3: iProduct = {
 };
 
 const p4: iProduct = {
-  id: 3,
+  id: Number.MAX_SAFE_INTEGER - 1,
   title: "D Bikes,Clothes",
   desc: "description",
   brand: "",
@@ -61,7 +61,7 @@ const p4: iProduct = {
 };
 
 const p5: iProduct = {
-  id: 4,
+  id: Number.MAX_SAFE_INTEGER,
   title: "E baz",
   desc: "description",
   brand: "",
