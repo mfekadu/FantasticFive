@@ -117,7 +117,6 @@ export default class ProductFilters extends Vue {
       prices: this.prices,
       shipping: this.ship
     };
-    console.log("ProductFilters filterUpdate eventData:", eventData);
     this.$emit("filterUpdate", eventData);
   }
 }

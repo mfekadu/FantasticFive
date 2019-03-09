@@ -58,10 +58,6 @@ export default class Cart extends Vue {
   deleteHandler() {
     this.$forceUpdate();
   }
-
-  created() {
-    console.log(this.$store.state.cart);
-  }
 }
 </script>
 

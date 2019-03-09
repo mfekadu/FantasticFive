@@ -25,14 +25,6 @@ export default class ProductsList extends Vue {
     }
   })
   products!: iProduct[];
-
-  created() {
-    console.log("created ProductCard");
-  }
-
-  mounted() {
-    console.log("mounted ProductCard");
-  }
 }
 </script>
 
