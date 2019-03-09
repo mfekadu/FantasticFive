@@ -12,13 +12,6 @@ export class Product {
   @Column()
   public desc!: string;
 
-  // should there be an array here ??
-  // should there be a relationship to a Category Entity ??
-  // ... it should be a ManyToMany
-  // ... typeorm
-  // ... Question Category is the same thing in the docs
-  // ... 
-
   @OneToOne((type) => ProductBrand, { cascade: true })
   @JoinColumn()
   public brand!: ProductBrand; /* compare brand.toLower() before saving */
@@ -28,7 +21,7 @@ export class Product {
   public categories!: ProductCategory[];
 
   @Column()
-  public quantity!: number;
+  public stock!: number;
 
   @Column()
   public price!: number;

@@ -63,20 +63,20 @@ const mutations: MutationTree<iRootState> = {
   // ... click Shop, add 1 Trek Bike, add 1 more, notice alert, click Cart, notice 3 Trek Bikes in cart
   addToCart(state: iRootState, product: iProduct) {
     const productInCart: boolean = state.cart[product.id] ? true : false;
-    const inventoryQuantity: number = productInCart
-      ? state.cart[product.id].inventoryQuantity
+    const stock: number = productInCart
+      ? state.cart[product.id].stock
       : 0;
     const cartQuantity: number = productInCart
       ? state.cart[product.id].cartQuantity
       : 0;
     const productIsOutOfStock: boolean =
-      productInCart && inventoryQuantity <= cartQuantity;
+      productInCart && stock <= cartQuantity;
 
     // catch out of stock
     if (productInCart && productIsOutOfStock) {
       console.log(
         "out of stock",
-        state.cart[product.id].inventoryQuantity,
+        state.cart[product.id].stock,
         "<=",
         state.cart[product.id].cartQuantity
       );

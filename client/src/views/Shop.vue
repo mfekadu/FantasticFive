@@ -252,7 +252,6 @@ export default class Shop extends Vue {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            p.inventoryQuantity = prod.quantity;
             this.products.push(p);
           }
         );

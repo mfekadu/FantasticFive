@@ -31,11 +31,11 @@ export class ProductController extends DefaultController {
         const createProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
             // unravel the req.body properties into variables
-            const { title, desc, quantity, price, photoURL } = req.body;
+            const { title, desc, stock, price, photoURL } = req.body;
             const product = new Product();
             product.title = title;
             product.desc = desc;
-            product.quantity = quantity;
+            product.stock = stock;
             product.price = price;
             product.photoURL = photoURL;
             // save the product, set OK, send back product
@@ -48,13 +48,13 @@ export class ProductController extends DefaultController {
         const updateProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
             // unravel the req.body properties into variables
-            const { title, desc, quantity, price, photoURL } = req.body;
+            const { title, desc, stock, price, photoURL } = req.body;
             // get the product to be updated
             productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
                 // update the actual product
                 foundProduct.title = title;
                 foundProduct.desc = desc;
-                foundProduct.quantity = quantity;
+                foundProduct.stock = stock;
                 foundProduct.price = price;
                 foundProduct.photoURL = photoURL;
                 // save the updated product

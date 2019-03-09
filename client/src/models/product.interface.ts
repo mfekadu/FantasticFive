@@ -4,7 +4,7 @@ export interface iProduct {
   desc: string;
   brand: string;
   categories: string[];
-  inventoryQuantity: number;
+  stock: number;
   cartQuantity: number;
   price: number;
   saleYN: boolean;
