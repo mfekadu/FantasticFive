@@ -3,48 +3,48 @@
     <div class="title message-header">Filters</div>
 
     <div class="filterList">
+        <!-- Brand -->
         <div class="brand filterChunk">
             <p class="title">Brand</p>
             <div v-for="(brand, index) in brands" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="brandUpdate()"
+                  <input v-on:change="filterUpdate"
                   v-model="brand.status"
                   type="checkbox">
                     {{ " " + brand.value }}
-                    {{ "...status=" + brand.status }}
                 </label>
             </div>
         </div>
-
+        <!-- Category -->
         <div class="category filterChunk">
             <p class="title">Category</p>
             <div v-for="(category, index) in categories" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="categoryUpdate()"
+                  <input v-on:change="filterUpdate"
                          v-model="category.status"
                          type="checkbox">
                     {{ " " + category.value }}
                 </label>
             </div>
         </div>
-
+        <!-- Price -->
         <div class="price filterChunk">
             <p class="title">Price</p>
             <div v-for="(price, index) in prices" v-bind:key="index">
                 <label class="checkbox">
-                  <input v-on:change="priceUpdate()"
+                  <input v-on:change="filterUpdate"
                          v-model="price.status"
                          type="checkbox">
                     {{ " " + price.value }}
                 </label>
             </div>
         </div>
-
-        <div class="storePickup filterChunk">
+        <!-- Shipping -->
+        <div class="shipping filterChunk">
             <p class="title">Shipping</p>
             <div class="control">
                 <label class="radio">
-                    <input v-on:change="shipUpdate()" 
+                    <input v-on:change="filterUpdate" 
                             v-model="ship.status"
                             type="radio"
                             v-bind:value=true
@@ -52,17 +52,15 @@
                     Shipping Available
                 </label>
                 <label class="radio">
-                    <input v-on:change="shipUpdate()" 
+                    <input v-on:change="filterUpdate" 
                             v-model="ship.status"
                             type="radio"
                             v-bind:value=false
                             name="answer">
                     In-Store Pickup
                 </label>
-                {{ ship.status }}
             </div>
         </div>
-
     </div>
   </div>
 </template>
@@ -70,8 +68,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-
-import { iFilter, iAllFilters, FT, PRICES, DEFAULT_SHIP, CAN_SHIP } from "@/models/filter.interface";
+import {
+  iFilter,
+  iAllFilters,
+  FT,
+  PRICES,
+  DEFAULT_SHIP,
+  CAN_SHIP
+} from "@/models/filter.interface";
 
 @Component
 export default class ProductFilters extends Vue {
@@ -106,44 +110,20 @@ export default class ProductFilters extends Vue {
     return filters;
   }
 
-  // given a brand name and its checked state, update the list of checked brands
-  filterUpdate(type: string, value: string, status: boolean) {
-    this.$emit("filterUpdate", type, value, status);
+  filterUpdate() {
+    const eventData: iAllFilters = {
+      brands: this.brands,
+      categories: this.categories,
+      prices: this.prices,
+      shipping: this.ship
+    };
+    console.log("ProductFilters filterUpdate eventData:", eventData);
+    this.$emit("filterUpdate", eventData);
   }
-
-  brandUpdate() {
-    const eventData : iAllFilters = {
-      brands : this.brands, 
-      categories : this.categories,
-      prices : this.prices,
-      shipping : this.ship
-    }
-    console.log("ProductFilters brandUpdate eventData:",eventData);
-    this.$emit("brandUpdate", eventData);
-  }
-
-  categoryUpdate(category: iFilter) {
-    // this.$emit("categoryUpdate", category);
-    this.brandUpdate();
-  }
-
-  priceUpdate(price: iFilter) {
-    // this.$emit("priceUpdate", price);
-    this.brandUpdate();
-  }
-
-  shipUpdate(pickup: iFilter) {
-    // this.$emit("shippingUpdate", pickup);
-    this.brandUpdate();
-  }
-
 }
 </script>
 
 <style scoped>
-.filters {
-}
-
 .filterChunk {
   margin-bottom: 25px;
   margin-top: 25px;
@@ -152,7 +132,7 @@ export default class ProductFilters extends Vue {
 }
 
 label {
-  display:block; /* make it behave like a div */
+  display: block; /* make it behave like a div */
   margin: 10px;
 }
 </style>

@@ -215,7 +215,12 @@ import ProductsList from "@/components/ProductsList.vue";
 import ProductFilters from "@/components/ProductFilters.vue";
 import { iProduct } from "@/models/product.interface";
 
-import { iFilter, iAllFilters, FT, DEFAULT_SHIP } from "@/models/filter.interface";
+import {
+  iFilter,
+  iAllFilters,
+  FT,
+  DEFAULT_SHIP
+} from "@/models/filter.interface";
 
 import "@/utils/array.utils";
 
@@ -255,7 +260,7 @@ export default class Shop extends Vue {
 
   p2: iProduct = {
     id: 1,
-    title: "B Bike Pump",
+    title: "B Diamod",
     desc: "description",
     brand: "Diamondback",
     categories: [""],
@@ -313,11 +318,7 @@ export default class Shop extends Vue {
     photoURL: "./128x128.png"
   };
 
-  products: iProduct[] = [
-    this.p1,
-    this.p2,
-    this.p3
-  ];
+  products: iProduct[] = [this.p1, this.p2, this.p3];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
@@ -330,199 +331,112 @@ export default class Shop extends Vue {
   }
 
   refreshList() {
-    axios.get(APIConfig.buildUrl("/shop"))
-    
-    .then(response => {
-      let dbProducts = response.data.productArray;
+    axios
+      .get(APIConfig.buildUrl("/shop"))
 
-      // put the data in the thing
-      dbProducts.forEach((prod : any) : void => {
-         let p: iProduct = {...prod};
-         // converts a Database Product entity into an iProduct
-         p.cartQuantity = 0;
-         p.inventoryQuantity = prod.quantity;
-         this.products.push(p);
+      .then(response => {
+        let dbProducts = response.data.productArray;
+
+        // put the data in the thing
+        dbProducts.forEach(
+          (prod: any): void => {
+            let p: iProduct = { ...prod };
+            // converts a Database Product entity into an iProduct
+            p.cartQuantity = 0;
+            p.inventoryQuantity = prod.quantity;
+            this.products.push(p);
+          }
+        );
+
+        // update the view
+        this.updateView(this.products);
+      })
+      .catch(reason => {
+        this.filterUpdate(this.givenFilters);
       });
-
-      // update the view
-      this.updateView(this.products);
-      console.log(this.products);
-    })
-    .catch(reason => {
-      this.brandUpdate(this.givenFilters);
-      // update the view
-      // this.updateView(this.products);
-      console.log(this.products);
-    })
-    ;
   }
-
-  // filters is a map of the filter type to an iFilter object
-  // e.g. { 'brand' : <iFilter> }
-  filters : {[type: string] : iFilter} = {};
 
   // given the type of filter, the value to filter by, and the status of include or not include in the filtered array
   // output a filtered iProduct array starting from this.products
   // optionally provide an array as a starting point
-  doFilter(type: string, value: string, status: boolean, arr: iProduct[] | undefined) : iProduct[] {
-    let filteredProducts: iProduct[] = (arr) ? arr : this.products;
-    console.log("arr?",arr, "filteredProducts?",filteredProducts, "this.products?",this.products);
 
-    // define the Cond predicate type
-    type Cond = (arg0: iProduct) => boolean
-
-    // cond is a helper lambda function for filtering
-    let cond: Cond;
-
-    // list of conditions to filter later
-    let conditions: Cond[] = [];
-
-    switch (type) {
-      case "brand":
-        cond = (x) => { return x['brand'] === value };
-        conditions.push(cond);
-        // filter products if status is true
-        // filteredProducts = status ? this.products.filter(x => x.brand === value) : filteredProducts;
-        break;
-      case "price":
-        switch (value) {
-          // TODO: simplify this by having price tag have value=###
-          case "under $50":
-            cond = (x) => { return x['price'] <= 50 };
-            conditions.push(cond);
-            // filteredProducts = status ? this.products.filter((x) => x['price'] <= 50) : filteredProducts;
-            break;
-          case "$51 - $100":
-            cond = (x) => { return (x['price'] >= 51 && x['price'] <= 100) };
-            conditions.push(cond);
-            // cond = (x) => {  };
-            // filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
-            break;
-          case "$101 - $200":
-            cond = (x) => { return (x['price'] >= 101 && x['price'] <= 200) };
-            conditions.push(cond);
-            // cond = (x) => {  };
-            // filteredProducts = status ? this.products.filter((x) => cond(x)) : filteredProducts;
-            break;
-          case "$201+":
-            cond = (x) => { return x['price'] >= 201 };
-            conditions.push(cond);
-            // filteredProducts = status ? this.products.filter((x) => ) : filteredProducts;
-            break;
-          default: break;
-        }
-        break;
-      case "category":
-        console.log("dofilter",type,value,status);
-        // this.products.filter((x) => x['categories'] === value);
-        break;
-      case "shipping":
-        cond = (x) => { return x['canShipYN'] !== status };
-        conditions.push(cond);
-        // filteredProducts = status ? this.products.filter((x) => ) : filteredProducts;
-        break;
-      default:
-        break;
-    }
-
-    // helper to call all cond on one product
-    // for when 
-    const allCondFunc : Cond = (x: iProduct) => { 
-      let res : boolean = true;
-      for (const key in conditions) {
-        const func = conditions[key];
-        res = res && func(x);
-      }
-      return res;
-    }
-
-    // for (let fun of conditions) {
-    filteredProducts = status ? this.products.filter(allCondFunc) : filteredProducts;
-    // }
-    return filteredProducts;
-  }
-
-  // filters is a map of the filter type to an iFilter object
-  // e.g. { 'brand' : <iFilter> }
-  newf : { [type: string] : { [value: string] : iFilter } } = {};
-
-  givenFilters : iAllFilters = {
-    brands : [], 
-    categories : [],
-    prices : [],
-    shipping : DEFAULT_SHIP
+  givenFilters: iAllFilters = {
+    brands: [],
+    categories: [],
+    prices: [],
+    shipping: DEFAULT_SHIP
   };
 
-  brandUpdate(data: iAllFilters) {
-    // const { type, value, status } = brand;
-    // console.log("brandUpdate", type, value, status);
-    // console.log('same?', this.applesauce);
-    // this.applesauce = "banana";
-    // console.log("update...",data);
-    // console.log(data.shipping.status);
-    // console.log(typeof data.shipping.status);
+  filterUpdate(data: iAllFilters): iProduct[] {
+    // update local variable for correctly filtering after `mounted`
     this.givenFilters = data;
-    let products : iProduct[] = this.products;
-    let filteredByBrand : iProduct[] = [];
-    let filteredByPrice : iProduct[] = [];
-    let filteredByCategory : iProduct[] = [];
-    let filteredByShipping : iProduct[] = [];
-    let finalFilter : iProduct[] = this.products;
+    // get all the products
+    let products: iProduct[] = this.products;
+    // these arrays hold the corresponding filtered products
+    let filteredByBrand: iProduct[] = [];
+    let filteredByPrice: iProduct[] = [];
+    let filteredByCategory: iProduct[] = [];
+    let filteredByShipping: iProduct[] = [];
+    // this last array will be the intersection of the above arrays
+    let finalFilter: iProduct[] = this.products;
     // these booleans get set to true iff a checkbox is checked
-    let includeBrand : boolean = false;
-    let includePrice : boolean = false;
-    let includeCategory : boolean = false;
-    let includeShipping : boolean = false;
-    let temp : iProduct[] = [];
+    let includeBrand: boolean = false;
+    let includePrice: boolean = false;
+    let includeCategory: boolean = false;
+    let includeShipping: boolean = false;
+    // temp variable
+    let temp: iProduct[] = [];
     // define the Cond predicate type
-    type Cond = (arg0: iProduct) => boolean
+    type Cond = (arg0: iProduct) => boolean;
 
     // cond is a helper lambda function for filtering
     let cond: Cond;
 
     for (const brand of data.brands) {
-      if (brand.status) {includeBrand=true}
+      if (brand.status) {
+        includeBrand = true;
+      }
       // console.log({...brand}, products);
-      cond = (x) => {return x.brand === brand.value};
+      cond = x => {
+        return x.brand === brand.value;
+      };
       // include depending on brand.status
-      temp = (brand.status) ? products.filter(cond) : [];
+      temp = brand.status ? products.filter(cond) : [];
       filteredByBrand = filteredByBrand.union(temp);
     }
-    console.log("Shop brandUpdate filteredByBrand:",filteredByBrand);
 
     let filtered: any[] = [];
 
     for (const price of data.prices) {
-      if (price.status) {includePrice=true}
-      // console.log({...price});
+      if (price.status) {
+        includePrice = true;
+      }
       // "$0 - $50" --> ['0', '50']
       // "$201+" --> ['201']
-      const tuple: any[] = price.value.replace(new RegExp('\\$|\\+|\\-','g'), '').split(/\s+/)
+      const tuple: any[] = price.value
+        .replace(new RegExp("\\$|\\+|\\-", "g"), "")
+        .split(/\s+/);
       const min = parseInt(tuple[0]);
-      const max = (tuple[1]) ? parseInt(tuple[1]) : Number.MAX_SAFE_INTEGER;
+      const max = tuple[1] ? parseInt(tuple[1]) : Number.MAX_SAFE_INTEGER;
       console.log("min max", min, max);
-      cond = (x) => { return (x['price'] >= min && x['price'] <= max) };
-      temp = (price.status) ? products.filter(cond) : [];
+      cond = x => {
+        return x["price"] >= min && x["price"] <= max;
+      };
+      temp = price.status ? products.filter(cond) : [];
       filteredByPrice = filteredByPrice.union(temp);
     }
-    console.log("Shop brandUpdate filteredByPrice.and():",filteredByPrice.intersection(filteredByBrand));
-    console.log("Shop brandUpdate filteredByPrice:",filteredByPrice);
 
     for (const category of data.categories) {
       // if (category.status) {includeCategory=true}
-      // 
+      //
     }
 
-    cond = (x) => { return x['canShipYN'] === data.shipping.status };
-    temp = (data.shipping.status) ? products.filter(cond) : [];
+    cond = x => {
+      return x["canShipYN"] === data.shipping.status;
+    };
+    temp = data.shipping.status ? products.filter(cond) : [];
     filteredByShipping = filteredByPrice.union(temp);
 
-
-    console.log("at the end");
-    console.log(filteredByBrand);
-    console.log(filteredByCategory);
-    console.log(filteredByPrice);
-    console.log(filteredByShipping);
     if (includeBrand) {
       finalFilter = finalFilter.intersection(filteredByBrand);
     }
@@ -537,77 +451,7 @@ export default class Shop extends Vue {
     }
 
     this.updateView(finalFilter);
-
-  }
-
-  categoryUpdate(category: iFilter) {
-    const { type, value, status } = category;
-    console.log("categoryUpdate", type, value, status);
-    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
-    this.newf[type][value] = category;
-    this.fillUp();
-  }
-
-  priceUpdate(price: iFilter) {
-    const { type, value, status } = price;
-    console.log("priceUpdate", type, value, status);
-    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
-    this.newf[type][value] = price;
-    this.fillUp();
-  }
-
-  shippingUpdate(ship: iFilter) {
-    const { type, value, status } = ship;
-    console.log("shippingUpdate", type, value, status);
-    this.newf[type] = (this.newf[type]) ? this.newf[type] : {};
-    this.newf[type][value] = ship;
-    this.fillUp();
-  }
-
-  fillUp() {
-    console.log('fillUp', this.products, "newf", this.newf);
-    let filteredProducts: iProduct[] = this.products;
-    // filter for each in newf
-    for (let key in this.newf) {
-      let newlyFiltered: iProduct[] = [];
-      for (let key2 in this.newf[key]){
-        let t = this.newf[key][key2].type;
-        let v = this.newf[key][key2].value;
-        let s = this.newf[key][key2].status;
-        let temp = newlyFiltered;
-        console.log("temp", temp);
-        newlyFiltered = this.doFilter(t, v, s, this.products);
-        let unionArray = [...new Set([...newlyFiltered, ...temp])];
-        newlyFiltered = unionArray;
-      }
-      let intersection = [...new Set(filteredProducts)].filter(x => new Set(newlyFiltered).has(x))
-      filteredProducts = intersection;
-    }
-    console.log('full', filteredProducts);
-    this.updateView(filteredProducts);
-  }
-
-  filterUpdate(type: string, value: string, status: boolean) {
-    console.log(type, value, status);
-    console.log(this.products);
-
-    // append filter to list of filters; overwrite on second time
-    this.filters[type] = {type, value, status};
-    console.log("this.filters...",this.filters);
-
-    // start unfiltered
-    let filteredProducts: iProduct[] = this.products;
-
-    // filter for each in filters
-    for (let key in this.filters) {
-      let t = this.filters[key].type;
-      let v = this.filters[key].value;
-      let s = this.filters[key].status;
-      filteredProducts = this.doFilter(t, v, s, filteredProducts);
-    }
-
-    this.updateView(filteredProducts);
-    console.log(filteredProducts);
+    return finalFilter;
   }
 
   // given an array and a chunk, split the array into chunks with row-major ordering
