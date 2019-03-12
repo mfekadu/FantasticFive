@@ -1,6 +1,16 @@
 # Group5
 
-## A single-page webapp for a bike shop.
+## A [Vue.js][vue] webapp for a bike shop.
+
+## FOR TESTERS
+* Use the included ["SQLInfo.sql"][sqlfile] file to insert example data into the DB
+* This will add two staff accounts:
+  * Admin
+    * username: admin
+    * password: pass
+  * Employee
+    * username: employee
+    * password: pass
 
 ## Documentation
 * [All docs][shared_gdrive]
@@ -10,7 +20,7 @@
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
-  * Once the code is done, [make a new pull request](https://github.com/CSC307Winter2019/Group5/pulls)
+  * Once the code is done, [make a new pull request](https://github.com/CSC307Winter2019/Group5/pulls) or merge into dev
 
 ## Useful Git Info
 * ["Git Flow"][gitflow]
@@ -77,3 +87,7 @@ git pull professor master
 [requirements]: https://docs.google.com/document/d/1GLAbqnLXSJi8diQ_CJmz5hnz5zkAz6_TDh62P7a9_Ss/edit#heading=h.rv6hsfad8zu2
 
 [dev_link]: https://github.com/CSC307Winter2019/Group5/tree/dev
+
+[sqlfile]: ./SQLInfo.sql
+
+[vue]: https://vuejs.org/

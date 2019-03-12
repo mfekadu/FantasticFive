@@ -15,11 +15,11 @@
           <p>Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link
+          <router-link
+            class="button"
             :to="{path: '/orderDetails/'+ item.orderNumber}"
-             exact-active-class="is-active">View</router-link>
-          </button>
+            exact-active-class="is-active"
+          >View</router-link>
         </div>
       </div>
     </div>
@@ -33,6 +33,7 @@ import Footer from "@/components/Footer.vue";
 import AdminHeader from "@/components/AdminHeader.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
+import { iProduct } from "@/models/product.interface";
 
 @Component({
   components: {
@@ -49,7 +50,7 @@ export default class Orders extends Vue {
     city: "",
     state: "",
     zip: ""
-  }
+  };
 
   billingItem: Billing = {
     firstName: "",
@@ -57,7 +58,7 @@ export default class Orders extends Vue {
     cardNumber: "",
     expiration: "",
     cvv: ""
-  }
+  };
 
   item: Order = {
     orderNumber: 0,
@@ -67,7 +68,8 @@ export default class Orders extends Vue {
     orderDay: 0,
     orderYear: 0,
     shipping: this.shippingItem,
-    billing: this.billingItem
+    billing: this.billingItem,
+    prods: this.$store.state.cart
   };
 
   orders: Order[] = [];
@@ -88,24 +90,25 @@ export interface Order {
   orderYear: number;
   shipping: Shipping;
   billing: Billing;
+  prods: iProduct[];
 }
 
 export interface Billing {
-    firstName: string;
-    lastName: string;
-    cardNumber: string;
-    expiration: string;
-    cvv: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
 }
 
 export interface Shipping {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 </script>
 

@@ -8,31 +8,78 @@
         <h3 class="title is-3">Shipping Info</h3>
         <input class="checkbox" type="checkbox"> Pick up in store
         <br>
-        <input class="input is-small" type="text" placeholder="First Name" v-model="order.firstShip">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="First Name"
+          v-model="shippingItem.firstName"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="Last Name" v-model="order.lastShip">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Last Name"
+          v-model="shippingItem.lastName"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="Address 1" v-model="order.address1">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Address 1"
+          v-model="shippingItem.address1"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="Address 2" v-model="order.address2">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Address 2"
+          v-model="shippingItem.address2"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="City" v-model="order.city">
+        <input class="input is-small" type="text" placeholder="City" v-model="shippingItem.city">
         <br>
-        <input class="input is-small" type="text" placeholder="State" v-model="order.state">
+        <input class="input is-small" type="text" placeholder="State" v-model="shippingItem.state">
         <br>
-        <input class="input is-small" type="text" placeholder="ZIP Code" v-model="order.zip">
+        <input class="input is-small" type="text" placeholder="ZIP Code" v-model="shippingItem.zip">
         <br>
         <br>
 
         <h3 class="title is-3">Billing Info</h3>
-        <input class="input is-small" type="text" placeholder="First Name" v-model="order.firstBill">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="First Name"
+          v-model="billingItem.firstName"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="Last Name" v-model="order.lastBill">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Last Name"
+          v-model="billingItem.lastName"
+        >
         <br>
-        <input class="input is-small" type="text" placeholder="Card Number" v-model="order.cardNumber">
+        <input
+          class="input is-small"
+          type="text"
+          placeholder="Card Number"
+          v-model="billingItem.cardNumber"
+        >
         <br>
-        <input class="input is-small" style="width: 50%" type="text" placeholder="Expiration Date" v-model="order.expiration">
-        <input class="input is-small" style="width: 50%" type="text" placeholder="CVV" v-model="order.cvv">
+        <input
+          class="input is-small"
+          style="width: 50%"
+          type="text"
+          placeholder="Expiration Date"
+          v-model="billingItem.expiration"
+        >
+        <input
+          class="input is-small"
+          style="width: 50%"
+          type="text"
+          placeholder="CVV"
+          v-model="billingItem.cvv"
+        >
         <br>
         <br>
         <button class="button" style="margin-right: 15px">
@@ -42,15 +89,26 @@
           <router-link to="/confirmation">Confirm Purchase</router-link>
         </button>
       </div>
-      <div class="column">
-        <h3 class="title is-3">Order Summary</h3>Trek Bike *Picture*
-        <br>$499
-        <br>Quantity: 1
-        <br>
-        <br>Bike Pump *Picture*
-        <br>$29
-        <br>Quantity: 1
-        <br>
+
+      <div v-if="cartNotEmpty()">
+        <h3 class="title is-3">Order Summary</h3>
+        <div class="column" v-for="(p, index) in this.$store.state.cart" v-bind:key="index">
+          <!-- <ProductCard v-bind:product="p"
+            v-bind:hasCartDetail="true"
+            v-bind:hasDeleteButton="true"
+          v-on:deleted="deleteHandler()"/>-->
+          <div>
+            <p>{{ p.title }}</p>
+            <p>Image Here</p>
+            <!-- <img src='{{ p.photoURL }}'/> -->
+            <br>
+            <p>${{ p.price }}</p>
+            <br>
+            <p>Quantity: {{ p.cartQuantity }}</p>
+            <br>
+            <p>-----------------------------------------</p>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -59,17 +117,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
+import ProductCard from "@/components/ProductCard.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
+import { iProduct } from "@/models/product.interface";
 
 @Component({
   components: {
-    Footer
+    Footer,
+    ProductCard
   }
 })
 export default class Checkout extends Vue {
+  @Prop()
+  id: string | undefined;
+
+  orderId: number = 0;
+
+  prods: iProduct[] = this.$store.state.cart;
+
   shippingItem: Shipping = {
     firstName: "",
     lastName: "",
@@ -78,7 +146,7 @@ export default class Checkout extends Vue {
     city: "",
     state: "",
     zip: ""
-  }
+  };
 
   billingItem: Billing = {
     firstName: "",
@@ -86,11 +154,11 @@ export default class Checkout extends Vue {
     cardNumber: "",
     expiration: "",
     cvv: ""
-  }
+  };
 
   order: Order = {
     orderNumber: 0,
-    status: "",
+    status: "In Process",
     shippingYN: "",
     orderMonth: 0,
     orderDay: 0,
@@ -100,9 +168,23 @@ export default class Checkout extends Vue {
   };
 
   addOrder() {
-    axios.post(APIConfig.buildUrl("/checkout"), {
-      ...this.order
-    });
+    const _that = this;
+    axios
+      .post(APIConfig.buildUrl("/checkout"), this.order)
+      .then((res: AxiosResponse<Order>) => {
+        _that.order.orderNumber = res.data.orderNumber;
+        const orderID = res.data.orderNumber;
+        for (var key in _that.$store.state.cart) {
+          axios.post(
+            APIConfig.buildUrl("/orderProduct/" + orderID),
+            _that.$store.state.cart[key] // sends the iProduct at the key index of the cart
+          );
+        }
+      });
+  }
+
+  cartNotEmpty(): boolean {
+    return Object.keys(this.$store.state.cart).length > 0;
   }
 }
 
@@ -118,21 +200,21 @@ export interface Order {
 }
 
 export interface Billing {
-    firstName: string;
-    lastName: string;
-    cardNumber: string;
-    expiration: string;
-    cvv: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
 }
 
 export interface Shipping {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 </script>
 

@@ -11,11 +11,11 @@ describe("/users", () => {
   let connection: Connection;
 
   const createUser = (
-    emailAddress: string,
+    username: string,
     conn: Connection
   ): Promise<User> => {
     const user = new User();
-    user.emailAddress = emailAddress;
+    user.username= username;
     user.firstName = "testUser";
     user.lastName = "testUser";
     user.password = "password";
@@ -55,7 +55,7 @@ describe("/users", () => {
             expect(
               response.body.users && response.body.users.length
             ).toEqual(1);
-            expect(response.body.users[0].emailAddress).toEqual(email);
+            expect(response.body.users[0].username).toEqual(email);
             done();
           });
       });
@@ -67,13 +67,13 @@ describe("/users", () => {
       return request(myApp)
         .post("/users")
         .send({
-          emailAddress: email,
+          username: email,
           firstName: "test",
           lastName: "test",
           password: "password",
         })
         .then((response: request.Response) => {
-          expect(response.body.user.emailAddress).toEqual(email);
+          expect(response.body.createdUser.username).toEqual(email);
           done();
         });
     });

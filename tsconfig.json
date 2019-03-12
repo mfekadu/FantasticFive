@@ -1,0 +1,7 @@
+// added this file to tsconfig.json to get rid of warnings while root directory is open
+{
+  "compilerOptions": {
+    /* Experimental Options */
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+  }
+}

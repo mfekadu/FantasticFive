@@ -10,16 +10,15 @@ import { iProduct } from "@/models/product.interface";
 
 Vue.use(Vuex);
 
-const toast = (title: string) => { 
-  const url: string = ''; // blank
-  const features: string = 'width=300,height=300'
-  const name: string = "AddedProduct";
-  // open new 300x300 window, write notification text, bring it to front of windows
-  const w: Window | null = window.open(url,name,features);
-  w!.document.write(`<h1 class="notification">Added <em>${title}</em> to your cart!</h1>`);
-  w!.focus();
-  // close the popup in 2 seconds
-  setTimeout(() => { w!.close(); }, 2000); 
+const toast = (message: string, type: string) => {
+  let x = document.getElementById("toast");
+  let y = document.getElementById("desc");
+  y!.textContent = message;
+  let newClass = `${type} show`;
+  x!.className = newClass;
+  setTimeout(() => {
+    x!.className = x!.className.replace(newClass, "");
+  }, 2000);
 };
 
 interface iRootState {
@@ -60,18 +59,30 @@ const mutations: MutationTree<iRootState> = {
   },
   // given an iRootState and an iProduct, mutate the cart by adding the product. O(1) runtime
   // NOTE: id 0 is not possible in mysql so expect payload.id never 0
-  // test case: (3 Trek Bikes in stock) add 2 Trek Bikes, click Cart, notice 2 Trek Bikes in cart, 
+  // test case: (3 Trek Bikes in stock) add 2 Trek Bikes, click Cart, notice 2 Trek Bikes in cart,
   // ... click Shop, add 1 Trek Bike, add 1 more, notice alert, click Cart, notice 3 Trek Bikes in cart
   addToCart(state: iRootState, product: iProduct) {
     const productInCart: boolean = state.cart[product.id] ? true : false;
-    const inventoryQuantity: number = productInCart ? state.cart[product.id].inventoryQuantity : 0; 
-    const cartQuantity: number = productInCart ? state.cart[product.id].cartQuantity : 0;
-    const productIsOutOfStock: boolean = productInCart && (inventoryQuantity <= cartQuantity);
+    const stock: number = productInCart
+      ? state.cart[product.id].stock
+      : 0;
+    const cartQuantity: number = productInCart
+      ? state.cart[product.id].cartQuantity
+      : 0;
+    const productIsOutOfStock: boolean =
+      productInCart && stock <= cartQuantity;
 
     // catch out of stock
     if (productInCart && productIsOutOfStock) {
-      console.log("out of stock",state.cart[product.id].inventoryQuantity,"<=",state.cart[product.id].cartQuantity);
-      alert("SORRY! OUT OF STOCK!");
+      console.log(
+        "out of stock",
+        state.cart[product.id].stock,
+        "<=",
+        state.cart[product.id].cartQuantity
+      );
+      let message = "SORRY! OUT OF STOCK!";
+      let type = "notification is-danger";
+      toast(message, type);
       return;
     }
 
@@ -85,7 +96,11 @@ const mutations: MutationTree<iRootState> = {
     }
 
     // notify user of cart addition
-    toast(product.title);
+    let message = `${state.cart[product.id].cartQuantity} of ${
+      product.title
+    } in cart!`;
+    let type = "notification is-primary";
+    toast(message, type);
   },
   // given an iRootState and an iProduct, mutate cart by removing the given iProduct by id
   deleteFromCart(state: iRootState, product: iProduct) {
