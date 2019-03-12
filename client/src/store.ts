@@ -106,6 +106,7 @@ const mutations: MutationTree<iRootState> = {
   deleteFromCart(state: iRootState, product: iProduct) {
     // make sure they want it by clicking OK, CANCEL means false
     if (confirm("delete " + product.title + " from cart?") === true) {
+      product.cartQuantity = 0;
       delete state.cart[product.id];
     }
   },
