@@ -3,7 +3,7 @@
   <Header/>
   <body>
     <div class="center">
-      <p>Order Number: #F2453
+      <p>Order Number: {{ id }}
         <br>
         <br>Call (805) 555-5555 for any questions regarding your order.
         <br>Thank you for your purchase!
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 
@@ -26,7 +26,10 @@ import Header from "@/components/Header.vue";
     Header
   }
 })
-export default class Confirmation extends Vue {}
+export default class Confirmation extends Vue {
+  @Prop()
+  id: string | undefined;
+}
 </script>
 
 <style scoped>

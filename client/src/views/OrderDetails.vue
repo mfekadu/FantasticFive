@@ -41,18 +41,26 @@
         <span>*********1234</span>
         <br>
         <br>
-        <div class="select">
+        <div class="select" v-if="this.cancelled == false">
           <select v-model="item.status">
             <option value="In Process">In Process</option>
             <option value="Ready to Ship">Ready to Ship</option>
             <option value="Shipped">Shipped</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="Cancelled" v-if="this.$store.state.admin == true">Cancelled</option>
+            <option value="Ready for Pickup">Ready for Pickup</option>
+            <option value="Complete">Complete</option>
           </select>
+          <br>
+          <br>
+          <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
+          <router-link class="button" to="/orders">Cancel</router-link>
         </div>
-        <br>
-        <br>
-        <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
-        <router-link class="button" to="/orders">Cancel</router-link>
+        <div v-else>
+          <p style="color:#FF0000">Order Cancelled</p>
+          <br>
+          <br>
+          <router-link class="button" to="/orders">Cancel</router-link>
+        </div>
       </div>
     </div>
   </body>
@@ -154,11 +162,20 @@ export default class OrderDetails extends Vue {
 
   total: number = 0;
 
+  cancelled: boolean = false;
+
   mounted() {
     axios.get(APIConfig.buildUrl("/orderDetails/" + this.id)).then(response => {
       this.item = response.data.item;
+      this.setCancelled();
       this.getProductLink();
     });
+  }
+
+  setCancelled() {
+    if (this.item.status == "Cancelled") {
+      this.cancelled = true;
+    }
   }
 
   getProductInfo() {

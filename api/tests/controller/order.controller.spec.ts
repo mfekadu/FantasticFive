@@ -66,16 +66,18 @@ describe("/orders", () => {
       const status = "swag";
       const shipping = new Shipping();
       return request(myApp)
-        .post("/users")
+        .post("/orders")
         .send({
           status: "shipped fam",
           shipping: new Shipping(),
           billing: new Billing()
         })
         .then((response: request.Response) => {
-          expect(response.body.status).toEqual("shipped fam");
+          expect(response.body.createdOrder.status).toEqual("shipped fam");
           done();
         });
     });
   });
+  describe()
+
 });

@@ -10,7 +10,7 @@ describe("/shop", () => {
   let myApp: express.Application;
   let connection: Connection;
 
-  const createUser = (
+  const createProduct = (
     title: string,
     conn: Connection
   ): Promise<Product> => {
@@ -44,7 +44,7 @@ describe("/shop", () => {
     });
     test("should return one product", done => {
       const title = "swag";
-      return createUser(title, connection).then((createdProduct: Product) => {
+      return createProduct(title, connection).then((createdProduct: Product) => {
         return request(myApp)
           .get("/shop")
           .expect(200)
