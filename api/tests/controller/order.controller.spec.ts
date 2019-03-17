@@ -78,6 +78,5 @@ describe("/orders", () => {
         });
     });
   });
-  describe()
 
 });
