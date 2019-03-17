@@ -68,7 +68,29 @@
           </label>
         </div>
       </div>
-      <div class="column">Hello</div>
+      <div class="column">
+        <h3 class="title is-3">Brands</h3>
+        <div class="select">
+          <select v-model="brandID">
+            <option
+              v-for="(brand, index) in brands"
+              v-bind:key="index"
+              :value="brand.id"
+            >{{brand.name}}</option>
+          </select>
+        </div>
+        <h3 class="title is-3" style="margin-top: 15px">Categories</h3>
+        <p class="subtitle is-5">(Use cmd or ctrl for multiple)</p>
+        <div class="select is-multiple">
+          <select v-model="selected" multiple="true">
+            <option
+              v-for="(category, index) in categories"
+              v-bind:key="index"
+              :value="category.id"
+            >{{category.name}}</option>
+          </select>
+        </div>
+      </div>
     </div>
     <div style="margin-bottom: 50px">
       <button class="button" style="margin-right: 15px" v-on:click="addProduct">Save</button>
@@ -84,6 +106,8 @@ import AdminHeader from "@/components/AdminHeader.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
 import { iProduct } from "@/models/product.interface";
+import { Brand } from "@/models/brand.interface";
+import { Category } from "@/models/category.interface";
 
 @Component({
   components: {
@@ -96,8 +120,8 @@ export default class ItemEdit extends Vue {
     id: 0,
     title: "",
     desc: "",
-    brand: "Trek",
-    categories: [""],
+    brand: { id: 0, name: "" },
+    categories: [{ id: 0, name: "" }],
     stock: 0,
     cartQuantity: 0,
     price: 0,
@@ -106,6 +130,10 @@ export default class ItemEdit extends Vue {
     canShipYN: false,
     photoURL: ""
   };
+  brands: Brand[] = [];
+  categories: Category[] = [];
+  brandID: number = 0;
+  selected: Category[] = [];
 
   mounted() {
     if (this.id != "0") {
@@ -113,6 +141,12 @@ export default class ItemEdit extends Vue {
         this.item = response.data.product;
       });
     }
+    axios.get(APIConfig.buildUrl("/brand")).then(response => {
+      this.brands = response.data.brands;
+    });
+    axios.get(APIConfig.buildUrl("/category")).then(response => {
+      this.categories = response.data.categories;
+    });
   }
 
   addProduct() {
