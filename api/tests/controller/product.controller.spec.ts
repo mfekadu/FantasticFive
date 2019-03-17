@@ -10,7 +10,7 @@ describe("/shop", () => {
   let myApp: express.Application;
   let connection: Connection;
 
-  const createProduct = (
+  const createTestProduct = (
     title: string,
     conn: Connection
   ): Promise<Product> => {
@@ -44,7 +44,7 @@ describe("/shop", () => {
     });
     test("should return one product", done => {
       const title = "swag";
-      return createProduct(title, connection).then((createdProduct: Product) => {
+      return createTestProduct(title, connection).then((createdProduct: Product) => {
         return request(myApp)
           .get("/shop")
           .expect(200)
@@ -55,6 +55,22 @@ describe("/shop", () => {
             expect(response.body.productArray[0].title).toEqual(title);
             done();
           });
+      });
+    });
+    test("get based on ID", done => {
+      const title = "swag";
+      return createTestProduct(title, connection).then((createdProduct: Product) => {
+        return request(myApp)
+          .get("/shop/:id")
+          .expect(200)
+      });
+    });
+    test("getCategory", done => {
+      const title = "swag";
+      return createTestProduct(title, connection).then((createdProduct: Product) => {
+        return request(myApp)
+          .get("/category")
+          .expect(200)
       });
     });
   });
@@ -71,5 +87,47 @@ describe("/shop", () => {
           done();
         });
     });
+    
+  });
+  
+});
+
+describe("/brand", () => {
+  let myApp: express.Application;
+  let connection: Connection;
+
+  const createTestProduct = (
+    title: string,
+    conn: Connection
+  ): Promise<Product> => {
+    const product = new Product();
+    product.title= title;
+    return conn.getRepository(Product).save(product);
+  };
+
+  beforeAll(async () => {
+    myApp = await new Server().getMyApp();
+    connection = await DBConnection.getConnection();
+    await connection.synchronize();
+  });
+
+  beforeEach(async () => {
+    await DBUtils.clearDB();
+  });
+
+  afterAll(async () => {
+    DBConnection.closeConnection();
+  });
+
+  describe("GET '/'", () => {
+    test("shop ID get", done => {
+      const title = `testTitle`;
+      return createTestProduct(title, connection).then((createdProduct: Product) => {
+        return request(myApp)
+          .get("/brand")
+          .expect(200)
+      });
+    });
+    
   });
 });
