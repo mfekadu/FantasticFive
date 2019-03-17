@@ -14,15 +14,13 @@ export class OrderController extends DefaultController {
           .route("/checkout")
           .post((req: Request, res: Response) => {
             const orderRepo = getRepository(Order);
-            // const { status, shippingYN, firstShip, lastShip, address1, address2, city, 
-            //     state, zip, firstBill, lastBill, cardNumber, expiration, cvv } = req.body;
             const order = new Order();
             const today = new Date();
             order.orderMonth = today.getMonth() + 1;
             order.orderDay = today.getDate();
             order.orderYear = today.getFullYear();
             order.status = req.body.status;
-            order.shippingYN = true;
+            order.shippingYN = req.body.shippingYN;
             //Shipping Info
             const shipping = new Shipping();
             shipping.firstName = req.body.shipping.firstName;
@@ -96,18 +94,17 @@ export class OrderController extends DefaultController {
 
             const orderProd = new OrderProducts();
             orderProd.orderNumber = req.params.id;
-            // orderProd.productId = id;
-            orderProd.productId = 1;
+            orderProd.productId = id;
             orderProd.orderQuantity = cartQuantity;
             if (saleYN) {
-              orderProd.orderPrice = salesPrice;
+              orderProd.orderPrice = salesPrice * cartQuantity;
             }
             else {
-              orderProd.orderPrice = price;
+              orderProd.orderPrice = price * cartQuantity;
             }
             orderProductsRepo.save(orderProd).then(
               createdOrderProduct => {
-                res.status(200).send({ createdOrderProduct });
+                res.status(200).send(orderProd);
               }
             );
           });

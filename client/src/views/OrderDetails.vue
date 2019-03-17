@@ -7,20 +7,30 @@
       Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}
     </h3>
     <div class="columns">
-      <div class="column is-6" style="overflow: auto; height: 375px">
-        <div v-for="(item, index) in this.prodList" v-bind:key="index">
+      <div class="scroller column is-6">
+        <div class="card" v-for="(item, index) in this.prodList" v-bind:key="index">
           <ProductCard v-bind:product="item"
                      v-bind:hasOrderDetail="true"/>
+        </div>
+        <div style="padding-bottom: 75px; padding-top: 30px">
+          <b>Total Price: ${{ this.total }}</b>
         </div>
       </div>
       <div class="column is-6">
         <b>Shipping Details</b>
         <br>
-        <span>{{ item.shipping.firstName }} {{ item.shipping.lastName }}</span>
-        <br>
-        <span>{{ item.shipping.address1 }}, {{ item.shipping.address2 }}</span>
-        <br>
-        <span>{{ item.shipping.city }}, {{ item.shipping.state }}, {{ item.shipping.zip }}</span>
+        <div v-if="item.shippingYN == true">
+          <span>{{ item.shipping.firstName }} {{ item.shipping.lastName }}</span>
+          <br>
+          <span>{{ item.shipping.address1 }}, {{ item.shipping.address2 }}</span>
+          <br>
+          <span>{{ item.shipping.city }}, {{ item.shipping.state }}, {{ item.shipping.zip }}</span>
+        </div>
+        <div v-if="item.shippingYN == false">
+          <br>
+          <p style="color:#FF0000">Order Must Be Picked Up In Store</p>
+          <br>
+        </div>
         <br>
         <br>
         <b>Payment Details</b>
@@ -142,6 +152,8 @@ export default class OrderDetails extends Vue {
 
   prodList: iProduct[] = [];
 
+  total: number = 0;
+
   mounted() {
     axios.get(APIConfig.buildUrl("/orderDetails/" + this.id)).then(response => {
       this.item = response.data.item;
@@ -152,6 +164,7 @@ export default class OrderDetails extends Vue {
   getProductInfo() {
     for (var data of this.orderProds) {
       let v = data.orderQuantity;
+      this.total = this.total + data.orderPrice;
       axios.get(APIConfig.buildUrl("/productInfo/" + data.productId)).then(response => {
         let p: iProduct = response.data.item;
         p.cartQuantity = v;
@@ -238,6 +251,19 @@ export interface Shipping {
 .column {
   margin: auto;
   width: 25%;
+}
+
+.scroller {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 400px;
+}
+
+.card {
+  display: inline-block;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .center {
