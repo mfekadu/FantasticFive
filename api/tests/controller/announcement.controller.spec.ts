@@ -2,21 +2,22 @@ import express from "express";
 import request from "supertest";
 import { Connection } from "typeorm";
 import { DBConnection } from "../../connection";
-import { Product } from "../../entity";
+import { Announcement } from "../../entity";
 import { Server } from "../../server";
 import DBUtils from "../util/database";
 
-describe("/shop", () => {
+describe("/announcements", () => {
   let myApp: express.Application;
   let connection: Connection;
 
-  const createUser = (
+  const createAnnouncement = (
     title: string,
     conn: Connection
-  ): Promise<Product> => {
-    const product = new Product();
-    product.title= title;
-    return conn.getRepository(Product).save(product);
+  ): Promise<Announcement> => {
+    const announcement = new Announcement();
+    announcement.title= title;
+    announcement.desc = "test";
+    return conn.getRepository(Announcement).save(announcement);
   };
 
   beforeAll(async () => {
@@ -36,38 +37,32 @@ describe("/shop", () => {
   describe("GET '/'", () => {
     test("should return an empty list because there isn't anything in the database", done => {
       request(myApp)
-        .get("/shop")
+        .get("/announcements")
         .then((response: request.Response) => {
-          expect(response.body).toEqual({ productArray: [] });
+          expect(response.body.length).toEqual(8);
           done();
         });
     });
-    test("should return one product", done => {
-      const title = "swag";
-      return createUser(title, connection).then((createdProduct: Product) => {
+    test("should return one announcement", done => {
+      const title= "testTitle";
+      return createAnnouncement(title, connection).then((createdAnnounce: Announcement) => {
         return request(myApp)
-          .get("/shop")
-          .expect(200)
-          .then((response: request.Response) => {
-            expect(
-              response.body.productArray && response.body.productArray.length
-            ).toEqual(1);
-            expect(response.body.productArray[0].title).toEqual(title);
-            done();
-          });
+          .get("/announcements")
+          .expect(200);
       });
     });
   });
   describe("POST '/'", () => {
-    test("should create a product", done => {
-      const title = `testTitle`;
+    test("should create an announcement", done => {
+      const testTitle = "testTitle";
       return request(myApp)
-        .post("/shop")
+        .post("/announcements")
         .send({
-          title: title
+          title: testTitle,
+          desc: "test"
         })
         .then((response: request.Response) => {
-          expect(response.body.createdProduct).toEqual(title);
+          expect(response.body.createdAnnounce.title).toEqual(testTitle);
           done();
         });
     });
