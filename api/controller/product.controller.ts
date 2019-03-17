@@ -109,6 +109,15 @@ export class ProductController extends DefaultController {
             brandRepo.find().then(getBrandArray);
         }
 
+        const getCats = (req: Request, res: Response) => {
+            const catRepo = getRepository(ProductCategory);
+            // define the function to handle the find() Promise
+            const getCatArray = (categories : ProductCategory[]) => {
+                res.status(OK).send({ categories });
+             };
+            catRepo.find().then(getCatArray);
+        }
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
@@ -121,6 +130,9 @@ export class ProductController extends DefaultController {
 
         router.route("/brand")
             .get( getBrands );
+
+        router.route("/category")
+            .get( getCats );
 
         return router;
     };
