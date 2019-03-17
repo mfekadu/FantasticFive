@@ -8,7 +8,7 @@ export class Product {
   @Column()
   public title!: string;
 
-  @Column()
+  @Column({default: null})
   public desc!: string;
 
   // should there be an array here ??
