@@ -27,7 +27,7 @@
           <div>
             <label>Sale Price</label>
           </div>
-          <input class="input" v-model="item.price" type="number">
+          <input class="input" v-model="item.salesPrice" type="number">
         </div>
         <div style="margin-top: 5px">
           <label>On Sale?</label>
@@ -71,7 +71,7 @@
       <div class="column">Hello</div>
     </div>
     <div style="margin-bottom: 50px">
-      <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
+      <button class="button" style="margin-right: 15px" v-on:click="addProduct">Save</button>
       <router-link class="button" to="/inventory">Cancel</router-link>
     </div>
   </body>
@@ -96,7 +96,7 @@ export default class ItemEdit extends Vue {
     id: 0,
     title: "",
     desc: "",
-    brand: "",
+    brand: "Trek",
     categories: [""],
     stock: 0,
     cartQuantity: 0,
@@ -110,7 +110,7 @@ export default class ItemEdit extends Vue {
   mounted() {
     if (this.id != "0") {
       axios.get(APIConfig.buildUrl("/shop/" + this.id)).then(response => {
-        this.item = response.data.user;
+        this.item = response.data.product;
       });
     }
   }
