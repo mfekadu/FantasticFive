@@ -100,6 +100,15 @@ export class ProductController extends DefaultController {
             });
           };
 
+        const getBrands = (req: Request, res: Response) => {
+            const brandRepo = getRepository(ProductBrand);
+            // define the function to handle the find() Promise
+            const getBrandArray = (brands : ProductBrand[]) => {
+                res.status(OK).send({ brands });
+             };
+            brandRepo.find().then(getBrandArray);
+        }
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
@@ -109,6 +118,9 @@ export class ProductController extends DefaultController {
         // add a get here
             .put( updateProduct )
             .delete( deleteProduct );
+
+        router.route("/brand")
+            .get( getBrands );
 
         return router;
     };
