@@ -38,7 +38,7 @@
         <span>{{ item.billing.firstName }} {{ item.billing.lastName }}</span>
         <br>
         <br>
-        <span>*********1234</span>
+        <span>{{ cNum }}</span>
         <br>
         <br>
         <div class="select" v-if="this.cancelled == false">
@@ -88,6 +88,7 @@ import { iProduct } from "@/models/product.interface";
 export default class OrderDetails extends Vue {
   @Prop() id: string | undefined;
 
+  cNum: string = "";
   
   p1: iProduct = {
     id: 0,
@@ -168,8 +169,20 @@ export default class OrderDetails extends Vue {
     axios.get(APIConfig.buildUrl("/orderDetails/" + this.id)).then(response => {
       this.item = response.data.item;
       this.setCancelled();
+      this.checkCardNum();
       this.getProductLink();
     });
+  }
+
+  checkCardNum() {
+    if (this.item.billing.cardNumber.length < 4) {
+      this.cNum = "94305" + this.item.billing.cardNumber; 
+    }
+    else {
+      this.cNum = this.item.billing.cardNumber;
+    }
+    var num = this.cNum.length - 4;
+    this.cNum = "************" + this.cNum.substring(num)
   }
 
   setCancelled() {

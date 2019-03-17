@@ -34,7 +34,7 @@
         <br>
         <br>
         <h3 class="title is-3">Payment Details</h3>{{ item.billing.firstName }} {{ item.billing.lastName }}
-        <br>Card #: ****1234
+        <br>Card #: {{ cNum }}
         <br><br>
         <div style="color: red">Call (805) 555-5555 for any questions</div>
       </div>
@@ -70,6 +70,8 @@ export default class Status extends Vue {
   prodList: iProduct[] = [];
 
   total: number = 0;
+
+  cNum: string = "";
 
   prod: OrderProd = {
     id: 0,
@@ -109,8 +111,20 @@ export default class Status extends Vue {
   mounted() {
     axios.get(APIConfig.buildUrl("/orderDetails/" + this.id)).then(response => {
       this.item = response.data.item;
+      this.checkCardNum();
       this.getProductLink();
     });
+  }
+
+  checkCardNum() {
+    if (this.item.billing.cardNumber.length < 4) {
+      this.cNum = "94305" + this.item.billing.cardNumber; 
+    }
+    else {
+      this.cNum = this.item.billing.cardNumber;
+    }
+    var num = this.cNum.length - 4;
+    this.cNum = "************" + this.cNum.substring(num)
   }
 
   getProductInfo() {

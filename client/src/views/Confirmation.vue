@@ -3,7 +3,9 @@
   <Header/>
   <body>
     <div class="center">
-      <p>Order Number: {{ id }}
+      <p>Order Number: <b>{{ id }}</b>
+        <br>
+        <br><b>To review your order and the status of your order enter the above number into tracking!</b>
         <br>
         <br>Call (805) 555-5555 for any questions regarding your order.
         <br>Thank you for your purchase!
