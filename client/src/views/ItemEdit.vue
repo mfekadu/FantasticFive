@@ -2,35 +2,75 @@
 <div class="itemedit">
   <AdminHeader/>
   <body>
-    <h2 class="title is-2">Add/Edit Item</h2>
-    <div>
-      <input class="input" v-model="item.title" type="text" placeholder="Name">
+    <h2 class="title is-2">Add/Edit Product</h2>
+    <div class="columns">
+      <div class="column is-one-third">
+        <div>
+          <div>
+            <label>Product Name</label>
+          </div>
+          <input class="input" v-model="item.title" type="text">
+        </div>
+        <div>
+          <div>
+            <label>Image URL</label>
+          </div>
+          <input class="input" v-model="item.photoURL" type="text">
+        </div>
+        <div>
+          <div>
+            <label>Price</label>
+          </div>
+          <input class="input" v-model="item.price" type="number">
+        </div>
+        <div>
+          <div>
+            <label>Sale Price</label>
+          </div>
+          <input class="input" v-model="item.price" type="number">
+        </div>
+        <div style="margin-top: 5px">
+          <label>On Sale?</label>
+        </div>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" v-model="item.saleYN" v-bind:value="true">
+            Yes
+          </label>
+          <label class="radio">
+            <input type="radio" v-model="item.saleYN" v-bind:value="false">
+            No
+          </label>
+        </div>
+        <div>
+          <div>
+            <label>Description</label>
+          </div>
+          <textarea class="textarea has-fixed-size" v-model="item.desc"></textarea>
+        </div>
+        <div>
+          <div>
+            <label>Total Available</label>
+          </div>
+          <input class="input" v-model="item.stock" type="number">
+        </div>
+        <div style="margin-top: 5px">
+          <label>Can Ship?</label>
+        </div>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" v-model="item.canShipYN" v-bind:value="true">
+            Yes
+          </label>
+          <label class="radio">
+            <input type="radio" name="no" v-model="item.canShipYN" v-bind:value="false">
+            No
+          </label>
+        </div>
+      </div>
+      <div class="column">Hello</div>
     </div>
-    <div style="margin-top: 15px">
-      <div><label for="Price">Price</label></div>
-      <input class="input" v-model="item.price" type="number" id="Price">
-    </div>
-    <div style="margin-top: 15px">
-      <textarea class="textarea has-fixed-size" v-model="item.desc" placeholder="Description"></textarea>
-    </div>
-    <div style="margin-top: 15px">
-      <input class="input" v-model="item.stock" type="number" placeholder="Total Available">
-    </div>
-    <div style="margin-top: 15px">
-      <input class="input" v-model="item.password" type="text" placeholder="Password">
-    </div>
-    <div class="control" style="margin-top: 15px">
-      <label class="radio">
-        <input type="radio" name="yes" v-model="item.admin" v-bind:value="true">
-        Admin
-      </label>
-      <label class="radio">
-        <input type="radio" name="no" v-model="item.admin" v-bind:value="false">
-        Employee
-      </label>
-    </div>
-
-    <div style="margin-top: 15px">
+    <div style="margin-bottom: 50px">
       <button class="button" style="margin-right: 15px" v-on:click="addUser">Save</button>
       <router-link class="button" to="/inventory">Cancel</router-link>
     </div>
@@ -63,7 +103,7 @@ export default class EmployeeEdit extends Vue {
     price: 0,
     saleYN: false,
     salesPrice: 0,
-    canShipYN: true,
+    canShipYN: false,
     photoURL: ""
   };
 
@@ -86,8 +126,7 @@ export default class EmployeeEdit extends Vue {
             this.$router.push("/inventory");
           }
         })
-        .catch(res => {
-        });
+        .catch(res => {});
     } else {
       axios
         .put(APIConfig.buildUrl("/shop/" + this.id), {
@@ -98,8 +137,7 @@ export default class EmployeeEdit extends Vue {
             this.$router.push("/inventory");
           }
         })
-        .catch(res => {
-        });
+        .catch(res => {});
     }
   }
 }
