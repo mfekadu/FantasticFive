@@ -228,7 +228,7 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
   }
 })
 export default class Shop extends Vue {
-  products: iProduct[] = [...MOCK_PRODUCTS];
+  products: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
