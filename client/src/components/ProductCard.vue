@@ -39,7 +39,7 @@
         <button class="button" v-on:click="deleteFromCart(product)">Delete From Cart</button>
       </div>
       <div v-else-if="hasAdminButtons">
-        <button class="button">Edit</button>
+        <router-link class="button" :to="{path: '/itemedit/'+ product.id}">Edit</router-link>
         <button class="button" style="margin-left: 5px">Delete</button>
       </div>
       <div v-else-if="hasAddButton">

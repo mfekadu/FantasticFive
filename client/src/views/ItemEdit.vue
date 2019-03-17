@@ -90,7 +90,7 @@ import { iProduct } from "@/models/product.interface";
     AdminHeader
   }
 })
-export default class EmployeeEdit extends Vue {
+export default class ItemEdit extends Vue {
   @Prop() id: string | undefined;
   item: iProduct = {
     id: 0,
@@ -115,7 +115,7 @@ export default class EmployeeEdit extends Vue {
     }
   }
 
-  addUser() {
+  addProduct() {
     if (this.id == "0") {
       axios
         .post(APIConfig.buildUrl("/shop"), {
