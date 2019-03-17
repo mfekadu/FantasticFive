@@ -23,6 +23,10 @@ export class Product {
   @Column()
   public stock!: number;
 
+  // true by default and set to false if deleted
+  @Column({default: true})
+  public isActive!: boolean;
+
   @Column()
   public price!: number;
 
