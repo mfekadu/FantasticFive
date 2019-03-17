@@ -19,13 +19,13 @@ export class ProductController extends DefaultController {
             // get a productRepo object for typeorm
             const productRepo = getRepository(Product);
             // define the function to handle the find() Promise
-            const getProductArray = (productArray : Product[]) => {
+            const sendProductArray = (productArray : Product[]) => {
                 res.status(OK).send({ productArray });
              };
             // find the product table in DB, 
             // then set OK status and send back the productArray
             const options = {relations: ['brand', 'categories']};
-            productRepo.find(options).then(getProductArray);
+            productRepo.find(options).then(sendProductArray);
         };
 
         // private helper function to handle POST requests
@@ -118,13 +118,24 @@ export class ProductController extends DefaultController {
             catRepo.find().then(getCatArray);
         }
 
+        const getSpecificProduct = (req: Request, res: Response) => {
+            const productRepo = getRepository(Product);
+            // find the product table in DB, 
+            // then set OK status and send back the productArray
+            const options = {relations: ['brand', 'categories']};
+            // get the product to be updated
+            productRepo.findOneOrFail(req.params.id, options).then((foundProduct: Product) => {
+                res.status(OK).send({product: foundProduct});
+            });
+        };
+
         const router = Router();
         router.route("/shop")
             .get( getProducts )
             .post( createProduct );
 
         router.route("/shop/:id")
-        // add a get here
+            .get( getSpecificProduct )
             .put( updateProduct )
             .delete( deleteProduct );
 
