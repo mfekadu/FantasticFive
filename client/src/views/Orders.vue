@@ -3,7 +3,24 @@
   <AdminHeader/>
   <body>
     <h3 class="title" style="text-align: center">Orders</h3>
-    <div v-for="(item, index) in orders" v-bind:key="index" style="padding: 13px">
+    <div style="padding-bottom: 20px">
+      <div style="white-space:nowrap; display:inline">
+        <p>Filter By Status: </p>
+        <select v-model="stat" v-on:change="filterStatus()">
+          <option value="Any">Any</option>
+          <option value="In Process">In Process</option>
+          <option value="Ready to Ship">Ready to Ship</option>
+          <option value="Shipped">Shipped</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="Ready for Pickup">Ready for Pickup</option>
+          <option value="Complete">Complete</option>
+        </select>
+      </div>
+      <div style="padding-left: 30px; white-space:nowrap; display:inline">
+        <button class="button" v-on:click="sortByDate">Sort by Date</button>
+      </div>
+    </div>
+    <div v-for="(item, index) in filteredOrders" v-bind:key="index" style="padding: 13px">
       <div class="columns list-group-item">
         <div class="column is-4">
           <p>Order #: {{ item.orderNumber }}</p>
@@ -74,10 +91,44 @@ export default class Orders extends Vue {
 
   orders: Order[] = [];
 
+  filteredOrders: Order[] = [];
+
+  stat: string = "Any";
+
+  rev: boolean = false;
+
   mounted() {
     axios.get(APIConfig.buildUrl("/orders")).then(response => {
       this.orders = response.data.order;
+      this.filteredOrders = response.data.order;
     });
+  }
+
+  sortByDate() {
+    if (this.rev == true) {
+      this.rev = false;
+    }
+    else {
+      this.rev = true;
+    }
+    this.filteredOrders = this.filteredOrders.reverse();
+  }
+
+  filterStatus() {
+    if (this.stat == "Any") {
+      this.filteredOrders = this.orders;
+    }
+    else {
+      this.filteredOrders = [];
+      for (let item in this.orders) {
+        if (this.orders[item].status == this.stat) {
+          this.filteredOrders.push(this.orders[item]);
+        }
+      }
+    }
+    if (this.rev == true) {
+      this.filteredOrders = this.filteredOrders.reverse();
+    }
   }
 }
 

@@ -94,9 +94,7 @@
         <button class="button" style="margin-right: 15px">
           <router-link to="/cart">Back to Cart</router-link>
         </button>
-        <button class="button" v-on:click="addOrder">
-          <router-link to="/confirmation">Confirm Purchase</router-link>
-        </button>
+        <button class="button" v-on:click="addOrder">Confirm Purchase</button>
       </div>
 
       <div style="padding-left: 100px" v-if="cartNotEmpty()">
@@ -138,7 +136,7 @@ export default class Checkout extends Vue {
 
   checked: boolean = false;
 
-  orderId: number = 0;
+  orderNum: number = 0;
 
   total: number = 0;
 
@@ -234,9 +232,11 @@ export default class Checkout extends Vue {
   addOrder() {
     const _that = this;
     axios
-      .post(APIConfig.buildUrl("/checkout"), this.order)
+      .post(APIConfig.buildUrl("/checkout"), _that.order)
       .then((res: AxiosResponse<Order>) => {
         _that.order.orderNumber = res.data.orderNumber;
+        _that.orderNum = res.data.orderNumber;
+        _that.$router.push("/confirmation/" + _that.orderNum);
         const orderID = res.data.orderNumber;
         for (let key in _that.$store.state.cart) {
           let temp: Product = {..._that.p};

@@ -74,9 +74,10 @@ export default new Router({
       component: Checkout
     },
     {
-      path: "/confirmation",
+      path: "/confirmation/:id",
       name: "confirmation",
-      component: Confirmation
+      component: Confirmation,
+      props: true
     },
     {
       path: "/track",

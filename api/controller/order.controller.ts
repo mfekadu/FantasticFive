@@ -14,7 +14,7 @@ export class OrderController extends DefaultController {
     protected initializeRoutes(): Router {
         const router = Router();
         router
-          .route("/orders")
+          .route("/checkout")
           .post((req: Request, res: Response) => {
             const orderRepo = getRepository(Order);
             const order = new Order();
