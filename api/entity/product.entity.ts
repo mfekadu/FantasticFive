@@ -9,7 +9,7 @@ export class Product {
   @Column()
   public title!: string;
 
-  @Column()
+  @Column({default: null})
   public desc!: string;
 
   @OneToOne((type) => ProductBrand, { cascade: true })
