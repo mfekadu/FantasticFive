@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, ManyToMany, JoinColumn, JoinTable } from "typeorm";
+import { ProductCategory, ProductBrand } from "../entity";
 
 @Entity()
 export class Product {
@@ -11,24 +12,16 @@ export class Product {
   @Column()
   public desc!: string;
 
-  // should there be an array here ??
-  // should there be a relationship to a Category Entity ??
-  // ... it should be a ManyToMany
-  // ... typeorm
-  // ... Question Category is the same thing in the docs
-  // ... 
-
-  @Column()
-  public brand!: string; /* compare brand.toLower() before saving */
+  @OneToOne((type) => ProductBrand, { cascade: true })
+  @JoinColumn()
+  public brand!: ProductBrand; /* compare brand.toLower() before saving */
   
-  @Column()
-  public category!: string; /* for now this is just 1 category, but need allow for Many */
-
-  // @Column()
-  // public categories!: ???????;
+  @ManyToMany(type => ProductCategory)
+  @JoinTable()
+  public categories!: ProductCategory[];
 
   @Column()
-  public quantity!: number;
+  public stock!: number;
 
   @Column()
   public price!: number;

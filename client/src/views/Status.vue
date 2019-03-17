@@ -46,8 +46,7 @@ import { APIConfig } from "../utils/api.utils";
   }
 })
 export default class Status extends Vue {
-  @Prop()
-  id: string | undefined;
+  @Prop() id: string | undefined;
 
   shippingItem: Shipping = {
     firstName: "",
@@ -57,14 +56,14 @@ export default class Status extends Vue {
     city: "",
     state: "",
     zip: ""
-  }
+  };
   billingItem: Billing = {
     firstName: "",
     lastName: "",
     cardNumber: "",
     expiration: "",
     cvv: ""
-  }
+  };
   item: Order = {
     orderNumber: 0,
     status: "",
@@ -94,20 +93,20 @@ export interface Order {
   billing: Billing;
 }
 export interface Billing {
-    firstName: string;
-    lastName: string;
-    cardNumber: string;
-    expiration: string;
-    cvv: string;
+  firstName: string;
+  lastName: string;
+  cardNumber: string;
+  expiration: string;
+  cvv: string;
 }
 export interface Shipping {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 </script>
 

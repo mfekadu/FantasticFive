@@ -146,7 +146,7 @@ export default new Router({
       path: "/employeeedit/:id",
       name: "employeeedit",
       component: EmployeeEdit,
-      props:true
+      props: true
     }
   ]
 });

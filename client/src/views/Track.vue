@@ -31,7 +31,7 @@ import Header from "@/components/Header.vue";
 export default class Track extends Vue {
   item: test = {
     val: ""
-  }
+  };
 }
 
 export interface test {

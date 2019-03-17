@@ -83,8 +83,8 @@ interface LoginResponse {
 
 interface User {
   id: number;
-  firstName: string,
-  admin: boolean
+  firstName: string;
+  admin: boolean;
 }
 
 export interface LoginForm {

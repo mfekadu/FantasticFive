@@ -9,12 +9,11 @@
           <p>{{ announce.title }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link
-              :to="{path: '/announcementedit/'+ announce.id}"
-              exact-active-class="is-active"
-            >Edit</router-link>
-          </button>
+          <router-link
+            class="button"
+            :to="{path: '/announcementedit/'+ announce.id}"
+            exact-active-class="is-active"
+          >Edit</router-link>
         </div>
         <div class="column is-2">
           <button class="button" v-on:click="currentID = announce.id; isShowing = true;">Delete</button>
@@ -22,9 +21,11 @@
       </div>
     </div>
     <div style="margin-top: 15px">
-      <button class="button">
-        <router-link to="/announcementedit/0" exact-active-class="is-active">New Announcement</router-link>
-      </button>
+      <router-link
+        class="button"
+        to="/announcementedit/0"
+        exact-active-class="is-active"
+      >New Announcement</router-link>
     </div>
     <modal
       v-bind:is-showing="isShowing"
@@ -74,8 +75,7 @@ export default class AnnouncementList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/announcements/" + id))
-    .then(res => {
+    axios.delete(APIConfig.buildUrl("/announcements/" + id)).then(res => {
       this.refreshList();
     });
   }

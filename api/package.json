@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "tsc": "tsc",
     "start": "node --inspect=5858 -r ts-node/register bin/app.ts",
     "dev": "nodemon",
-    "coverage": "jest --coverage",
+    "coverage": "jest --coverage --runInBand",
     "typeorm": "typeorm"
   },
   "author": "",
