@@ -25,7 +25,7 @@ export class ServiceController extends DefaultController {
         service.title = req.body.title;
         service.desc = req.body.desc;
         service.price = req.body.price;
-        serviceRepo.save(service).then((savedService: Service) => {
+        serviceRepo.save(service).then(createdService => {
           res.status(200).send({ service });
         });
       });

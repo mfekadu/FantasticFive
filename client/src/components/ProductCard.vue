@@ -36,10 +36,14 @@
       <div name="price" class="title is-5">{{ " $FREE." + product.price }}</div>
       <!-- vue conditional logic for when this component used in Cart.vue -->
       <div v-if="hasDeleteButton">
-          <button class="button" v-on:click="deleteFromCart(product)">Delete From Cart</button>
+        <button class="button" v-on:click="deleteFromCart(product)">Delete From Cart</button>
+      </div>
+      <div v-else-if="hasAdminButtons">
+        <button class="button">Edit</button>
+        <button class="button" style="margin-left: 5px">Delete</button>
       </div>
       <div v-else-if="hasAddButton">
-          <button class="button" v-on:click="addToCart(product)">Add To Cart</button>
+        <button class="button" v-on:click="addToCart(product)">Add To Cart</button>
       </div>
     </div>
   </div>
@@ -57,14 +61,17 @@ export default class ProductCard extends Vue {
   @Prop({ type: Boolean, default: false })
   hasCartDetail!: boolean | null;
 
-  @Prop({ type:Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
   hasOrderDetail!: boolean | null;
 
-  @Prop({ type:Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
   hasDeleteButton!: boolean | null;
 
-  @Prop({ type:Boolean, default: false })
+  @Prop({ type: Boolean, default: false })
   hasAddButton!: boolean | null;
+
+  @Prop({ type: Boolean, default: false })
+  hasAdminButtons!: boolean | null;
 
   // function to talk to the store and remove a product
   deleteFromCart(product: iProduct) {

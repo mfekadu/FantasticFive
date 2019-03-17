@@ -1,8 +1,11 @@
 import DefaultController from "./default.controller";
 
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 import { Order, Shipping, Billing, OrderProducts, Product } from "../entity";
+
+import multer from "multer";
+import Path from "path";
 
 import { getRepository } from "typeorm";
 
@@ -11,7 +14,7 @@ export class OrderController extends DefaultController {
     protected initializeRoutes(): Router {
         const router = Router();
         router
-          .route("/checkout")
+          .route("/orders")
           .post((req: Request, res: Response) => {
             const orderRepo = getRepository(Order);
             const order = new Order();
