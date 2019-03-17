@@ -111,9 +111,10 @@ export default new Router({
       component: Inventory
     },
     {
-      path: "/itemedit",
+      path: "/itemedit/:id",
       name: "itemedit",
-      component: ItemEdit
+      component: ItemEdit,
+      props: true
     },
     {
       path: "/servicelist",
