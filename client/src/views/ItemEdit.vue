@@ -7,7 +7,8 @@
       <input class="input" v-model="item.title" type="text" placeholder="Name">
     </div>
     <div style="margin-top: 15px">
-      <input class="input" v-model="item.price" type="number" placeholder="Price">
+      <div><label for="Price">Price</label></div>
+      <input class="input" v-model="item.price" type="number" id="Price">
     </div>
     <div style="margin-top: 15px">
       <textarea class="textarea has-fixed-size" v-model="item.desc" placeholder="Description"></textarea>

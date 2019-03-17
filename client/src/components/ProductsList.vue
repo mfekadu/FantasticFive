@@ -5,7 +5,8 @@
   <div>
     <div v-for="(p, index) in products" v-bind:key="index">
       <ProductCard v-bind:product="p"
-                   v-bind:hasAddButton="true"/>
+                   v-bind:hasAddButton="true"
+                   v-bind:hasAdminButtons="hasAdmin"/>
     </div>
   </div>
 </template>
@@ -26,6 +27,9 @@ export default class ProductsList extends Vue {
     }
   })
   products!: iProduct[];
+
+  @Prop({ type: Boolean, default: false })
+  hasAdmin!: boolean | null;
 }
 </script>
 
