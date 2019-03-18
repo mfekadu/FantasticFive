@@ -86,6 +86,8 @@ export class ProductController extends DefaultController {
         // private helper to handle PUT requests
         const updateProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
+            const brandRepo = getRepository(ProductBrand);
+            const categoryRepo = getRepository(ProductCategory);
             // unravel the req.body properties into variables
             const { title, desc, brand, categories, stock, price, saleYN, 
                     salesPrice, canShipYN, photoURL } = req.body;
@@ -94,7 +96,6 @@ export class ProductController extends DefaultController {
                 // update the actual product
                 foundProduct.title = title;
                 foundProduct.desc = desc;
-                // foundProduct.brand.name = brand.name;
                 foundProduct.categories = categories;
                 foundProduct.stock = stock;
                 foundProduct.price = price;
@@ -102,10 +103,39 @@ export class ProductController extends DefaultController {
                 foundProduct.salesPrice = salesPrice;
                 foundProduct.canShipYN = canShipYN;
                 foundProduct.photoURL = photoURL;
-                // save the updated product
-                productRepo.save(foundProduct).then((updatedProduct : Product) => {
-                    res.send(OK).send({product: updatedProduct});
-                });
+
+                const saveTheProduct = () => {
+                    console.log("saving product");
+                    // save the product, set OK, send back product
+                    productRepo.save(foundProduct).then((createdProduct : Product) => {
+                        res.status(OK).send({createdProduct});
+                    });
+                }
+                const findCats = (): Promise<any> => {
+                    // extract an array of the ids
+                    console.log("finding categories");
+                    const catIds = categories.map((each: any) => each.id);
+                    return new Promise((resolve) => {
+                        categoryRepo.findByIds(catIds).then(resolve);
+                    });
+                }
+                const appendCats = (foundCats: ProductCategory[]): Promise<any> => {
+                    console.log("appending categories");
+                    foundProduct.categories = foundCats;
+                    return new Promise(resolve => resolve());
+                };
+                const appendBrand = (foundBrand: ProductBrand): Promise<any> => {
+                    console.log("appending brand");
+                    foundProduct.brand = foundBrand;
+                    return new Promise(resolve => resolve());
+                }
+    
+                // never expect to create a new brand
+                brandRepo.findOneOrFail(brand.id)
+                    .then(appendBrand)
+                    .then(findCats)
+                    .then(appendCats)
+                    .then(saveTheProduct);
             });
         };
 
