@@ -19,12 +19,12 @@ export class ProductController extends DefaultController {
             // get a productRepo object for typeorm
             const productRepo = getRepository(Product);
             // define the function to handle the find() Promise
-            const sendProductArray = (productArray : Product[]) => {
+            const sendProductArray = (productArray: Product[]) => {
                 res.status(OK).send({ productArray });
-             };
+            };
             // find the product table in DB, 
             // then set OK status and send back the productArray
-            const options = {relations: ['brand', 'categories']};
+            const options = { relations: ['brand', 'categories'] };
             productRepo.find(options).then(sendProductArray);
         };
 
@@ -37,7 +37,7 @@ export class ProductController extends DefaultController {
             // brand is expected to be an object {id: number, name: string}
             // categories is expected to be an object {id: number, name: string}
             const { title, desc, stock, brand, categories,
-                    price, saleYN, salesPrice, canShipYN, photoURL } = req.body;
+                price, saleYN, salesPrice, canShipYN, photoURL } = req.body;
             const newProduct = new Product();
             // setup all the primitive data
             newProduct.title = title;
@@ -48,13 +48,12 @@ export class ProductController extends DefaultController {
             newProduct.salesPrice = salesPrice;
             newProduct.canShipYN = canShipYN;
             newProduct.photoURL = photoURL;
-            newProduct.isActive = true;
 
             const saveTheProduct = () => {
                 console.log("saving product");
                 // save the product, set OK, send back product
-                productRepo.save(newProduct).then((createdProduct : Product) => {
-                    res.status(OK).send({createdProduct});
+                productRepo.save(newProduct).then((createdProduct: Product) => {
+                    res.status(OK).send({ createdProduct });
                 });
             }
             const findCats = (): Promise<any> => {
@@ -109,8 +108,8 @@ export class ProductController extends DefaultController {
                 const saveTheProduct = () => {
                     console.log("saving product");
                     // save the product, set OK, send back product
-                    productRepo.save(foundProduct).then((createdProduct : Product) => {
-                        res.status(OK).send({createdProduct});
+                    productRepo.save(foundProduct).then((createdProduct: Product) => {
+                        res.status(OK).send({ createdProduct });
                     });
                 }
                 const findCats = (): Promise<any> => {
@@ -131,7 +130,7 @@ export class ProductController extends DefaultController {
                     foundProduct.brand = foundBrand;
                     return new Promise(resolve => resolve());
                 }
-    
+
                 // never expect to create a new brand
                 brandRepo.findOneOrFail(brand.id)
                     .then(appendBrand)
@@ -146,26 +145,26 @@ export class ProductController extends DefaultController {
             const productRepo = getRepository(Product);
             productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
                 productRepo.remove(foundProduct).then((updatedProduct: Product) => {
-                res.status(OK).send({ product: updatedProduct });
-              });
+                    res.status(OK).send({ product: updatedProduct });
+                });
             });
-          };
+        };
 
         const getBrands = (req: Request, res: Response) => {
             const brandRepo = getRepository(ProductBrand);
             // define the function to handle the find() Promise
-            const getBrandArray = (brands : ProductBrand[]) => {
+            const getBrandArray = (brands: ProductBrand[]) => {
                 res.status(OK).send({ brands });
-             };
+            };
             brandRepo.find().then(getBrandArray);
         }
 
         const getCats = (req: Request, res: Response) => {
             const catRepo = getRepository(ProductCategory);
             // define the function to handle the find() Promise
-            const getCatArray = (categories : ProductCategory[]) => {
+            const getCatArray = (categories: ProductCategory[]) => {
                 res.status(OK).send({ categories });
-             };
+            };
             catRepo.find().then(getCatArray);
         }
 
@@ -173,28 +172,48 @@ export class ProductController extends DefaultController {
             const productRepo = getRepository(Product);
             // find the product table in DB, 
             // then set OK status and send back the productArray
-            const options = {relations: ['brand', 'categories']};
+            const options = { relations: ['brand', 'categories'] };
             // get the product to be updated
             productRepo.findOneOrFail(req.params.id, options).then((foundProduct: Product) => {
-                res.status(OK).send({product: foundProduct});
+                res.status(OK).send({ product: foundProduct });
+            });
+        };
+
+        const createBrand = (req: Request, res: Response) => {
+            const brandRepo = getRepository(ProductBrand);
+            const brand = new ProductBrand();
+            brand.name = req.body.name;
+            brandRepo.save(brand).then(createdBrand => {
+                res.status(200).send({ brand });
+            });
+        };
+
+        const createCategory = (req: Request, res: Response) => {
+            const catRepo = getRepository(ProductCategory);
+            const category = new ProductCategory();
+            category.name = req.body.name;
+            catRepo.save(category).then(createdCat => {
+                res.status(200).send({ category });
             });
         };
 
         const router = Router();
         router.route("/shop")
-            .get( getProducts )
-            .post( createProduct );
+            .get(getProducts)
+            .post(createProduct);
 
         router.route("/shop/:id")
-            .get( getSpecificProduct )
-            .put( updateProduct )
-            .delete( deleteProduct );
+            .get(getSpecificProduct)
+            .put(updateProduct)
+            .delete(deleteProduct);
 
         router.route("/brand")
-            .get( getBrands );
+            .get(getBrands)
+            .post(createBrand);
 
         router.route("/category")
-            .get( getCats );
+            .get(getCats)
+            .post(createCategory);
 
         return router;
     };
