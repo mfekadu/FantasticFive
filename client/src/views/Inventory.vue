@@ -179,8 +179,8 @@
     <h2 class="title is-2" style="text-align:center">Inventory</h2>
     <div style="text-align:center">
       <router-link class="button" to="/itemedit/0" style="margin-right: 5px">Add Item</router-link>
-      <button class="button" style="margin-right: 5px">Add Brand</button>
-      <button class="button">Add Category</button>
+      <router-link class="button" to="/addbrand" style="margin-right: 5px">Add Brand</router-link>
+      <router-link class="button" to="/addcategory">Add Category</router-link>
     </div>
     <!-- the Shop -->
     <div class="columns productsContainer">

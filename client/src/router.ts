@@ -23,6 +23,8 @@ import AnnouncementEdit from "./views/AnnouncementEdit.vue";
 import Employees from "./views/Employees.vue";
 import EmployeeEdit from "./views/EmployeeEdit.vue";
 import ProductView from "./views/ProductView.vue";
+import AddBrand from "./views/AddBrand.vue";
+import AddCategory from "./views/AddCategory.vue";
 
 Vue.use(Router);
 
@@ -156,6 +158,16 @@ export default new Router({
       name: "productview",
       component: ProductView,
       props: true
+    },
+    {
+      path: "/addbrand",
+      name: "addbrand",
+      component: AddBrand
+    },
+    {
+      path: "/addcategory",
+      name: "addcategory",
+      component: AddCategory
     }
   ]
 });

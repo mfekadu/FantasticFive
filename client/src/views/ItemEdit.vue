@@ -82,7 +82,7 @@
         <h3 class="title is-3" style="margin-top: 15px">Categories</h3>
         <p class="subtitle is-5">(Use cmd or ctrl for multiple)</p>
         <div class="select is-multiple">
-          <select v-model="selected" multiple="true">
+          <select v-model="selected" multiple="true" size="10">
             <option
               v-for="(category, index) in categories"
               v-bind:key="index"
@@ -91,7 +91,6 @@
           </select>
         </div>
       </div>
-      <span>Selected: {{ selected }}</span>
     </div>
     <div style="margin-bottom: 50px">
       <button class="button" style="margin-right: 15px" v-on:click="addProduct">Save</button>
