@@ -179,13 +179,16 @@
     <h2 class="title is-2" style="text-align:center">Shop</h2>
     <div align="center">
       <div style="white-space:nowrap; display:inline">
-        <button class="button">Sort by Price</button>
+        <button class="button" v-on:click="sortByPrice(1)">Sort by Price (⬆️)</button>
       </div>
       <div style="white-space:nowrap; display:inline; padding-left: 30px">
-        <button class="button">Sort by Title</button>
+        <button class="button" v-on:click="sortByPrice(0)">Sort by Price (⬇️)</button>
       </div>
       <div style="white-space:nowrap; display:inline; padding-left: 30px">
-        <button class="button">Sort by Other</button>
+        <button class="button" v-on:click="sortByTitle(1)">Sort by Title (⬆️)</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button" v-on:click="sortByTitle(0)">Sort by Title (⬇️)</button>
       </div>
     </div>
     <!-- the Shop -->
@@ -226,8 +229,11 @@ import { APIConfig, union, intersection } from "../utils/";
 
 // import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
 
-// define the Cond predicate type
+// define the Cond predicate type, for "Condition" within array.filter
 type Cond = (product: iProduct, filter: iFilter) => boolean;
+
+// define the Cmp predicate type. for "Compare" within array.sort
+type Cmp = (p1: iProduct, p2: iProduct) => number;
 
 @Component({
   components: {
@@ -245,6 +251,39 @@ export default class Shop extends Vue {
   mounted() {
     this.refreshList();
   }
+
+  // given 0, sort descending
+  // given 1, sort ascending
+  sortByPrice(dir: number) {
+    const cmpUp: Cmp = (p1, p2) => p1.price - p2.price;
+    const cmpDown: Cmp = (p1, p2) => p2.price - p1.price;
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    this.updateView(this.products);
+  }
+
+  // given 0, sort descending
+  // given 1, sort ascending
+  sortByTitle(dir: number) {
+    const cmpUp: Cmp = (p1, p2) => {
+      // make whitespace irrelevant
+      const title1 = p1.title.replace(/\s/g, "");
+      const title2 = p2.title.replace(/\s/g, "");
+      if (title1 < title2) { return -1; }
+      if (title1 > title2) { return 1; }
+      return 0;
+    }
+    const cmpDown: Cmp = (p1, p2) => {
+      // make whitespace irrelevant
+      const title1 = p1.title.replace(/\s/g, "");
+      const title2 = p2.title.replace(/\s/g, "");
+      if (title1 > title2) { return -1; }
+      if (title1 < title2) { return 1; }
+      return 0;
+    }
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    this.updateView(this.products);
+  }
+  
 
   // safely update the data bound to the template without messing with the this.products array
   updateView(products: iProduct[]) {
