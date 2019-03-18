@@ -129,7 +129,8 @@ export default class ItemEdit extends Vue {
     saleYN: false,
     salesPrice: 0,
     canShipYN: false,
-    photoURL: ""
+    photoURL: "",
+    isActive: true
   };
   brands: Brand[] = [];
   categories: Category[] = [];
