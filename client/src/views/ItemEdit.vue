@@ -91,6 +91,7 @@
           </select>
         </div>
       </div>
+      <span>Selected: {{ selected }}</span>
     </div>
     <div style="margin-bottom: 50px">
       <button class="button" style="margin-right: 15px" v-on:click="addProduct">Save</button>
