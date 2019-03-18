@@ -94,15 +94,16 @@ export default class OrderDetails extends Vue {
     id: 0,
     title: "A Trek Bike",
     desc: "description",
-    brand: "",
-    categories: [""],
+    brand: {id: 0, name: ""},
+    categories: [],
     stock: 3,
     cartQuantity: 0,
     price: 499,
     saleYN: false,
     salesPrice: 499,
     canShipYN: false,
-    photoURL: "./logo.png"
+    photoURL: "./logo.png",
+    isActive: true
   };
 
   shippingItem: Shipping = {

@@ -177,6 +177,17 @@
       <div id="desc">Item Added!</div>
     </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
+    <div align="center">
+      <div style="white-space:nowrap; display:inline">
+        <button class="button">Sort by Price</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button">Sort by Title</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button">Sort by Other</button>
+      </div>
+    </div>
     <!-- the Shop -->
     <div class="columns productsContainer">
       <!-- the Filters -->
@@ -213,7 +224,7 @@ import { iProduct, iFilter, iAllFilters, FT, DEFAULT_SHIP } from "../models/";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig, union, intersection } from "../utils/";
 
-import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
+// import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
 
 // define the Cond predicate type
 type Cond = (product: iProduct, filter: iFilter) => boolean;
@@ -228,6 +239,7 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
 })
 export default class Shop extends Vue {
   products: iProduct[] = [];
+  tempProds: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
@@ -237,6 +249,17 @@ export default class Shop extends Vue {
   // safely update the data bound to the template without messing with the this.products array
   updateView(products: iProduct[]) {
     this.threeChunkProducts = this.splitArrayInto(products, 3);
+  }
+
+  getValidProds() {
+    for (let index in this.tempProds) {
+      if (this.tempProds[index].stock > 0 && this.tempProds[index].isActive == true) {
+        this.products.push(this.tempProds[index]);
+      }
+    }
+
+    // update the view
+    this.updateView(this.products);
   }
 
   refreshList() {
@@ -252,12 +275,11 @@ export default class Shop extends Vue {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            this.products.push(p);
+            this.tempProds.push(p);
           }
         );
 
-        // update the view
-        this.updateView(this.products);
+        this.getValidProds();
       })
       .catch(reason => {
         this.filterUpdate(this.givenFilters);
@@ -315,7 +337,7 @@ export default class Shop extends Vue {
     // cond is a helper lambda function for filtering
     let cond: Cond;
 
-    cond = (product, brandFilter) => product.brand === brandFilter.value;
+    cond = (product, brandFilter) => product.brand.name === brandFilter.value;
     filteredByBrand = this.filterByArray(products, data.brands, cond);
 
     cond = (product, priceFilter) => {
@@ -330,7 +352,12 @@ export default class Shop extends Vue {
     };
     filteredByPrice = this.filterByArray(products, data.prices, cond);
 
-    cond = (product, catFilter) => product.categories.indexOf(catFilter.value) >= 0;
+    // cond = (product, catFilter) => product.categories.indexOf(catFilter.value) >= 0;
+    cond = (product, catFilter) => {
+      // extract an array of strings
+      const categoryStrings = product.categories.map((each: any) => each.name);
+      return categoryStrings.indexOf(catFilter.value) >= 0;
+    }
     filteredByCategory = this.filterByArray(products, data.categories, cond);
 
     let newCond = (p: iProduct) => p.canShipYN === data.shipping.status;

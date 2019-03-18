@@ -215,7 +215,7 @@ import { iProduct, iFilter, iAllFilters, FT, DEFAULT_SHIP } from "../models/";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig, union, intersection } from "../utils/";
 
-import { MOCK_PRODUCTS } from "../../tests/mock_data/product.data";
+// import { MOCK_PRODUCTS } from "../../tests/mock_data/product.data";
 
 // define the Cond predicate type
 type Cond = (product: iProduct, filter: iFilter) => boolean;
@@ -229,6 +229,7 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
 })
 export default class Shop extends Vue {
   products: iProduct[] = [];
+  tempProds: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
@@ -247,6 +248,17 @@ export default class Shop extends Vue {
     this.threeChunkProducts = this.splitArrayInto(products, 3);
   }
 
+  getValidProds() {
+    for (let index in this.tempProds) {
+      if (this.tempProds[index].isActive == true) {
+        this.products.push(this.tempProds[index]);
+      }
+    }
+
+    // update the view
+    this.updateView(this.products);
+  }
+
   refreshList() {
     axios
       .get(APIConfig.buildUrl("/shop"))
@@ -260,12 +272,11 @@ export default class Shop extends Vue {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            this.products.push(p);
+            this.tempProds.push(p);
           }
         );
 
-        // update the view
-        this.updateView(this.products);
+        this.getValidProds();
       })
       .catch(reason => {
         this.filterUpdate(this.givenFilters);
