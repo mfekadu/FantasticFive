@@ -9,12 +9,11 @@
           <p>{{ service.title }}</p>
         </div>
         <div class="column is-2">
-          <button class="button">
-            <router-link
-              :to="{path: '/serviceedit/'+ service.id}"
-              exact-active-class="is-active"
-            >Edit</router-link>
-          </button>
+          <router-link
+            class="button"
+            :to="{path: '/serviceedit/'+ service.id}"
+            exact-active-class="is-active"
+          >Edit</router-link>
         </div>
         <div class="column is-2">
           <button class="button" v-on:click="currentID = service.id; isShowing = true;">Delete</button>
@@ -22,9 +21,7 @@
       </div>
     </div>
     <div style="margin-top: 15px">
-      <button class="button">
-        <router-link to="/serviceedit/0" exact-active-class="is-active">New Service</router-link>
-      </button>
+      <router-link class="button" to="/serviceedit/0" exact-active-class="is-active">New Service</router-link>
     </div>
     <modal
       v-bind:is-showing="isShowing"
@@ -69,9 +66,9 @@ export default class ServiceList extends Vue {
 
   deleteItem(id: number) {
     this.isShowing = false;
-    axios.delete(APIConfig.buildUrl("/services/" + id))
-    .then(res => {
-      this.refreshList()});
+    axios.delete(APIConfig.buildUrl("/services/" + id)).then(res => {
+      this.refreshList();
+    });
   }
 }
 

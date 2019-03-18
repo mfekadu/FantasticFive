@@ -2,11 +2,25 @@
 
 ## A [Vue.js][vue] webapp for a bike shop.
 
+## FOR TESTERS
+* Don't forget to run 'npm install' and create a "dev" database in MySQL
+* Use the included ["SQLInfo.sql"][sqlfile] file to insert example data into the DB
+* This will add two staff accounts:
+  * Admin
+    * username: admin
+    * password: pass
+  * Employee
+    * username: employee
+    * password: pass
+
 ## Documentation
 * [All docs][shared_gdrive]
 * [Wireframe Doc][wireframe]
 * [Requirements Doc][requirements]
-* Acceptence Testing Doc (due March 4, 2019)
+* [API doc][api_doc]
+* [Acceptence Testing Doc][testDoc]
+* [Database Schema][dbSchema]
+* [final_document_package][final_doc]
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -78,4 +92,14 @@ git pull professor master
 
 [dev_link]: https://github.com/CSC307Winter2019/Group5/tree/dev
 
+[sqlfile]: ./SQLInfo.sql
+
 [vue]: https://vuejs.org/
+
+[testDoc]: https://docs.google.com/spreadsheets/d/1JB5Ob-wsxctpGG39j6sa86BroTBSDHibVtg3gy-dJPM/edit#gid=0
+
+[dbSchema]: https://app.sqldbm.com/SQLServer/Share/NEklr69rWj4W3a_WqUdLf0GFrngIE8md_DYjF4jNYw0
+
+[api_doc]: https://docs.google.com/document/d/1lX23pmePnEMXgjjpiZrAm9sjfCX-HgOILasex3BTpk0
+
+[final_doc]: https://drive.google.com/open?id=1i14YJXK4LVMR1354AZB7QA4Pc9156E9w

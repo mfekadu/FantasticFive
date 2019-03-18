@@ -20,18 +20,19 @@ export class UserController extends DefaultController {
       })
       .post((req: Request, res: Response) => {
         const userRepo = getRepository(User);
-        const { firstName, lastName, username, password } = req.body;
+        const { firstName, lastName, username, password, admin } = req.body;
         const user = new User();
         user.firstName = firstName;
         user.lastName = lastName;
         user.username = username;
         user.password = password;
+        user.admin = admin;
         userRepo.save(user).then(
           createdUser => {
             res.status(200).send({ createdUser });
           },
           (reason: any) => {
-            res.status(500).send({ reason: "The email was not unique" });
+            res.status(500).send({ reason: "The username was not unique" });
           }
         );
       });
@@ -45,7 +46,6 @@ export class UserController extends DefaultController {
         userRepo.findOne(req.params.id).then((user: User | undefined) => {
           if (user) {
             if (req.file) {
-              user.profileUrl = `profilePhotos/${req.file.filename}`;
               userRepo.save(user).then((savedUser: User) => {
                 res.send({ user: savedUser });
               });
@@ -90,8 +90,12 @@ export class UserController extends DefaultController {
           foundUser.lastName = req.body.lastName;
           foundUser.username = req.body.username;
           foundUser.password = req.body.password;
+          foundUser.admin = req.body.admin;
           userRepo.save(foundUser).then((updatedUser: User) => {
             res.status(200).send({ user: updatedUser });
+          },
+          (reason: any) => {
+            res.status(500).send({ reason: "The username was not unique" });
           });
         });
       });

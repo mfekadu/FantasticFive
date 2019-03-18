@@ -24,8 +24,8 @@ export class AnnouncementController extends DefaultController {
         const announce = new Announcement();
         announce.title = req.body.title;
         announce.desc = req.body.desc;
-        announceRepo.save(announce).then((savedService: Announcement) => {
-          res.status(200).send({ announce });
+        announceRepo.save(announce).then(createdAnnounce => {
+          res.status(200).send({ createdAnnounce });
         });
       });
 

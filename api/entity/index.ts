@@ -7,3 +7,6 @@ export * from "./billing.entity";
 export * from "./service.entity";
 export * from "./announcement.entity";
 export * from "./product.entity";
+export * from "./orderProducts.entity";
+export * from "./productCategory.entity";
+export * from "./productBrand.entity";

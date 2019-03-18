@@ -1,60 +1,41 @@
 <style scoped>
-.products {
-  text-align: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
-.product {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  padding: 50px;
-}
-
-.product-image {
-}
 </style>
 
 <template>
-    <div class="products">
-        <div class="product">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
-            </figure>
-            <div class="name">Bike</div>
-            <div class="description">Bike Description</div>
-            <div class="price">$FREE.99</div>
-            <button>Add to Cart</button>
-        </div>
-        <div class="product">
-            <figure class="image is-128x128">
-                <img  src="https://cdn.shopify.com/s/files/1/0799/9645/products/16_-_Right_900x.jpg?v=1547158720" alt="[BIKE_NAME]">
-            </figure>
-            <div class="name">Bike</div>
-            <div class="description">Bike Description</div>
-            <div class="price">$FREE.99</div>
-            <button>Add to Cart</button>
-        </div>
-        <div class="product">
-            <figure class="image is-128x128">
-                <img  src="https://cdn.shopify.com/s/files/1/0799/9645/products/16_-_Right_900x.jpg?v=1547158720" alt="[BIKE_NAME]">
-            </figure>
-            <div class="name">Bike</div>
-            <div class="description">Bike Description</div>
-            <div class="price">$FREE.99</div>
-            <button>Add to Cart</button>
-        </div>
+  <div>
+    <div v-for="(p, index) in products" v-bind:key="index">
+      <ProductCard v-on:deleteProduct="deleteProduct"
+                   v-bind:product="p"
+                   v-bind:hasAddButton="true"
+                   v-bind:hasAdminButtons="hasAdmin"/>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import ProductCard from "@/components/ProductCard.vue";
+import { iProduct } from "@/models/product.interface";
 
-@Component
-export default class ProductsList extends Vue {}
+@Component({
+  components: { ProductCard }
+})
+export default class ProductsList extends Vue {
+  // see 'github.com/vuejs/vue/issues/1032' for why function is used here
+  @Prop({
+    default: () => {
+      return [];
+    }
+  })
+  products!: iProduct[];
+
+  @Prop({ type: Boolean, default: false })
+  hasAdmin!: boolean | null;
+
+  deleteProduct(product: iProduct) {
+    this.$emit("deleteProduct", product);
+  }
+}
 </script>
 
 <style scoped>

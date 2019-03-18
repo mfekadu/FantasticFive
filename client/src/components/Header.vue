@@ -1,18 +1,12 @@
 <template>
   <div id="header">
     <br>
-    <button class="button">
-      <router-link to="/login" exact-active-class="is-active">Employee Login</router-link>
-    </button>
-    <button class="button" style="float:right">
-      <router-link to="/track" exact-active-class="is-active">Track Order</router-link>
-    </button>
-    <button class="button" style="float:right">
-      <router-link to="/cart" exact-active-class="is-active">Cart</router-link>
-    </button>
+    <router-link class="button" to="/login" exact-active-class="is-active">Employee Login</router-link>
+    <router-link class="button" style="float:right" to="/track" exact-active-class="is-active">Track Order</router-link>
+    <router-link class="button" style="float:right" to="/cart" exact-active-class="is-active">Cart</router-link>
 
     <h1 class="title is-1" style="text-align: center">
-      <router-link to="/" exact-active-class="is-active">Foxycle</router-link>
+      <router-link to="/" exact-active-class="is-active"><img src="/foxcyclelogo@2x.png" style="height: 150px"></router-link>
     </h1>
 
     <ul>
