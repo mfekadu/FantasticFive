@@ -259,6 +259,7 @@ export default class Shop extends Vue {
     const cmpDown: Cmp = (p1, p2) => p2.price - p1.price;
     dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
     this.updateView(this.products);
+    this.filterUpdate(this.givenFilters);
   }
 
   // given 0, sort descending
@@ -282,6 +283,7 @@ export default class Shop extends Vue {
     }
     dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
     this.updateView(this.products);
+    this.filterUpdate(this.givenFilters);
   }
   
 
