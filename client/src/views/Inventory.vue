@@ -229,6 +229,7 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
 })
 export default class Shop extends Vue {
   products: iProduct[] = [];
+  tempProds: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
@@ -238,6 +239,17 @@ export default class Shop extends Vue {
   // safely update the data bound to the template without messing with the this.products array
   updateView(products: iProduct[]) {
     this.threeChunkProducts = this.splitArrayInto(products, 3);
+  }
+
+  getValidProds() {
+    for (let index in this.tempProds) {
+      if (this.tempProds[index].isActive == true) {
+        this.products.push(this.tempProds[index]);
+      }
+    }
+
+    // update the view
+    this.updateView(this.products);
   }
 
   refreshList() {
@@ -253,12 +265,11 @@ export default class Shop extends Vue {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            this.products.push(p);
+            this.tempProds.push(p);
           }
         );
 
-        // update the view
-        this.updateView(this.products);
+        this.getValidProds();
       })
       .catch(reason => {
         this.filterUpdate(this.givenFilters);

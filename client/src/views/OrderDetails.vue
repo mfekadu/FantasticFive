@@ -102,7 +102,8 @@ export default class OrderDetails extends Vue {
     saleYN: false,
     salesPrice: 499,
     canShipYN: false,
-    photoURL: "./logo.png"
+    photoURL: "./logo.png",
+    isActive: true
   };
 
   shippingItem: Shipping = {
