@@ -67,6 +67,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import axios, { AxiosResponse } from "axios";
+import { APIConfig } from "../utils/";
 
 import {
   iFilter,
@@ -99,6 +101,25 @@ export default class ProductFilters extends Vue {
     PRICES.extra
   ]);
   ship: iFilter = DEFAULT_SHIP;
+
+  mounted() {
+    this.refreshList();
+  }
+
+  refreshList() {
+    axios
+      .get( APIConfig.buildUrl("/brand") )
+      .then( (response) =>  {
+        const brandStrings = response.data.brands.map((each: any) => each.name);
+        this.brands = this.stringArrayToFilterArray(FT.c, brandStrings);
+      });
+    axios
+      .get( APIConfig.buildUrl("/category") )
+      .then( (response) =>  {
+        const catStrings = response.data.brands.map((each: any) => each.name);
+        this.categories = this.stringArrayToFilterArray(FT.c, catStrings);
+      });
+  }
 
   // given an array of strings and the filter type, convert to iFilter[] array
   stringArrayToFilterArray(type: string, arr: string[]): iFilter[] {
