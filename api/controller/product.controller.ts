@@ -48,6 +48,7 @@ export class ProductController extends DefaultController {
             newProduct.salesPrice = salesPrice;
             newProduct.canShipYN = canShipYN;
             newProduct.photoURL = photoURL;
+            newProduct.isActive = true;
 
             const saveTheProduct = () => {
                 console.log("saving product");
