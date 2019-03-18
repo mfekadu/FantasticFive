@@ -229,7 +229,6 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
 })
 export default class Shop extends Vue {
   products: iProduct[] = [];
-  tempProds: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
@@ -238,25 +237,17 @@ export default class Shop extends Vue {
 
   // setting isActive to false means the product is deleted
   deleteProduct(product: iProduct) {
+    console.log("deleteProduct", product);
     const url = APIConfig.buildUrl("/shop/" + product.id);
     const requestBody = {...product, isActive: false};
+    console.log("deleteProduct url...", url);
+    console.log("deleteProduct requestBody...", requestBody);
     axios.put(url, requestBody).then( () => this.refreshList() );
   }
 
   // safely update the data bound to the template without messing with the this.products array
   updateView(products: iProduct[]) {
     this.threeChunkProducts = this.splitArrayInto(products, 3);
-  }
-
-  getValidProds() {
-    for (let index in this.tempProds) {
-      if (this.tempProds[index].isActive == true) {
-        this.products.push(this.tempProds[index]);
-      }
-    }
-
-    // update the view
-    this.updateView(this.products);
   }
 
   refreshList() {
@@ -266,17 +257,23 @@ export default class Shop extends Vue {
       .then(response => {
         let dbProducts = response.data.productArray;
 
+        const validProds: iProduct[] = [];
+
         // put the data in the thing
         dbProducts.forEach(
           (prod: any): void => {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            this.tempProds.push(p);
+            // only push valid products
+            if (p.isActive === true) {
+              validProds.push(p);
+            }
           }
         );
 
-        this.getValidProds();
+        this.products = validProds;
+        this.updateView(this.products);
       })
       .catch(reason => {
         this.filterUpdate(this.givenFilters);

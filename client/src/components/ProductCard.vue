@@ -41,7 +41,7 @@
       <div v-else-if="hasAdminButtons">
         <div name="stock" class="title is-5">{{ " Inventory: " + product.stock }}</div>
         <router-link class="button" :to="{path: '/itemedit/'+ product.id}">Edit</router-link>
-        <button class="button" v-on:click="deleteProduct" style="margin-left: 5px">Delete</button>
+        <button class="button" v-on:click="deleteProduct(product)" style="margin-left: 5px">Delete</button>
       </div>
       <div v-else-if="hasAddButton">
         <button class="button" v-on:click="addToCart(product)">Add To Cart</button>
@@ -76,6 +76,7 @@ export default class ProductCard extends Vue {
 
   // funciton to handle the admin deleting a product
   deleteProduct(product: iProduct) {
+    console.log("productCard...", product);
     this.$emit("deleteProduct", product);
   }
 

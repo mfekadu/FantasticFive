@@ -90,7 +90,7 @@ export class ProductController extends DefaultController {
             const brandRepo = getRepository(ProductBrand);
             const categoryRepo = getRepository(ProductCategory);
             // unravel the req.body properties into variables
-            const { title, desc, brand, categories, stock, price, saleYN, 
+            const { title, desc, brand, categories, isActive, stock, price, saleYN, 
                     salesPrice, canShipYN, photoURL } = req.body;
             // get the product to be updated
             productRepo.findOneOrFail(req.params.id).then((foundProduct: Product) => {
@@ -104,6 +104,7 @@ export class ProductController extends DefaultController {
                 foundProduct.salesPrice = salesPrice;
                 foundProduct.canShipYN = canShipYN;
                 foundProduct.photoURL = photoURL;
+                foundProduct.isActive = isActive; 
 
                 const saveTheProduct = () => {
                     console.log("saving product");
