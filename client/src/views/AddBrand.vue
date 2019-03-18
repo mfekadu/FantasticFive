@@ -8,7 +8,7 @@
     </div>
 
     <div style="margin-top: 15px">
-      <button class="button" style="margin-right: 15px" v-on:click="postBrand">Save</button>
+      <button class="button" style="margin-right: 15px" v-on:click="addBrand">Save</button>
       <router-link class="button" to="/inventory">Cancel</router-link>
     </div>
     <modal
@@ -40,6 +40,7 @@ export default class AddBrand extends Vue {
   isShowing: boolean = false;
   brandName: string = "";
   brands: Brand[] = [];
+  duplicate: boolean = false;
 
   mounted() {
     axios.get(APIConfig.buildUrl("/brand")).then(response => {
@@ -48,11 +49,17 @@ export default class AddBrand extends Vue {
   }
 
   addBrand() {
-      console.log(this.brands)
-      for (let b in this.brands) {
-          if (b == this.brandName) {
-              this.isShowing = true;
+      this.duplicate = false;
+      for (let b of this.brands) {
+          if (b.name == this.brandName) {
+              this.duplicate = true;
           }
+      }
+      if (this.duplicate) {
+          this.isShowing = true;
+          this.brandName = "";
+      } else {
+          this.postBrand();
       }
   }
 

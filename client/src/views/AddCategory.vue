@@ -8,7 +8,7 @@
     </div>
 
     <div style="margin-top: 15px">
-      <button class="button" style="margin-right: 15px" v-on:click="postCat">Save</button>
+      <button class="button" style="margin-right: 15px" v-on:click="addCat">Save</button>
       <router-link class="button" to="/inventory">Cancel</router-link>
     </div>
     <modal
@@ -40,20 +40,27 @@ export default class AddCategory extends Vue {
   isShowing: boolean = false;
   catName: string = "";
   categories: Category[] = [];
+  duplicate: boolean = false;
 
   mounted() {
-    axios.get(APIConfig.buildUrl("/brand")).then(response => {
+    axios.get(APIConfig.buildUrl("/category")).then(response => {
       this.categories = response.data.categories;
     });
   }
 
   addCat() {
-      console.log(this.categories)
-      for (let b in this.categories) {
-          if (b == this.catName) {
-              this.isShowing = true;
-          }
+    this.duplicate = false;
+    for (let c of this.categories) {
+      if (c.name == this.catName) {
+        this.duplicate = true;
       }
+    }
+    if (this.duplicate) {
+      this.isShowing = true;
+      this.catName = "";
+    } else {
+      this.postCat();
+    }
   }
 
   postCat() {
