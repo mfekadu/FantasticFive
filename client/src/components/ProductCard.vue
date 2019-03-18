@@ -17,12 +17,28 @@
   <!-- see Shop.vue (default) and Cart.vue (extra) for examples of how to use this component -->
   <div class="card has-text-centered" v-bind:class="{'product': product}">
     <div class="card-image is-flex is-horizontal-center">
-      <figure name="image" class="image is-128x128">
-        <img v-bind:src="getPic128(product)" v-bind:alt="'image of ' + product.title">
-      </figure>
+      <div v-if="!hasAdminButtons">
+        <router-link :to="{path: '/productview/'+ product.id}" name="title" class="title">
+          <figure name="image" class="image is-128x128">
+            <img v-bind:src="getPic128(product)" v-bind:alt="'image of ' + product.title">
+          </figure>
+        </router-link>
+      </div>
+      <div v-else-if="hasAdminButtons">
+          <figure name="image" class="image is-128x128">
+            <img v-bind:src="getPic128(product)" v-bind:alt="'image of ' + product.title">
+          </figure>
+      </div>
     </div>
     <div class="card-content">
-      <div name="title" class="title">{{ " " + product.title }}</div>
+      <div v-if="!hasAdminButtons" style="margin-bottom:20px">
+        <router-link :to="{path: '/productview/'+ product.id}" name="title" class="title">
+          <a class="button is-text is-large">{{ " " + product.title }}</a>
+        </router-link>
+      </div>
+      <div v-else-if="hasAdminButtons" style="margin-bottom:20px">
+        <div name="title" class="title">{{ " " + product.title }}</div>
+      </div>
       <!-- vue conditional logic for when this component used in Cart.vue -->
       <div v-if="hasCartDetail">
         <div name="description" class="title is-5">{{ " " + product.desc }}</div>
