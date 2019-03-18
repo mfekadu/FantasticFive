@@ -177,6 +177,17 @@
       <div id="desc">Item Added!</div>
     </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
+    <div align="center">
+      <div style="white-space:nowrap; display:inline">
+        <button class="button">Sort by Price</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button">Sort by Title</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button">Sort by Other</button>
+      </div>
+    </div>
     <!-- the Shop -->
     <div class="columns productsContainer">
       <!-- the Filters -->
@@ -213,7 +224,7 @@ import { iProduct, iFilter, iAllFilters, FT, DEFAULT_SHIP } from "../models/";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig, union, intersection } from "../utils/";
 
-import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
+// import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
 
 // define the Cond predicate type
 type Cond = (product: iProduct, filter: iFilter) => boolean;
@@ -315,7 +326,7 @@ export default class Shop extends Vue {
     // cond is a helper lambda function for filtering
     let cond: Cond;
 
-    cond = (product, brandFilter) => product.brand === brandFilter.value;
+    cond = (product, brandFilter) => product.brand.name === brandFilter.value;
     filteredByBrand = this.filterByArray(products, data.brands, cond);
 
     cond = (product, priceFilter) => {
