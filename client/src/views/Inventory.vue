@@ -215,7 +215,7 @@ import { iProduct, iFilter, iAllFilters, FT, DEFAULT_SHIP } from "../models/";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig, union, intersection } from "../utils/";
 
-import { MOCK_PRODUCTS } from "../../tests/mock_data/product.data";
+// import { MOCK_PRODUCTS } from "../../tests/mock_data/product.data";
 
 // define the Cond predicate type
 type Cond = (product: iProduct, filter: iFilter) => boolean;
