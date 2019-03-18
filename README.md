@@ -20,6 +20,7 @@
 * [API doc][api_doc]
 * [Acceptence Testing Doc][testDoc]
 * [Database Schema][dbSchema]
+* [final_document_package][final_doc]
 
 ## Contribution Guidelines
 * It's a good idea to make a new branch off of [`dev`][dev_link] with your `username + feature` to avoid merge conflicts (see ["Git Flow"][gitflow] for more info)
@@ -100,3 +101,5 @@ git pull professor master
 [dbSchema]: https://app.sqldbm.com/SQLServer/Share/NEklr69rWj4W3a_WqUdLf0GFrngIE8md_DYjF4jNYw0
 
 [api_doc]: https://docs.google.com/document/d/1lX23pmePnEMXgjjpiZrAm9sjfCX-HgOILasex3BTpk0
+
+[final_doc]: https://drive.google.com/open?id=1i14YJXK4LVMR1354AZB7QA4Pc9156E9w
