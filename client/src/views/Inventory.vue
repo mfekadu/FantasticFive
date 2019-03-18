@@ -316,7 +316,7 @@ export default class Shop extends Vue {
     // cond is a helper lambda function for filtering
     let cond: Cond;
 
-    cond = (product, brandFilter) => product.brand === brandFilter.value;
+    cond = (product, brandFilter) => product.brand.name === brandFilter.value;
     filteredByBrand = this.filterByArray(products, data.brands, cond);
 
     cond = (product, priceFilter) => {
@@ -331,8 +331,11 @@ export default class Shop extends Vue {
     };
     filteredByPrice = this.filterByArray(products, data.prices, cond);
 
-    cond = (product, catFilter) =>
-      product.categories.indexOf(catFilter.value) >= 0;
+    cond = (product, catFilter) => {
+      // extract an array of strings
+      const categoryStrings = product.categories.map((each: any) => each.name);
+      return categoryStrings.indexOf(catFilter.value) >= 0;
+    }
     filteredByCategory = this.filterByArray(products, data.categories, cond);
 
     let newCond = (p: iProduct) => p.canShipYN === data.shipping.status;
