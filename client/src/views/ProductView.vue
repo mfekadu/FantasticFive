@@ -47,7 +47,8 @@ export default class ProductView extends Vue {
     saleYN: false,
     salesPrice: 0,
     canShipYN: false,
-    photoURL: ""
+    photoURL: "",
+    isActive: true
   };
 
   mounted() {
