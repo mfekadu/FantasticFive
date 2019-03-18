@@ -237,12 +237,11 @@ export default class Shop extends Vue {
 
   // setting isActive to false means the product is deleted
   deleteProduct(product: iProduct) {
-    console.log("deleteProduct", product);
-    const url = APIConfig.buildUrl("/shop/" + product.id);
-    const requestBody = {...product, isActive: false};
-    console.log("deleteProduct url...", url);
-    console.log("deleteProduct requestBody...", requestBody);
-    axios.put(url, requestBody).then( () => this.refreshList() );
+    if (confirm("delete " + product.title + " from your inventory?") === true) {
+      const url = APIConfig.buildUrl("/shop/" + product.id);
+      const requestBody = {...product, isActive: false};
+      axios.put(url, requestBody).then( () => this.refreshList() );
+    }
   }
 
   // safely update the data bound to the template without messing with the this.products array
