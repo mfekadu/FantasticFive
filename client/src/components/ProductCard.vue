@@ -47,6 +47,7 @@
       <div v-if="hasCartDetail">
         <div name="description" class="title is-5">{{ " " + product.desc }}</div>
         <div class="title is-5">{{ 'Quantity: ' + product.cartQuantity }}</div>
+        <div class="title is-5">{{ product.canShipYN ? "can ship" : "pickup only" }}</div>
         <div></div>
       </div>
       <div v-else-if="hasOrderDetail">
