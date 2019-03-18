@@ -8,7 +8,7 @@ export class Service {
     @Column()
     public title!: string;
 
-    @Column()
+    @Column({length: 9001})
     public desc!: string;
 
     @Column()
