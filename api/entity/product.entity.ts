@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, ManyToMany, JoinColumn, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, ManyToOne, ManyToMany, JoinColumn, JoinTable } from "typeorm";
 import { ProductCategory, ProductBrand } from "../entity";
 
 @Entity()
@@ -12,9 +12,8 @@ export class Product {
   @Column({default: null, length: 9001})
   public desc!: string;
 
-  @OneToOne((type) => ProductBrand, { cascade: true })
-  @JoinColumn()
-  public brand!: ProductBrand; /* compare brand.toLower() before saving */
+  @ManyToOne(type => ProductBrand, brand => brand.products)
+  public brand!: ProductBrand;
   
   @ManyToMany(type => ProductCategory)
   @JoinTable()
