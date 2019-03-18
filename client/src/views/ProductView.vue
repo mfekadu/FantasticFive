@@ -176,7 +176,7 @@
       </div>
       <div id="desc">Item Added!</div>
     </div>
-    <div style="text-align: center">
+    <div style="text-align: center; margin-bottom:20em;margin-left:10%;margin-right:10%;">
       <h2 class="title is-2">{{product.title}}</h2>
       <p class="subtitle is-4">${{product.price}}</p>
       <figure name="image" class="image">
