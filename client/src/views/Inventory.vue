@@ -239,8 +239,7 @@ export default class Shop extends Vue {
   deleteProduct(product: iProduct) {
     const url = APIConfig.buildUrl("/shop/" + product.id);
     const requestBody = {...product, isActive: false};
-    axios.put(url, requestBody);
-    this.refreshList();
+    axios.put(url, requestBody).then( () => this.refreshList() );
   }
 
   // safely update the data bound to the template without messing with the this.products array
