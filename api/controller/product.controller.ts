@@ -31,37 +31,56 @@ export class ProductController extends DefaultController {
         // private helper function to handle POST requests
         const createProduct = (req: Request, res: Response) => {
             const productRepo = getRepository(Product);
-            // const brandRepo = getRepository(ProductBrand);
-            // const categoryRepo = getRepository(ProductCategory);
+            const brandRepo = getRepository(ProductBrand);
+            const categoryRepo = getRepository(ProductCategory);
             // unravel the req.body properties into variables
+            // brand is expected to be an object {id: number, name: string}
+            // categories is expected to be an object {id: number, name: string}
             const { title, desc, stock, brand, categories,
                     price, saleYN, salesPrice, canShipYN, photoURL } = req.body;
             const newProduct = new Product();
+            // setup all the primitive data
             newProduct.title = title;
             newProduct.desc = desc;
-            const newBrand = new ProductBrand();
-            newBrand.name = brand.name;
-            // saveToRepo(brandRepo, newBrand);
-            console.log(newBrand);
-            newProduct.brand = newBrand;
-            let listofCats: ProductCategory[] = [];
-            for (const key in categories) {
-                const cat = categories[key];
-                const newCat = new ProductCategory();
-                newCat.name = cat.name
-                listofCats.push(newCat);
-            }
-            newProduct.categories = listofCats;
             newProduct.stock = stock;
             newProduct.price = price;
             newProduct.saleYN = saleYN;
             newProduct.salesPrice = salesPrice;
             newProduct.canShipYN = canShipYN;
             newProduct.photoURL = photoURL;
-            // save the product, set OK, send back product
-            productRepo.save(newProduct).then((createdProduct : Product) => {
-                res.status(OK).send({createdProduct});
-            });
+
+            const saveTheProduct = () => {
+                console.log("saving product");
+                // save the product, set OK, send back product
+                productRepo.save(newProduct).then((createdProduct : Product) => {
+                    res.status(OK).send({createdProduct});
+                });
+            }
+            const findCats = (): Promise<any> => {
+                // extract an array of the ids
+                console.log("finding categories");
+                const catIds = categories.map((each: any) => each.id);
+                return new Promise((resolve) => {
+                    categoryRepo.findByIds(catIds).then(resolve);
+                });
+            }
+            const appendCats = (foundCats: ProductCategory[]): Promise<any> => {
+                console.log("appending categories");
+                newProduct.categories = foundCats;
+                return new Promise(resolve => resolve());
+            };
+            const appendBrand = (foundBrand: ProductBrand): Promise<any> => {
+                console.log("appending brand");
+                newProduct.brand = foundBrand;
+                return new Promise(resolve => resolve());
+            }
+
+            // never expect to create a new brand
+            brandRepo.findOneOrFail(brand.id)
+                .then(appendBrand)
+                .then(findCats)
+                .then(appendCats)
+                .then(saveTheProduct);
         };
 
         // private helper to handle PUT requests
