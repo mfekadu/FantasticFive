@@ -116,7 +116,7 @@ export default class ProductFilters extends Vue {
     axios
       .get( APIConfig.buildUrl("/category") )
       .then( (response) =>  {
-        const catStrings = response.data.brands.map((each: any) => each.name);
+        const catStrings = response.data.categories.map((each: any) => each.name);
         this.categories = this.stringArrayToFilterArray(FT.c, catStrings);
       });
   }
