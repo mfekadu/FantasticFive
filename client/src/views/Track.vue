@@ -7,10 +7,7 @@
       <input class="input" type="text" placeholder="Order Number" v-model='item.val'>
       <br>
       <br>
-      <button class="button">
-        <router-link 
-        :to="{path: '/status/'+ item.val }">View Order Status</router-link>
-      </button>
+      <router-link class="button" :to="{path: '/status/'+ item.val }">View Order Status</router-link>
     </div>
   </body>
   <Footer/>

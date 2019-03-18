@@ -6,43 +6,52 @@
     <div class="columns">
       <div class="column is-one-third">
         <h3 class="title is-3">Shipping Info</h3>
-        <input class="checkbox" type="checkbox"> Pick up in store
-        <br>
-        <input
-          class="input is-small"
-          type="text"
-          placeholder="First Name"
-          v-model="shippingItem.firstName"
-        >
-        <br>
-        <input
-          class="input is-small"
-          type="text"
-          placeholder="Last Name"
-          v-model="shippingItem.lastName"
-        >
-        <br>
-        <input
-          class="input is-small"
-          type="text"
-          placeholder="Address 1"
-          v-model="shippingItem.address1"
-        >
-        <br>
-        <input
-          class="input is-small"
-          type="text"
-          placeholder="Address 2"
-          v-model="shippingItem.address2"
-        >
-        <br>
-        <input class="input is-small" type="text" placeholder="City" v-model="shippingItem.city">
-        <br>
-        <input class="input is-small" type="text" placeholder="State" v-model="shippingItem.state">
-        <br>
-        <input class="input is-small" type="text" placeholder="ZIP Code" v-model="shippingItem.zip">
-        <br>
-        <br>
+          <div class="checkbox">
+            <label><input type="checkbox" v-model="this.checked" v-on:click="onCheck">Pick up in store</label>
+          </div>
+          <br>
+          <div v-if="this.checked == false">
+            <input
+              class="input is-small"
+              type="text"
+              placeholder="First Name"
+              v-model="shippingItem.firstName"
+            >
+            <br>
+            <input
+              class="input is-small"
+              type="text"
+              placeholder="Last Name"
+              v-model="shippingItem.lastName"
+            >
+            <br>
+            <input
+              class="input is-small"
+              type="text"
+              placeholder="Address 1"
+              v-model="shippingItem.address1"
+            >
+            <br>
+            <input
+              class="input is-small"
+              type="text"
+              placeholder="Address 2"
+              v-model="shippingItem.address2"
+            >
+            <br>
+            <input class="input is-small" type="text" placeholder="City" v-model="shippingItem.city">
+            <br>
+            <input class="input is-small" type="text" placeholder="State" v-model="shippingItem.state">
+            <br>
+            <input class="input is-small" type="text" placeholder="ZIP Code" v-model="shippingItem.zip">
+            <br>
+            <br>
+          </div>
+          <div v-if="this.noShipping == true">
+            <br>
+            <p style="color:#FF0000">An Item In Your Cart Must Be Picked Up In Store, Therefore You Cannot Ship Your Order.</p>
+            <br>
+          </div>
 
         <h3 class="title is-3">Billing Info</h3>
         <input
@@ -85,29 +94,19 @@
         <button class="button" style="margin-right: 15px">
           <router-link to="/cart">Back to Cart</router-link>
         </button>
-        <button class="button" v-on:click="addOrder">
-          <router-link to="/confirmation">Confirm Purchase</router-link>
-        </button>
+        <button class="button" v-on:click="addOrder">Confirm Purchase</button>
       </div>
 
-      <div v-if="cartNotEmpty()">
+      <div style="padding-left: 100px" v-if="cartNotEmpty()">
         <h3 class="title is-3">Order Summary</h3>
-        <div class="column" v-for="(p, index) in this.$store.state.cart" v-bind:key="index">
-          <!-- <ProductCard v-bind:product="p"
-            v-bind:hasCartDetail="true"
-            v-bind:hasDeleteButton="true"
-          v-on:deleted="deleteHandler()"/>-->
-          <div>
-            <p>{{ p.title }}</p>
-            <p>Image Here</p>
-            <!-- <img src='{{ p.photoURL }}'/> -->
-            <br>
-            <p>${{ p.price }}</p>
-            <br>
-            <p>Quantity: {{ p.cartQuantity }}</p>
-            <br>
-            <p>-----------------------------------------</p>
+        <div class="scroller">
+          <div class="card" v-for="(p, index) in this.$store.state.cart" v-bind:key="index">
+            <ProductCard v-bind:product="p"
+                      v-bind:hasOrderDetail="true"/>
           </div>
+        </div>
+        <div>
+          <b>Total Price: ${{ this.total }}</b>
         </div>
       </div>
     </div>
@@ -123,6 +122,8 @@ import ProductCard from "@/components/ProductCard.vue";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
 import { iProduct } from "@/models/product.interface";
+import { OrderProd } from '@/views/Status.vue';
+import { Category } from '@/models/category.interface';
 
 @Component({
   components: {
@@ -134,7 +135,15 @@ export default class Checkout extends Vue {
   @Prop()
   id: string | undefined;
 
-  orderId: number = 0;
+  checked: boolean = false;
+
+  orderNum: number = 0;
+
+  total: number = 0;
+
+  tester: number = 0;
+
+  noShipping: boolean = false;
 
   prods: iProduct[] = this.$store.state.cart;
 
@@ -159,7 +168,7 @@ export default class Checkout extends Vue {
   order: Order = {
     orderNumber: 0,
     status: "In Process",
-    shippingYN: "",
+    shippingYN: true,
     orderMonth: 0,
     orderDay: 0,
     orderYear: 0,
@@ -167,19 +176,115 @@ export default class Checkout extends Vue {
     billing: this.billingItem
   };
 
+  p: Product = {
+    title: "",
+    desc: "",
+    stock: 0,
+    price: 0,
+    photoURL: "",
+    saleYN: false,
+    salesPrice: 0,
+    categories: [],
+    canShipYN: true,
+    isActive: true
+  }
+
+  testing: iProduct = {
+    id: 0,
+    title: "",
+    desc: "",
+    brand: { id: 1, name: "" },
+    categories: [{ id: 1, name: "" }],
+    stock: 0,
+    cartQuantity: 0,
+    price: 0,
+    saleYN: false,
+    salesPrice: 0,
+    canShipYN: false,
+    photoURL: "",
+    isActive: true
+  };
+
+  op: orderProd = {
+    id: 0,
+    orderQuantity: 0,
+    orderPrice: 0,
+    orderNumber: 0,
+    productId: 0
+  }
+
+  mounted() {
+    this.setup();
+  }
+
+  onCheck() {
+    if (this.noShipping == true) {
+      this.checked = true;
+      this.order.shippingYN = false;
+    }
+    else if (this.checked == false) {
+      this.checked = true;
+      this.order.shippingYN = false;
+    }
+    else {
+      this.checked = false;
+      this.order.shippingYN = true;
+    }
+  }
+
+  setup() {
+    for (let index in this.$store.state.cart) {
+      let item = this.$store.state.cart[index];
+      if (item.saleYN) {
+        this.total = this.total + (item.salesPrice * item.cartQuantity);
+      }
+      else {
+        this.total = this.total + (item.price * item.cartQuantity);
+      }
+      if (item.canShipYN == false) {
+        this.noShipping = true;
+        this.checked = true;
+        this.onCheck();
+      }
+    }
+  }
+
   addOrder() {
     const _that = this;
     axios
-      .post(APIConfig.buildUrl("/checkout"), this.order)
+      .post(APIConfig.buildUrl("/checkout"), _that.order)
       .then((res: AxiosResponse<Order>) => {
         _that.order.orderNumber = res.data.orderNumber;
+        _that.orderNum = res.data.orderNumber;
         const orderID = res.data.orderNumber;
-        for (var key in _that.$store.state.cart) {
+        for (let key in _that.$store.state.cart) {
+          let temp: iProduct = {..._that.testing};
           axios.post(
             APIConfig.buildUrl("/orderProduct/" + orderID),
             _that.$store.state.cart[key] // sends the iProduct at the key index of the cart
-          );
+          )
+          .then((fin: AxiosResponse<orderProd>) => {
+            temp.title = _that.$store.state.cart[key].title;
+            temp.desc = _that.$store.state.cart[key].desc;
+            temp.stock = _that.$store.state.cart[key].stock - _that.$store.state.cart[key].cartQuantity;
+            temp.price = _that.$store.state.cart[key].price;
+            temp.photoURL = _that.$store.state.cart[key].photoURL;
+            temp.saleYN = _that.$store.state.cart[key].saleYN;
+            temp.salesPrice = _that.$store.state.cart[key].salesPrice;
+            temp.categories = _that.$store.state.cart[key].categories;
+            temp.canShipYN = _that.$store.state.cart[key].canShipYN;
+            temp.isActive = _that.$store.state.cart[key].isActive;
+            temp.brand = _that.$store.state.cart[key].brand;
+            temp.cartQuantity = _that.$store.state.cart[key].cartQuantity;
+            temp.id = _that.$store.state.cart[key].id;
+
+            axios.put(
+              APIConfig.buildUrl("/shop/" + _that.$store.state.cart[key].id),
+              {...temp}
+            );
+          });
         }
+        _that.$router.push("/confirmation/" + _that.orderNum);
       });
   }
 
@@ -188,10 +293,31 @@ export default class Checkout extends Vue {
   }
 }
 
+export interface Product {
+  title: string;
+  desc: string;
+  stock: number;
+  price: number;
+  photoURL: string;
+  saleYN: boolean;
+  salesPrice: number;
+  categories: Category[];
+  canShipYN: boolean;
+  isActive: boolean;
+}
+
+export interface orderProd {
+  id: number;
+  orderQuantity: number;
+  orderPrice: number;
+  orderNumber: number;
+  productId: number;
+}
+
 export interface Order {
   orderNumber: number;
   status: string;
-  shippingYN: string;
+  shippingYN: boolean;
   orderMonth: number;
   orderDay: number;
   orderYear: number;
@@ -219,4 +345,16 @@ export interface Shipping {
 </script>
 
 <style scoped>
+.scroller {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 400px;
+}
+
+.card {
+  display: inline-block;
+  padding-right: 20px;
+  padding-left: 20px;
+}
 </style>

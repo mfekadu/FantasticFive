@@ -22,6 +22,9 @@ import AnnouncementList from "./views/AnnouncementList.vue";
 import AnnouncementEdit from "./views/AnnouncementEdit.vue";
 import Employees from "./views/Employees.vue";
 import EmployeeEdit from "./views/EmployeeEdit.vue";
+import ProductView from "./views/ProductView.vue";
+import AddBrand from "./views/AddBrand.vue";
+import AddCategory from "./views/AddCategory.vue";
 
 Vue.use(Router);
 
@@ -74,9 +77,10 @@ export default new Router({
       component: Checkout
     },
     {
-      path: "/confirmation",
+      path: "/confirmation/:id",
       name: "confirmation",
-      component: Confirmation
+      component: Confirmation,
+      props: true
     },
     {
       path: "/track",
@@ -111,9 +115,10 @@ export default new Router({
       component: Inventory
     },
     {
-      path: "/itemedit",
+      path: "/itemedit/:id",
       name: "itemedit",
-      component: ItemEdit
+      component: ItemEdit,
+      props: true
     },
     {
       path: "/servicelist",
@@ -147,6 +152,22 @@ export default new Router({
       name: "employeeedit",
       component: EmployeeEdit,
       props: true
+    },
+    {
+      path: "/productview/:id",
+      name: "productview",
+      component: ProductView,
+      props: true
+    },
+    {
+      path: "/addbrand",
+      name: "addbrand",
+      component: AddBrand
+    },
+    {
+      path: "/addcategory",
+      name: "addcategory",
+      component: AddCategory
     }
   ]
 });

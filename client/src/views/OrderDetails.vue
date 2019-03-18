@@ -7,20 +7,30 @@
       Order Date: {{ item.orderMonth }}/{{ item.orderDay }}/{{ item.orderYear }}
     </h3>
     <div class="columns">
-      <div class="column is-6" style="overflow: auto; height: 375px">
-        <div v-for="(item, index) in this.prodList" v-bind:key="index">
+      <div class="scroller column is-6">
+        <div class="card" v-for="(item, index) in this.prodList" v-bind:key="index">
           <ProductCard v-bind:product="item"
                      v-bind:hasOrderDetail="true"/>
+        </div>
+        <div style="padding-bottom: 75px; padding-top: 30px">
+          <b>Total Price: ${{ this.total }}</b>
         </div>
       </div>
       <div class="column is-6">
         <b>Shipping Details</b>
         <br>
-        <span>{{ item.shipping.firstName }} {{ item.shipping.lastName }}</span>
-        <br>
-        <span>{{ item.shipping.address1 }}, {{ item.shipping.address2 }}</span>
-        <br>
-        <span>{{ item.shipping.city }}, {{ item.shipping.state }}, {{ item.shipping.zip }}</span>
+        <div v-if="item.shippingYN == true">
+          <span>{{ item.shipping.firstName }} {{ item.shipping.lastName }}</span>
+          <br>
+          <span>{{ item.shipping.address1 }}, {{ item.shipping.address2 }}</span>
+          <br>
+          <span>{{ item.shipping.city }}, {{ item.shipping.state }}, {{ item.shipping.zip }}</span>
+        </div>
+        <div v-if="item.shippingYN == false">
+          <br>
+          <p style="color:#FF0000">Order Must Be Picked Up In Store</p>
+          <br>
+        </div>
         <br>
         <br>
         <b>Payment Details</b>
@@ -28,21 +38,29 @@
         <span>{{ item.billing.firstName }} {{ item.billing.lastName }}</span>
         <br>
         <br>
-        <span>*********1234</span>
+        <span>{{ cNum }}</span>
         <br>
         <br>
-        <div class="select">
+        <div class="select" v-if="this.cancelled == false">
           <select v-model="item.status">
             <option value="In Process">In Process</option>
             <option value="Ready to Ship">Ready to Ship</option>
             <option value="Shipped">Shipped</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="Cancelled" v-if="this.$store.state.admin == true">Cancelled</option>
+            <option value="Ready for Pickup">Ready for Pickup</option>
+            <option value="Complete">Complete</option>
           </select>
+          <br>
+          <br>
+          <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
+          <router-link class="button" to="/orders">Cancel</router-link>
         </div>
-        <br>
-        <br>
-        <button class="button" style="margin-right: 15px" v-on:click="addOrder">Save</button>
-        <router-link class="button" to="/orders">Cancel</router-link>
+        <div v-else>
+          <p style="color:#FF0000">Order Cancelled</p>
+          <br>
+          <br>
+          <router-link class="button" to="/orders">Cancel</router-link>
+        </div>
       </div>
     </div>
   </body>
@@ -70,20 +88,22 @@ import { iProduct } from "@/models/product.interface";
 export default class OrderDetails extends Vue {
   @Prop() id: string | undefined;
 
+  cNum: string = "";
   
   p1: iProduct = {
     id: 0,
     title: "A Trek Bike",
     desc: "description",
-    brand: "",
-    categories: [""],
+    brand: {id: 0, name: ""},
+    categories: [],
     stock: 3,
     cartQuantity: 0,
     price: 499,
     saleYN: false,
     salesPrice: 499,
     canShipYN: false,
-    photoURL: "./logo.png"
+    photoURL: "./logo.png",
+    isActive: true
   };
 
   shippingItem: Shipping = {
@@ -142,16 +162,40 @@ export default class OrderDetails extends Vue {
 
   prodList: iProduct[] = [];
 
+  total: number = 0;
+
+  cancelled: boolean = false;
+
   mounted() {
     axios.get(APIConfig.buildUrl("/orderDetails/" + this.id)).then(response => {
       this.item = response.data.item;
+      this.setCancelled();
+      this.checkCardNum();
       this.getProductLink();
     });
+  }
+
+  checkCardNum() {
+    if (this.item.billing.cardNumber.length < 4) {
+      this.cNum = "94305" + this.item.billing.cardNumber; 
+    }
+    else {
+      this.cNum = this.item.billing.cardNumber;
+    }
+    var num = this.cNum.length - 4;
+    this.cNum = "************" + this.cNum.substring(num)
+  }
+
+  setCancelled() {
+    if (this.item.status == "Cancelled") {
+      this.cancelled = true;
+    }
   }
 
   getProductInfo() {
     for (var data of this.orderProds) {
       let v = data.orderQuantity;
+      this.total = this.total + data.orderPrice;
       axios.get(APIConfig.buildUrl("/productInfo/" + data.productId)).then(response => {
         let p: iProduct = response.data.item;
         p.cartQuantity = v;
@@ -238,6 +282,19 @@ export interface Shipping {
 .column {
   margin: auto;
   width: 25%;
+}
+
+.scroller {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 400px;
+}
+
+.card {
+  display: inline-block;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .center {

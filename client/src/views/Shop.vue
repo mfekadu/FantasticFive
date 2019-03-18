@@ -177,6 +177,20 @@
       <div id="desc">Item Added!</div>
     </div>
     <h2 class="title is-2" style="text-align:center">Shop</h2>
+    <div align="center">
+      <div style="white-space:nowrap; display:inline">
+        <button class="button" v-on:click="sortByPrice(1)">Sort by Price (⬆️)</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button" v-on:click="sortByPrice(0)">Sort by Price (⬇️)</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button" v-on:click="sortByTitle(1)">Sort by Title (⬆️)</button>
+      </div>
+      <div style="white-space:nowrap; display:inline; padding-left: 30px">
+        <button class="button" v-on:click="sortByTitle(0)">Sort by Title (⬇️)</button>
+      </div>
+    </div>
     <!-- the Shop -->
     <div class="columns productsContainer">
       <!-- the Filters -->
@@ -213,10 +227,13 @@ import { iProduct, iFilter, iAllFilters, FT, DEFAULT_SHIP } from "../models/";
 import axios, { AxiosResponse } from "axios";
 import { APIConfig, union, intersection } from "../utils/";
 
-import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
+// import { MOCK_PRODUCTS } from '../../tests/mock_data/product.data';
 
-// define the Cond predicate type
+// define the Cond predicate type, for "Condition" within array.filter
 type Cond = (product: iProduct, filter: iFilter) => boolean;
+
+// define the Cmp predicate type. for "Compare" within array.sort
+type Cmp = (p1: iProduct, p2: iProduct) => number;
 
 @Component({
   components: {
@@ -227,16 +244,61 @@ type Cond = (product: iProduct, filter: iFilter) => boolean;
   }
 })
 export default class Shop extends Vue {
-  products: iProduct[] = [...MOCK_PRODUCTS];
+  products: iProduct[] = [];
+  tempProds: iProduct[] = [];
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
     this.refreshList();
   }
 
+  // given 0, sort descending
+  // given 1, sort ascending
+  sortByPrice(dir: number) {
+    const cmpUp: Cmp = (p1, p2) => p1.price - p2.price;
+    const cmpDown: Cmp = (p1, p2) => p2.price - p1.price;
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    this.updateView(this.products);
+  }
+
+  // given 0, sort descending
+  // given 1, sort ascending
+  sortByTitle(dir: number) {
+    const cmpUp: Cmp = (p1, p2) => {
+      // make whitespace irrelevant
+      const title1 = p1.title.replace(/\s/g, "");
+      const title2 = p2.title.replace(/\s/g, "");
+      if (title1 < title2) { return -1; }
+      if (title1 > title2) { return 1; }
+      return 0;
+    }
+    const cmpDown: Cmp = (p1, p2) => {
+      // make whitespace irrelevant
+      const title1 = p1.title.replace(/\s/g, "");
+      const title2 = p2.title.replace(/\s/g, "");
+      if (title1 > title2) { return -1; }
+      if (title1 < title2) { return 1; }
+      return 0;
+    }
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    this.updateView(this.products);
+  }
+  
+
   // safely update the data bound to the template without messing with the this.products array
   updateView(products: iProduct[]) {
     this.threeChunkProducts = this.splitArrayInto(products, 3);
+  }
+
+  getValidProds() {
+    for (let index in this.tempProds) {
+      if (this.tempProds[index].stock > 0 && this.tempProds[index].isActive == true) {
+        this.products.push(this.tempProds[index]);
+      }
+    }
+
+    // update the view
+    this.updateView(this.products);
   }
 
   refreshList() {
@@ -252,12 +314,11 @@ export default class Shop extends Vue {
             let p: iProduct = { ...prod };
             // converts a Database Product entity into an iProduct
             p.cartQuantity = 0;
-            this.products.push(p);
+            this.tempProds.push(p);
           }
         );
 
-        // update the view
-        this.updateView(this.products);
+        this.getValidProds();
       })
       .catch(reason => {
         this.filterUpdate(this.givenFilters);
@@ -315,7 +376,7 @@ export default class Shop extends Vue {
     // cond is a helper lambda function for filtering
     let cond: Cond;
 
-    cond = (product, brandFilter) => product.brand === brandFilter.value;
+    cond = (product, brandFilter) => product.brand.name === brandFilter.value;
     filteredByBrand = this.filterByArray(products, data.brands, cond);
 
     cond = (product, priceFilter) => {
@@ -330,7 +391,12 @@ export default class Shop extends Vue {
     };
     filteredByPrice = this.filterByArray(products, data.prices, cond);
 
-    cond = (product, catFilter) => product.categories.indexOf(catFilter.value) >= 0;
+    // cond = (product, catFilter) => product.categories.indexOf(catFilter.value) >= 0;
+    cond = (product, catFilter) => {
+      // extract an array of strings
+      const categoryStrings = product.categories.map((each: any) => each.name);
+      return categoryStrings.indexOf(catFilter.value) >= 0;
+    }
     filteredByCategory = this.filterByArray(products, data.categories, cond);
 
     let newCond = (p: iProduct) => p.canShipYN === data.shipping.status;
