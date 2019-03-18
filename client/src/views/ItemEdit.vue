@@ -71,7 +71,7 @@
       <div class="column">
         <h3 class="title is-3">Brands</h3>
         <div class="select">
-          <select v-model="brandID">
+          <select v-model="item.brand.id">
             <option
               v-for="(brand, index) in brands"
               v-bind:key="index"
@@ -133,13 +133,15 @@ export default class ItemEdit extends Vue {
   };
   brands: Brand[] = [];
   categories: Category[] = [];
-  brandID: number = 0;
-  selected: Category[] = [];
+  selected: number[] = [];
 
   mounted() {
     if (this.id != "0") {
       axios.get(APIConfig.buildUrl("/shop/" + this.id)).then(response => {
         this.item = response.data.product;
+        this.selected = this.item.categories.map(cat => {
+          return cat.id;
+        });
       });
     }
     axios.get(APIConfig.buildUrl("/brand")).then(response => {
@@ -151,6 +153,10 @@ export default class ItemEdit extends Vue {
   }
 
   addProduct() {
+    this.item.categories = this.selected.map(num => {
+      return { id: num, name: "" };
+    });
+
     if (this.id == "0") {
       axios
         .post(APIConfig.buildUrl("/shop"), {
