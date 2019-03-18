@@ -51,7 +51,7 @@ describe("/shop", () => {
           .then((response: request.Response) => {
             expect(
               response.body.productArray && response.body.productArray.length
-            ).toEqual(1);
+            ).toEqual(1); 
             expect(response.body.productArray[0].title).toEqual(title);
             done();
           });
@@ -89,35 +89,6 @@ describe("/shop", () => {
     });
     
   });
-  
-});
-
-describe("/brand", () => {
-  let myApp: express.Application;
-  let connection: Connection;
-
-  const createTestProduct = (
-    title: string,
-    conn: Connection
-  ): Promise<Product> => {
-    const product = new Product();
-    product.title= title;
-    return conn.getRepository(Product).save(product);
-  };
-
-  beforeAll(async () => {
-    myApp = await new Server().getMyApp();
-    connection = await DBConnection.getConnection();
-    await connection.synchronize();
-  });
-
-  beforeEach(async () => {
-    await DBUtils.clearDB();
-  });
-
-  afterAll(async () => {
-    DBConnection.closeConnection();
-  });
 
   describe("GET '/'", () => {
     test("shop ID get", done => {
@@ -130,4 +101,6 @@ describe("/brand", () => {
     });
     
   });
+  
 });
+
