@@ -60,13 +60,14 @@ describe("/orders", () => {
           });
       });
     }); 
+
   });
   describe("POST '/'", () => {
     test("should create a order", done => {
       const status = "swag";
       const shipping = new Shipping();
       return request(myApp)
-        .post("/orders")
+        .post("/checkout")
         .send({
           status: "shipped fam",
           shipping: new Shipping(),
