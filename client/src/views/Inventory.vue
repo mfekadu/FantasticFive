@@ -231,8 +231,11 @@ import { APIConfig, union, intersection } from "../utils/";
 
 // import { MOCK_PRODUCTS } from "../../tests/mock_data/product.data";
 
-// define the Cond predicate type
+// define the Cond predicate type, for "Condition" within array.filter
 type Cond = (product: iProduct, filter: iFilter) => boolean;
+
+// define the Cmp predicate type. for "Compare" within array.sort
+type Cmp = (p1: iProduct, p2: iProduct) => number;
 
 @Component({
   components: {
@@ -254,7 +257,7 @@ export default class Shop extends Vue {
   sortByPrice(dir: number) {
     const cmpUp: Cmp = (p1, p2) => p1.price - p2.price;
     const cmpDown: Cmp = (p1, p2) => p2.price - p1.price;
-    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown);
     this.updateView(this.products);
     this.filterUpdate(this.givenFilters);
   }
@@ -266,30 +269,37 @@ export default class Shop extends Vue {
       // make whitespace irrelevant
       const title1 = p1.title.replace(/\s/g, "");
       const title2 = p2.title.replace(/\s/g, "");
-      if (title1 < title2) { return -1; }
-      if (title1 > title2) { return 1; }
+      if (title1 < title2) {
+        return -1;
+      }
+      if (title1 > title2) {
+        return 1;
+      }
       return 0;
-    }
+    };
     const cmpDown: Cmp = (p1, p2) => {
       // make whitespace irrelevant
       const title1 = p1.title.replace(/\s/g, "");
       const title2 = p2.title.replace(/\s/g, "");
-      if (title1 > title2) { return -1; }
-      if (title1 < title2) { return 1; }
+      if (title1 > title2) {
+        return -1;
+      }
+      if (title1 < title2) {
+        return 1;
+      }
       return 0;
-    }
-    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown)
+    };
+    dir ? this.products.sort(cmpUp) : this.products.sort(cmpDown);
     this.updateView(this.products);
     this.filterUpdate(this.givenFilters);
   }
-
 
   // setting isActive to false means the product is deleted
   deleteProduct(product: iProduct) {
     if (confirm("delete " + product.title + " from your inventory?") === true) {
       const url = APIConfig.buildUrl("/shop/" + product.id);
-      const requestBody = {...product, isActive: false};
-      axios.put(url, requestBody).then( () => this.refreshList() );
+      const requestBody = { ...product, isActive: false };
+      axios.put(url, requestBody).then(() => this.refreshList());
     }
   }
 
@@ -398,7 +408,7 @@ export default class Shop extends Vue {
       // extract an array of strings
       const categoryStrings = product.categories.map((each: any) => each.name);
       return categoryStrings.indexOf(catFilter.value) >= 0;
-    }
+    };
     filteredByCategory = this.filterByArray(products, data.categories, cond);
 
     let newCond = (p: iProduct) => p.canShipYN === data.shipping.status;
