@@ -4,7 +4,8 @@
 <template>
   <div>
     <div v-for="(p, index) in products" v-bind:key="index">
-      <ProductCard v-bind:product="p"
+      <ProductCard v-on:deleteProduct="deleteProduct"
+                   v-bind:product="p"
                    v-bind:hasAddButton="true"
                    v-bind:hasAdminButtons="hasAdmin"/>
     </div>
@@ -30,6 +31,10 @@ export default class ProductsList extends Vue {
 
   @Prop({ type: Boolean, default: false })
   hasAdmin!: boolean | null;
+
+  deleteProduct(product: iProduct) {
+    this.$emit("deleteProduct", product);
+  }
 }
 </script>
 

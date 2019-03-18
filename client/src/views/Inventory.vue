@@ -192,13 +192,13 @@
       <div class="column outerProductsContainer">
         <div class="columns innerProductsContainer">
           <div class="column productColumn" id="productsColumn1">
-            <ProductsList v-bind:products="threeChunkProducts[0]" v-bind:hasAdmin="true"/>
+            <ProductsList v-on:deleteProduct="deleteProduct" v-bind:products="threeChunkProducts[0]" v-bind:hasAdmin="true"/>
           </div>
           <div class="column productColumn" id="productsColumn2">
-            <ProductsList v-bind:products="threeChunkProducts[1]" v-bind:hasAdmin="true"/>
+            <ProductsList v-on:deleteProduct="deleteProduct" v-bind:products="threeChunkProducts[1]" v-bind:hasAdmin="true"/>
           </div>
           <div class="column productColumn" id="productsColumn3">
-            <ProductsList v-bind:products="threeChunkProducts[2]" v-bind:hasAdmin="true"/>
+            <ProductsList v-on:deleteProduct="deleteProduct" v-bind:products="threeChunkProducts[2]" v-bind:hasAdmin="true"/>
           </div>
         </div>
       </div>
@@ -232,6 +232,14 @@ export default class Shop extends Vue {
   threeChunkProducts: iProduct[] = [];
 
   mounted() {
+    this.refreshList();
+  }
+
+  // setting isActive to false means the product is deleted
+  deleteProduct(product: iProduct) {
+    const url = APIConfig.buildUrl("/shop/" + product.id);
+    const requestBody = {...product, isActive: false};
+    axios.put(url, requestBody);
     this.refreshList();
   }
 
