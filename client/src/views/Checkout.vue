@@ -123,6 +123,7 @@ import axios, { AxiosResponse } from "axios";
 import { APIConfig } from "../utils/api.utils";
 import { iProduct } from "@/models/product.interface";
 import { OrderProd } from '@/views/Status.vue';
+import { Category } from '@/models/category.interface';
 
 @Component({
   components: {
@@ -182,8 +183,27 @@ export default class Checkout extends Vue {
     price: 0,
     photoURL: "",
     saleYN: false,
-    salesPrice: 0
+    salesPrice: 0,
+    categories: [],
+    canShipYN: true,
+    isActive: true
   }
+
+  testing: iProduct = {
+    id: 0,
+    title: "",
+    desc: "",
+    brand: { id: 1, name: "" },
+    categories: [{ id: 1, name: "" }],
+    stock: 0,
+    cartQuantity: 0,
+    price: 0,
+    saleYN: false,
+    salesPrice: 0,
+    canShipYN: false,
+    photoURL: "",
+    isActive: true
+  };
 
   op: orderProd = {
     id: 0,
@@ -236,10 +256,9 @@ export default class Checkout extends Vue {
       .then((res: AxiosResponse<Order>) => {
         _that.order.orderNumber = res.data.orderNumber;
         _that.orderNum = res.data.orderNumber;
-        _that.$router.push("/confirmation/" + _that.orderNum);
         const orderID = res.data.orderNumber;
         for (let key in _that.$store.state.cart) {
-          let temp: Product = {..._that.p};
+          let temp: iProduct = {..._that.testing};
           axios.post(
             APIConfig.buildUrl("/orderProduct/" + orderID),
             _that.$store.state.cart[key] // sends the iProduct at the key index of the cart
@@ -247,18 +266,25 @@ export default class Checkout extends Vue {
           .then((fin: AxiosResponse<orderProd>) => {
             temp.title = _that.$store.state.cart[key].title;
             temp.desc = _that.$store.state.cart[key].desc;
-            temp.stock = _that.$store.state.cart[key].stock - fin.data.orderQuantity;
+            temp.stock = _that.$store.state.cart[key].stock - _that.$store.state.cart[key].cartQuantity;
             temp.price = _that.$store.state.cart[key].price;
             temp.photoURL = _that.$store.state.cart[key].photoURL;
             temp.saleYN = _that.$store.state.cart[key].saleYN;
             temp.salesPrice = _that.$store.state.cart[key].salesPrice;
+            temp.categories = _that.$store.state.cart[key].categories;
+            temp.canShipYN = _that.$store.state.cart[key].canShipYN;
+            temp.isActive = _that.$store.state.cart[key].isActive;
+            temp.brand = _that.$store.state.cart[key].brand;
+            temp.cartQuantity = _that.$store.state.cart[key].cartQuantity;
+            temp.id = _that.$store.state.cart[key].id;
 
             axios.put(
-              APIConfig.buildUrl("/shop/" + fin.data.productId),
+              APIConfig.buildUrl("/shop/" + _that.$store.state.cart[key].id),
               {...temp}
             );
           });
         }
+        _that.$router.push("/confirmation/" + _that.orderNum);
       });
   }
 
@@ -275,6 +301,9 @@ export interface Product {
   photoURL: string;
   saleYN: boolean;
   salesPrice: number;
+  categories: Category[];
+  canShipYN: boolean;
+  isActive: boolean;
 }
 
 export interface orderProd {
