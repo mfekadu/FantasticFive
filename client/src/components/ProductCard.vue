@@ -8,6 +8,10 @@
   margin-bottom: 50px;
   padding: 25px;
 }
+
+.image {
+  margin-bottom: 30px;
+}
 </style>
 
 

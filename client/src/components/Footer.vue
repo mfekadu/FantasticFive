@@ -1,8 +1,8 @@
 <template>
   <div class="ffooter">
     <p>
-      Hours: Monday-Saturday from 10AM-5PM, CLOSED Sunday | Phone: (805) 555-5555 | Address: 123 Higuera St, San
-      Luis Obispo 93401
+      Hours: Monday-Saturday from 10AM-5PM, CLOSED Sunday | Phone: (805) 555-5555 | Address: Frank E. Pilling Computer Science
+San Luis Obispo, CA 93405
     </p>
   </div>
 </template>
