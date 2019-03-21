@@ -21,6 +21,7 @@ Well, this tutorial will help you do just that.
 ### Part 1: Deploy the client
 
 #### Create a "Droplet" with Docker preinstalled.
+* **Login** to your DigitalOcean account
 * **Click** "Create"
 * **Select** "Droplets"
 * **Notice** The default options: `"Ubuntu" | "Standard" | "$0.007 /hour"` | "No backups"
