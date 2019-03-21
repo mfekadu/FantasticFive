@@ -12,8 +12,8 @@ Well, this tutorial will help you do just that.
 - [x] A Vue.js client and an express.js API (done by the end of CSC 307 with Professor Fox!)
 - [ ] A DigitalOcean account
 - [ ] ~~A bit of cash (DigitalOcean costs $5/mo for the smallest package)~~
-   * Free with [GitHub Education Software Dev Pack.][cheaper] Simply click "get your pack" and use the promo code under "DigitalOcean"
-   * you could [try heroku] if you want... but I preferred how DigitalOcean provides access to a [real IP address]
+   * Free with [GitHub Education Software Dev Pack.][cheaper] Just click "get your pack" and use the promo code under "DigitalOcean"
+   * You could [try heroku] if you want... but I preferred how DigitalOcean provides access to a [real IP address]
    * Why not Amazon Web Services? Well, feel free to compare [with this][compare] **or** [that article][compare2] because the two cloud infrastructure platforms are both good.
 
 ## DEPLOYMENT
@@ -26,7 +26,7 @@ Well, this tutorial will help you do just that.
 * **Notice** The default options: `"Ubuntu" | "Standard" | "$0.007 /hour"` | "No backups"
 * **Click** "Marketplace" then **Click** Docker
 * **Select** "San Francisco" because it is the closest datacenter to the FoxCycle headquarters. 
-* _Optionally_ [set up a "New SSH Key"][ssh-key] to for easy access to your servers. 
+* _Optionally_ [set up a "New SSH Key"][ssh-key] for easy access to your servers. 
 * **Type** `fox-client` into the hostname field.
 * **Click** "Create"
 
@@ -186,7 +186,7 @@ pm2 start npm -- start
 ```
 * `pm2` will let the api program run forever.
 
-### now try to go to `http://<YOUR_DROPLET_IP>` via the browser and notice the full working web app!
+### now try to go to `http://<YOUR_DROPLET_IP>` via the browser and notice the fully working web app!
 
 
 [DO]: https://www.digitalocean.com/
