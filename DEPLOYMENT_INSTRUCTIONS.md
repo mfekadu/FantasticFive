@@ -1,4 +1,4 @@
-# How To Deploy FoxCycle with [DigitalOcean][DO]
+# How To Deploy [FoxCycle] with [DigitalOcean][DO]
 
 Congratulations! Your team just finished CSC 307 with Professor Fox and you have a beautiful Vue + Express bike shop!
 
@@ -193,6 +193,7 @@ pm2 start npm -- start
 [compare2]: https://serverguy.com/comparison/digitalocean-vs-aws-ec2/
 [ssh-key]: https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-existing-droplet/
 [todo]: https://www.youtube.com/watch?v=rC43FiOA36A
+[FoxCycle]: http://foxcycle.github.io
 
 [//]: # (useful resources)
 
