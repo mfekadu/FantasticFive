@@ -18,9 +18,9 @@ Well, this tutorial will help you do just that.
 
 ## DEPLOYMENT
 
-### First deploy the client
+### Part 1: Deploy the client
 
-#### Part 1: Deploy the client on a "Droplet" with Docker preinstalled.
+#### Create a "Droplet" with Docker preinstalled.
 * **Click** "Create"
 * **Select** "Droplets"
 * **Notice** The default options: `"Ubuntu" | "Standard" | "$0.007 /hour"` | "No backups"
@@ -31,7 +31,7 @@ Well, this tutorial will help you do just that.
 * **Click** "Create"
 
 #### SSH into the `fox-client` server
-* **Hover** over the IP Address for the droplet you createdf
+* **Hover** over the IP Address for the droplet you created
 * **Click** copy
 * **Open** a terminal / command prompt window
 * **Type** 
@@ -123,7 +123,7 @@ sudo service nginx restart
 sudo ufw allow http
 ```
 
-#### Great Job! Now you can access the `<YOUR_DROPLET_IP>` via your browser to view the client!
+#### Great Job! Now you can access `http://<YOUR_DROPLET_IP>` via your browser to view the client!
 But the database and api are not available yet, so let's do `part 2`.
 
 #### Part 2: Deploy the backend with Docker.
@@ -151,38 +151,38 @@ vim /var/www/html/vue/app/api/config.json
    ```
 ```
 ufw allow 3000:3306/tcp
-# ufw allow mysql
 ```
+the following will launch the mysql server
 ```bash
 cd /var/www/html/vue/app
 docker-compose up -d
 ```
-* at this point you can try to connect to the API (via Sequel Pro / MySQL Workbench / etc) with the root credentials.
+##### at this point you can try to connect to the API (via Sequel Pro / MySQL Workbench / etc) with the following connection details
+   ```javascript
+   host: <YOUR_DROPLET_IP>
+   username: root
+   password: password
+   port: 3306
+   ```
 * do `create database dev`
 * then do what you need to do to get your data on the server. 
-```
+
+##### back in the ssh terminal
+```bash
 cd /var/www/html/vue/app/api
 ```
+```bash
+npm install
 ```
-npm install && npm run dev
-```
-* now try to go to the `<YOUR_DROPLET_IP>` via the browser and notice the data
-[.... To be continued ....][todo]
-
-##### Keep it running forever
 ```bash
 npm install pm2 -g
 ```
-
 ```bash
 pm2 start npm -- start
 ```
+* `pm2` will let the api program run forever.
 
-```
-pm2 install ts-node
-pm2 install typescript
-```
-
+### now try to go to `http://<YOUR_DROPLET_IP>` via the browser and notice the full working web app!
 
 
 [DO]: https://www.digitalocean.com/
