@@ -126,7 +126,9 @@ sudo ufw allow http
 #### Great Job! Now you can access `http://<YOUR_DROPLET_IP>` via your browser to view the client!
 But the database and api are not available yet, so let's do `part 2`.
 
-#### Part 2: Deploy the backend with Docker.
+### Part 2: Deploy the backend with `docker` and `pm2`
+
+#### First set up the mysql server
 ```bash
 vim /var/www/html/vue/app/api/config.json
 ```
@@ -155,6 +157,8 @@ ufw allow 3000:3306/tcp
 the following will launch the mysql server
 ```bash
 cd /var/www/html/vue/app
+```
+```bash
 docker-compose up -d
 ```
 ##### at this point you can try to connect to the API (via Sequel Pro / MySQL Workbench / etc) with the following connection details
@@ -167,7 +171,7 @@ docker-compose up -d
 * do `create database dev`
 * then do what you need to do to get your data on the server. 
 
-##### back in the ssh terminal
+##### back in the ssh terminal, now, launch the api
 ```bash
 cd /var/www/html/vue/app/api
 ```
