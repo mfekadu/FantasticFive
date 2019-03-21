@@ -13,7 +13,7 @@ Well, this tutorial will help you do just that.
 - [ ] A DigitalOcean account
 - [ ] ~~A bit of cash (DigitalOcean costs $5/mo for the smallest package)~~
    * Free with [GitHub Education Software Dev Pack.][cheaper] Simply click "get your pack" and use the promo code under "DigitalOcean"
-   * you could [try heroku] if you want... but I preferred how DigitalOcean provides access to a [real IP address][heroku_no_ip]
+   * you could [try heroku] if you want... but I preferred how DigitalOcean provides access to a [real IP address]
    * Why not Amazon Web Services? Well, feel free to compare [with this][compare] **or** [that article][compare2] because the two cloud infrastructure platforms are both good.
 
 ## DEPLOYMENT
@@ -26,7 +26,7 @@ Well, this tutorial will help you do just that.
 * **Notice** The default options: `"Ubuntu" | "Standard" | "$0.007 /hour"` | "No backups"
 * **Click** "Marketplace" then **Click** Docker
 * **Select** "San Francisco" because it is the closest datacenter to the FoxCycle headquarters. 
-* _Optionally_ [set up a "New SSH Key"][ssh_key] to for easy access to your servers. 
+* _Optionally_ [set up a "New SSH Key"][ssh-key] to for easy access to your servers. 
 * **Type** `fox-client` into the hostname field.
 * **Click** "Create"
 
@@ -98,7 +98,7 @@ git clone https://github.com/<YOUR_GITHUB_ORGANIZATION>/<YOUR_GITHUB_REPO>.git a
 
 ##### point to the future location of the api
 ```bash
-vim app/client/src/utils/api.utils.ts
+vim /var/www/html/vue/app/client/src/utils/api.utils.ts
 ```
 * modify that file to look like this (where `localhost` is replaced with `<YOUR_DROPLET_IP>`)...
    ```javascript
@@ -111,7 +111,7 @@ vim app/client/src/utils/api.utils.ts
    ```
 ##### more commands
 ```bash
-cd app/client && npm install && npm run build
+cd /var/www/html/vue/app/client && npm install && npm run build
 ```
 ```bash
 sudo nginx -t
@@ -154,17 +154,19 @@ ufw allow 3000:3306/tcp
 # ufw allow mysql
 ```
 ```bash
-docker pull mysql/mysql-server
-docker run --name=mysql1 -d mysql/mysql-server
 cd /var/www/html/vue/app
 docker-compose up -d
 ```
+* at this point you can try to connect to the API (via Sequel Pro / MySQL Workbench / etc) with the root credentials.
+* do `create database dev`
+* then do what you need to do to get your data on the server. 
 ```
 cd /var/www/html/vue/app/api
 ```
 ```
 npm install && npm run dev
 ```
+* now try to go to the `<YOUR_DROPLET_IP>` via the browser and notice the data
 [.... To be continued ....][todo]
 
 ##### Keep it running forever
@@ -186,8 +188,13 @@ pm2 install typescript
 [DO]: https://www.digitalocean.com/
 [cheaper]: https://education.github.com/pack
 [try heroku]: https://www.youtube.com/watch?v=j55fHUJqtyw
-[heroku_no_ip]: https://help.heroku.com/4WADH6LX/can-you-provide-me-with-the-ip-address-for-my-application
+[real IP address]: https://help.heroku.com/4WADH6LX/can-you-provide-me-with-the-ip-address-for-my-application
 [compare]: https://hackernoon.com/aws-vs-digitalocean-which-cloud-server-is-better-1386499a6664
 [compare2]: https://serverguy.com/comparison/digitalocean-vs-aws-ec2/
-[ssh_key]: https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-existing-droplet/
+[ssh-key]: https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-existing-droplet/
 [todo]: https://www.youtube.com/watch?v=rC43FiOA36A
+
+[//]: # (useful resources)
+
+[ufw-rules]: https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands
+[docker-remove]: https://stackoverflow.com/a/51189547
