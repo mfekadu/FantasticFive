@@ -190,6 +190,24 @@ pm2 start npm -- start
 ### now try to go to `http://<YOUR_DROPLET_IP>` via the browser and notice the fully working web app!
 
 
+## Useful commands for debugging...
+
+```bash
+docker ps
+```
+
+```bash
+docker ps
+```
+
+```
+pm2 ls
+pm2 show 0
+pm2 logs npm [--lines 1000]
+```
+
+* also consider looking at the database in Sequel Pro or your preferered method of accessing the database to make sure the it is running and that the data / tables / databases exist. 
+
 [DO]: https://www.digitalocean.com/
 [cheaper]: https://education.github.com/pack
 [try heroku]: https://www.youtube.com/watch?v=j55fHUJqtyw
