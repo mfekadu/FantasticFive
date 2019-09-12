@@ -1,0 +1,18 @@
+server {
+   listen 80 default_server;
+   listen [::]:80 default_server;
+
+   # this will be the location of the index.html of the single-page vue app after executing `npm run build`
+   root /var/www/html/vue/app/client/dist;
+
+   index index.html index.htm index.nginx-debian.html;
+
+   server_name _;
+
+   error_page 404 /; # makes the error 404 page go to the base url
+
+   location / {
+      try_files $uri $uri/ =404;
+   }
+}
+
