@@ -6,6 +6,6 @@ node -v;
 npm -v;
 cat setup_fox_server_default > /etc/nginx/sites-available/default 
 cd /var/www/html/ && mkdir vue && cd vue
-git clone https://github.com/mfekadu/FantasticFive.git
+git clone https://github.com/mfekadu/FantasticFive.git app
 echo "pls do vim /var/www/html/vue/app/client/src/utils/api.utils.ts"
 echo "  url: \"http://<YOUR_DROPLET_IP>:3000\","
