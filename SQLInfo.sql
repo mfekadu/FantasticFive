@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.24)
 # Database: dev
-# Generation Time: 2019-03-18 04:34:23 +0000
+# Generation Time: 2019-09-19 16:43:48 +0000
 # ************************************************************
 
 use dev;
@@ -38,7 +38,8 @@ LOCK TABLES `announcement` WRITE;
 
 INSERT INTO `announcement` (`id`, `title`, `desc`)
 VALUES
-	(2,'Free Shipping on All Orders Over $200','Ends 3/20!');
+	(2,'Free Shipping on All Orders Over $200','Ends 3/20!'),
+	(3,'Deployment Instructions','https://github.com/mfekadu/FantasticFive/blob/master/DEPLOYMENT_INSTRUCTIONS.md');
 
 /*!40000 ALTER TABLE `announcement` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -293,7 +294,7 @@ LOCK TABLES `session` WRITE;
 
 INSERT INTO `session` (`id`, `expiresAt`, `userId`)
 VALUES
-	(1,'2019-03-17 22:03:09',2);
+	(1,'2019-09-19 17:11:41',2);
 
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -369,7 +370,8 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` (`id`, `firstName`, `lastName`, `password`, `username`, `admin`)
 VALUES
 	(2,'Admin','Fox','pass','admin',1),
-	(9,'Employee','Fox','pass','employee',0);
+	(9,'Employee','Fox','pass','employee',0),
+	(42,'42','42','42','42',1);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
